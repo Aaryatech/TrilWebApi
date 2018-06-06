@@ -18,6 +18,7 @@ import com.ats.tril.model.Dept;
 import com.ats.tril.model.DispatchMode;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.FinancialYears;
+import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.ItemGroup;
@@ -31,6 +32,7 @@ import com.ats.tril.repository.DeliveryTermsRepository;
 import com.ats.tril.repository.DeptRepository;
 import com.ats.tril.repository.DispatchModeRepository;
 import com.ats.tril.repository.FinancialYearsRepository;
+import com.ats.tril.repository.GetItemGroupRepository;
 import com.ats.tril.repository.GetItemSubGrpRepository;
 import com.ats.tril.repository.GetSubDeptRepository;
 import com.ats.tril.repository.ItemGroupRepository;
@@ -80,6 +82,9 @@ public class MasterController {
 
 	@Autowired
 	TaxFormRepository taxFormRepository;
+	
+	@Autowired
+	GetItemGroupRepository getItemGroupRepository;
 
 	// -------------------Dept------------------------
 
@@ -668,11 +673,11 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = { "/getItemGroupByGrpId" }, method = RequestMethod.POST)
-	public @ResponseBody ItemGroup getItemGroupByGrpId(@RequestParam("grpId") int grpId) {
+	public @ResponseBody GetItemGroup getItemGroupByGrpId(@RequestParam("grpId") int grpId) {
 
-		ItemGroup itemGroup = null;
+		GetItemGroup itemGroup = null;
 		try {
-			itemGroup = itemGroupRepository.findByGrpId(grpId);
+			itemGroup = getItemGroupRepository.getItemGrpByGrpId(grpId);
 
 		} catch (Exception e) {
 
@@ -684,13 +689,13 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = { "/getAllItemGroupByIsUsed" }, method = RequestMethod.GET)
-	public @ResponseBody List<ItemGroup> getAllItemGroupByIsUsed() {
+	public @ResponseBody List<GetItemGroup> getAllItemGroupByIsUsed() {
 
-		List<ItemGroup> itemGroupList = new ArrayList<ItemGroup>();
+		List<GetItemGroup> itemGroupList = new ArrayList<GetItemGroup>();
 
 		try {
 
-			itemGroupList = itemGroupRepository.findAllByIsUsed(1);
+			itemGroupList =getItemGroupRepository.getAllItemGrpList();
 
 		} catch (Exception e) {
 
