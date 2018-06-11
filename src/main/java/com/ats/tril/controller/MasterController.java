@@ -21,11 +21,15 @@ import com.ats.tril.model.FinancialYears;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.Item;
 import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.ItemSubGroup;
 import com.ats.tril.model.PaymentTerms;
+import com.ats.tril.model.State;
 import com.ats.tril.model.SubDept;
 import com.ats.tril.model.TaxForm;
+import com.ats.tril.model.Uom;
+import com.ats.tril.model.Vendor;
 import com.ats.tril.repository.AccountHeadRepository;
 import com.ats.tril.repository.CategoryRepository;
 import com.ats.tril.repository.DeliveryTermsRepository;
@@ -36,16 +40,32 @@ import com.ats.tril.repository.GetItemGroupRepository;
 import com.ats.tril.repository.GetItemSubGrpRepository;
 import com.ats.tril.repository.GetSubDeptRepository;
 import com.ats.tril.repository.ItemGroupRepository;
+import com.ats.tril.repository.ItemRepository;
 import com.ats.tril.repository.ItemSubGroupRepository;
 import com.ats.tril.repository.PaymentTermsRepository;
+import com.ats.tril.repository.StateRepository;
 import com.ats.tril.repository.SubDeptRepository;
 import com.ats.tril.repository.TaxFormRepository;
+import com.ats.tril.repository.UomRepository;
+import com.ats.tril.repository.VendorRepository;
 
 @RestController
 public class MasterController {
 
 	@Autowired
 	DeptRepository deptRepository;
+
+	@Autowired
+	ItemRepository itemRepository;
+
+	@Autowired
+	UomRepository uomRepository;
+
+	@Autowired
+	VendorRepository vendorRepository;
+
+	@Autowired
+	StateRepository stateRepository;
 
 	@Autowired
 	GetSubDeptRepository getSubDeptRepository;
@@ -82,7 +102,7 @@ public class MasterController {
 
 	@Autowired
 	TaxFormRepository taxFormRepository;
-	
+
 	@Autowired
 	GetItemGroupRepository getItemGroupRepository;
 
@@ -695,7 +715,7 @@ public class MasterController {
 
 		try {
 
-			itemGroupList =getItemGroupRepository.getAllItemGrpList();
+			itemGroupList = getItemGroupRepository.getAllItemGrpList();
 
 		} catch (Exception e) {
 
@@ -914,7 +934,7 @@ public class MasterController {
 		return res;
 
 	}
-	
+
 	@RequestMapping(value = { "/getTaxFormByTaxId" }, method = RequestMethod.POST)
 	public @ResponseBody TaxForm getTaxFormByTaxId(@RequestParam("taxId") int taxId) {
 
@@ -948,7 +968,7 @@ public class MasterController {
 		return taxFormList;
 
 	}
-	
+
 	@RequestMapping(value = { "/deleteTaxForm" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage deleteTaxForm(@RequestParam("taxId") int taxId,
 			@RequestParam("deletedIn") int deletedIn) {
@@ -976,6 +996,326 @@ public class MasterController {
 		return errorMessage;
 	}
 
+	// ------------------Vendor-----------------------
 
+	@RequestMapping(value = { "/saveVendor" }, method = RequestMethod.POST)
+	public @ResponseBody Vendor saveVendor(@RequestBody Vendor vendor) {
+
+		Vendor res = new Vendor();
+
+		try {
+
+			res = vendorRepository.saveAndFlush(vendor);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+
+	@RequestMapping(value = { "/getVendorByVendorId" }, method = RequestMethod.POST)
+	public @ResponseBody Vendor getVendorByVendorId(@RequestParam("vendorId") int vendorId) {
+
+		Vendor vendor = null;
+		try {
+			vendor = vendorRepository.findByVendorId(vendorId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return vendor;
+
+	}
+
+	@RequestMapping(value = { "/getAllVendorByIsUsed" }, method = RequestMethod.GET)
+	public @ResponseBody List<Vendor> getAllVendorByIsUsed() {
+
+		List<Vendor> vendor = new ArrayList<Vendor>();
+
+		try {
+
+			vendor = vendorRepository.findAllByIsUsed(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return vendor;
+
+	}
+
+	@RequestMapping(value = { "/deleteVendor" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteVendor(@RequestParam("vendorId") int vendorId,
+			@RequestParam("deletedIn") int deletedIn) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			int delete = vendorRepository.deleteVendor(vendorId, deletedIn);
+
+			if (delete == 1) {
+				errorMessage.setError(false);
+				errorMessage.setMessage("Deleted Successfully");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("Deletion Failed :EXC");
+
+		}
+		return errorMessage;
+	}
+
+	// ----------------Uom --------------------------
+
+	@RequestMapping(value = { "/saveUom" }, method = RequestMethod.POST)
+	public @ResponseBody Uom saveUom(@RequestBody Uom uom) {
+
+		Uom res = new Uom();
+
+		try {
+
+			res = uomRepository.saveAndFlush(uom);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+
+	@RequestMapping(value = { "/getUomFormByUomId" }, method = RequestMethod.POST)
+	public @ResponseBody Uom getUomFormByUomId(@RequestParam("uomId") int uomId) {
+
+		Uom uom = null;
+		try {
+			uom = uomRepository.findByUomId(uomId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return uom;
+
+	}
+
+	@RequestMapping(value = { "/getAllUoms" }, method = RequestMethod.GET)
+	public @ResponseBody List<Uom> getAllUoms() {
+
+		List<Uom> uomList = new ArrayList<Uom>();
+
+		try {
+
+			uomList = uomRepository.findAllByIsUsed(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return uomList;
+
+	}
+
+	@RequestMapping(value = { "/deleteUom" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteUom(@RequestParam("uomId") int uomId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			int delete = uomRepository.deleteUom(uomId);
+
+			if (delete == 1) {
+				errorMessage.setError(false);
+				errorMessage.setMessage(" Deleted Successfully");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("Deletion Failed :EXC");
+
+		}
+		return errorMessage;
+	}
+
+	// ---------------State --------------------------
+
+	@RequestMapping(value = { "/saveState" }, method = RequestMethod.POST)
+	public @ResponseBody State saveState(@RequestBody State state) {
+
+		State res = new State();
+
+		try {
+
+			res = stateRepository.saveAndFlush(state);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+
+	@RequestMapping(value = { "/getStateByStateId" }, method = RequestMethod.POST)
+	public @ResponseBody State getStateByStateId(@RequestParam("stateId") int stateId) {
+
+		State state = null;
+		try {
+			state = stateRepository.findByStateId(stateId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return state;
+
+	}
+
+	@RequestMapping(value = { "/getAllStates" }, method = RequestMethod.GET)
+	public @ResponseBody List<State> getAllStates() {
+
+		List<State> stateList = new ArrayList<State>();
+
+		try {
+
+			stateList = stateRepository.findAllByIsUsed(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return stateList;
+
+	}
+
+	@RequestMapping(value = { "/deleteState" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteState(@RequestParam("stateId") int stateId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			int delete = stateRepository.deleteState(stateId);
+
+			if (delete == 1) {
+				errorMessage.setError(false);
+				errorMessage.setMessage(" Deleted Successfully");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("Deletion Failed :EXC");
+
+		}
+		return errorMessage;
+	}
+
+	// ------------ITEM --------------------------
+
+	@RequestMapping(value = { "/saveItem" }, method = RequestMethod.POST)
+	public @ResponseBody Item saveItem(@RequestBody Item item) {
+
+		Item res = new Item();
+
+		try {
+
+			res = itemRepository.saveAndFlush(item);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+
+	@RequestMapping(value = { "/getItemByItemId" }, method = RequestMethod.POST)
+	public @ResponseBody Item getItemByItemId(@RequestParam("itemId") int itemId) {
+
+		Item item = null;
+		try {
+			item = itemRepository.findItemByItemId(itemId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return item;
+
+	}
+
+	@RequestMapping(value = { "/getAllItems" }, method = RequestMethod.GET)
+	public @ResponseBody List<Item> getAllItems() {
+
+		List<Item> itemList = new ArrayList<Item>();
+
+		try {
+
+			itemList = itemRepository.findAllByIsUsed(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return itemList;
+
+	}
+
+	@RequestMapping(value = { "/deleteItem" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteItem(@RequestParam("itemId") int itemId,
+			@RequestParam("deletedIn") int deletedIn) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			int delete = itemRepository.deleteItem(itemId, deletedIn);
+
+			if (delete == 1) {
+				errorMessage.setError(false);
+				errorMessage.setMessage(" Deleted Successfully");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("Deletion Failed :EXC");
+
+		}
+		return errorMessage;
+	}
 
 }
