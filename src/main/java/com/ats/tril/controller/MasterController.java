@@ -18,6 +18,7 @@ import com.ats.tril.model.Dept;
 import com.ats.tril.model.DispatchMode;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.FinancialYears;
+import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
@@ -37,6 +38,7 @@ import com.ats.tril.repository.DeptRepository;
 import com.ats.tril.repository.DispatchModeRepository;
 import com.ats.tril.repository.FinancialYearsRepository;
 import com.ats.tril.repository.GetItemGroupRepository;
+import com.ats.tril.repository.GetItemRepository;
 import com.ats.tril.repository.GetItemSubGrpRepository;
 import com.ats.tril.repository.GetSubDeptRepository;
 import com.ats.tril.repository.ItemGroupRepository;
@@ -105,6 +107,9 @@ public class MasterController {
 
 	@Autowired
 	GetItemGroupRepository getItemGroupRepository;
+	
+	@Autowired
+	GetItemRepository getItemRepository;
 
 	// -------------------Dept------------------------
 
@@ -1258,11 +1263,11 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = { "/getItemByItemId" }, method = RequestMethod.POST)
-	public @ResponseBody Item getItemByItemId(@RequestParam("itemId") int itemId) {
+	public @ResponseBody GetItem getItemByItemId(@RequestParam("itemId") int itemId) {
 
-		Item item = null;
+		GetItem item = null;
 		try {
-			item = itemRepository.findItemByItemId(itemId);
+			item = getItemRepository.getItemByItemId(itemId);
 
 		} catch (Exception e) {
 
@@ -1274,13 +1279,13 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = { "/getAllItems" }, method = RequestMethod.GET)
-	public @ResponseBody List<Item> getAllItems() {
+	public @ResponseBody List<GetItem> getAllItems() {
 
-		List<Item> itemList = new ArrayList<Item>();
+		List<GetItem> itemList = new ArrayList<GetItem>();
 
 		try {
 
-			itemList = itemRepository.findAllByIsUsed(1);
+			itemList = getItemRepository.getAllItems();
 
 		} catch (Exception e) {
 
