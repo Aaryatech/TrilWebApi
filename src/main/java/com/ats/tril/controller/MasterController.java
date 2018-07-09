@@ -16,6 +16,7 @@ import com.ats.tril.model.Category;
 import com.ats.tril.model.DeliveryTerms;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.DispatchMode;
+import com.ats.tril.model.DocType;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.FinancialYears;
 import com.ats.tril.model.GetItem;
@@ -36,6 +37,7 @@ import com.ats.tril.repository.CategoryRepository;
 import com.ats.tril.repository.DeliveryTermsRepository;
 import com.ats.tril.repository.DeptRepository;
 import com.ats.tril.repository.DispatchModeRepository;
+import com.ats.tril.repository.DocTypeRepository;
 import com.ats.tril.repository.FinancialYearsRepository;
 import com.ats.tril.repository.GetItemGroupRepository;
 import com.ats.tril.repository.GetItemRepository;
@@ -110,6 +112,9 @@ public class MasterController {
 	
 	@Autowired
 	GetItemRepository getItemRepository;
+	
+	@Autowired
+	DocTypeRepository docTypeRepository;
 
 	// -------------------Dept------------------------
 
@@ -1321,6 +1326,78 @@ public class MasterController {
 
 		}
 		return errorMessage;
+	}
+	
+	@RequestMapping(value = { "/saveDocType" }, method = RequestMethod.POST)
+	public @ResponseBody DocType saveDocType(@RequestBody DocType docType) {
+
+		DocType res = new DocType();
+
+		try {
+
+			res = docTypeRepository.saveAndFlush(docType);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+	
+	@RequestMapping(value = { "/docTypeById" }, method = RequestMethod.POST)
+	public @ResponseBody DocType docTypeById(@RequestParam("docTypeId") int docTypeId) {
+
+		DocType res = new DocType();
+
+		try {
+
+			res = docTypeRepository.findByDocId(docTypeId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+	
+	@RequestMapping(value = { "/docTypeByDocName" }, method = RequestMethod.POST)
+	public @ResponseBody DocType docTypeByDocName(@RequestParam("docName") String docName) {
+
+		DocType res = new DocType();
+
+		try {
+
+			res = docTypeRepository.findByDocName(docName);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+	
+	@RequestMapping(value = { "/getAllDocType" }, method = RequestMethod.GET)
+	public @ResponseBody List<DocType> getAllDocType() {
+
+		List<DocType> res = new ArrayList<DocType>();
+
+		try {
+
+			res = docTypeRepository.findAll();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
 	}
 
 }
