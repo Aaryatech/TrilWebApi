@@ -15,7 +15,7 @@ public interface GetItemRepository extends JpaRepository<GetItem, Integer>{
 	List<GetItem> getAllItems();
 
 	@Query(value = "select m.*, c.cat_desc, g.grp_code, sg.subgrp_desc from m_item m, m_category c, m_item_group g, m_item_subgroup sg "
-			+ "where m.item_id=1 and c.cat_id = m.cat_id and g.grp_id = m.grp_id and sg.subgrp_id = m.sub_grp_id ", nativeQuery = true)
+			+ "where m.item_id=:itemId and c.cat_id = m.cat_id and g.grp_id = m.grp_id and sg.subgrp_id = m.sub_grp_id ", nativeQuery = true)
 	GetItem getItemByItemId(@Param("itemId") int itemId);
 
 	@Query(value = "select m.*, c.cat_desc, g.grp_code, sg.subgrp_desc from m_item m, m_category c, m_item_group g, m_item_subgroup sg "
