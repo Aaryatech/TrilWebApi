@@ -357,6 +357,24 @@ public class MasterController {
 		}
 		return errorMessage;
 	}
+	
+	@RequestMapping(value = { "/getSubDeptListByDeptId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetSubDept> getSubDeptListByDeptId(@RequestParam("deptId") int deptId) {
+
+		List<GetSubDept> subDeptList = new ArrayList<GetSubDept>();
+
+		try {
+
+			subDeptList = getSubDeptRepository.getSubDeptListByDeptId(deptId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return subDeptList;
+
+	}
 
 	// -------------------Categroy-----------------------
 
@@ -762,6 +780,24 @@ public class MasterController {
 		}
 		return errorMessage;
 	}
+	
+	@RequestMapping(value = { "/getgroupListByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItemGroup> getgroupListByCatId(@RequestParam("catId") int catId) {
+
+		List<GetItemGroup> itemGroupList = new ArrayList<GetItemGroup>();
+
+		try {
+
+			itemGroupList = getItemGroupRepository.getgroupListByCatId(catId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return itemGroupList;
+
+	}
 
 	// ------------------Item Sub Group----------------------
 
@@ -842,6 +878,24 @@ public class MasterController {
 
 		}
 		return errorMessage;
+	}
+	
+	@RequestMapping(value = { "/getSubGroupByGroupId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItemSubGrp> getSubGroupByGroupId(@RequestParam("grpId") int grpId) {
+
+		List<GetItemSubGrp> getItemSubGrpList = new ArrayList<GetItemSubGrp>();
+
+		try {
+
+			getItemSubGrpList = getItemSubGrpRepository.getSubGroupByGroupId(grpId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getItemSubGrpList; 
+
 	}
 
 	// -----------------Payment Terms---------------------

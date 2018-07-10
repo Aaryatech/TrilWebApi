@@ -20,12 +20,42 @@ public class TaxForm {
 	private float taxPer;
 
 	private String taxDesc;
+	
+	private float cgstPer;
+	
+	private float sgstPer;
+	
+	private float igstPer;
 
 	private int isUsed;
 
 	private int createdIn;
 
 	private int deletedIn;
+
+	public float getCgstPer() {
+		return cgstPer;
+	}
+
+	public void setCgstPer(float cgstPer) {
+		this.cgstPer = cgstPer;
+	}
+
+	public float getSgstPer() {
+		return sgstPer;
+	}
+
+	public void setSgstPer(float sgstPer) {
+		this.sgstPer = sgstPer;
+	}
+
+	public float getIgstPer() {
+		return igstPer;
+	}
+
+	public void setIgstPer(float igstPer) {
+		this.igstPer = igstPer;
+	}
 
 	public int getTaxId() {
 		return taxId;
@@ -77,8 +107,9 @@ public class TaxForm {
 
 	@Override
 	public String toString() {
-		return "TaxForm [taxId=" + taxId + ", taxPer=" + taxPer + ", taxDesc=" + taxDesc + ", isUsed=" + isUsed
-				+ ", createdIn=" + createdIn + ", deletedIn=" + deletedIn + "]";
+		return "TaxForm [taxId=" + taxId + ", taxPer=" + taxPer + ", taxDesc=" + taxDesc + ", cgstPer=" + cgstPer
+				+ ", sgstPer=" + sgstPer + ", igstPer=" + igstPer + ", isUsed=" + isUsed + ", createdIn=" + createdIn
+				+ ", deletedIn=" + deletedIn + "]";
 	}
 	
 	

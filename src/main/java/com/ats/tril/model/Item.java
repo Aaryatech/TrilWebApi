@@ -27,6 +27,12 @@ public class Item {
 	private String itemUom;
 
 	private String itemUom2;
+	
+	private int catId;
+	
+	private int grpId;
+	
+	private int subGrpId;
 
 	private Float itemOpRate;
 
@@ -65,6 +71,32 @@ public class Item {
 	private int createdIn;
 
 	private int deletedIn;
+	
+	
+
+	public int getCatId() {
+		return catId;
+	}
+
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
+
+	public int getGrpId() {
+		return grpId;
+	}
+
+	public void setGrpId(int grpId) {
+		this.grpId = grpId;
+	}
+
+	public int getSubGrpId() {
+		return subGrpId;
+	}
+
+	public void setSubGrpId(int subGrpId) {
+		this.subGrpId = subGrpId;
+	}
 
 	public int getItemId() {
 		return itemId;
@@ -278,12 +310,13 @@ public class Item {
 	public String toString() {
 		return "Item [itemId=" + itemId + ", itemCode=" + itemCode + ", itemDesc=" + itemDesc + ", itemDesc2="
 				+ itemDesc2 + ", itemDesc3=" + itemDesc3 + ", itemUom=" + itemUom + ", itemUom2=" + itemUom2
-				+ ", itemOpRate=" + itemOpRate + ", itemOpQty=" + itemOpQty + ", itemClRate=" + itemClRate
-				+ ", itemClQty=" + itemClQty + ", itemDate=" + itemDate + ", itemWt=" + itemWt + ", itemMinLevel="
-				+ itemMinLevel + ", itemMaxLevel=" + itemMaxLevel + ", itemRodLevel=" + itemRodLevel + ", itemLocation="
-				+ itemLocation + ", itemAbc=" + itemAbc + ", itemIsCritical=" + itemIsCritical + ", itemIsCons="
-				+ itemIsCons + ", itemIsCapital=" + itemIsCapital + ", itemSchd=" + itemSchd + ", itemLife=" + itemLife
-				+ ", isUsed=" + isUsed + ", createdIn=" + createdIn + ", deletedIn=" + deletedIn + "]";
+				+ ", catId=" + catId + ", grpId=" + grpId + ", subGrpId=" + subGrpId + ", itemOpRate=" + itemOpRate
+				+ ", itemOpQty=" + itemOpQty + ", itemClRate=" + itemClRate + ", itemClQty=" + itemClQty + ", itemDate="
+				+ itemDate + ", itemWt=" + itemWt + ", itemMinLevel=" + itemMinLevel + ", itemMaxLevel=" + itemMaxLevel
+				+ ", itemRodLevel=" + itemRodLevel + ", itemLocation=" + itemLocation + ", itemAbc=" + itemAbc
+				+ ", itemIsCritical=" + itemIsCritical + ", itemIsCons=" + itemIsCons + ", itemIsCapital="
+				+ itemIsCapital + ", itemSchd=" + itemSchd + ", itemLife=" + itemLife + ", isUsed=" + isUsed
+				+ ", createdIn=" + createdIn + ", deletedIn=" + deletedIn + "]";
 	}
 
 }

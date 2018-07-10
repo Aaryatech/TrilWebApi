@@ -16,5 +16,8 @@ public interface GetItemSubGrpRepository extends JpaRepository<GetItemSubGrp, In
 	@Query(value = "SELECT sg.*,g.grp_desc FROM m_item_group g ,m_item_subgroup sg WHERE g.grp_id=sg.grp_id AND sg.is_used=1 AND sg.subgrp_id=:subgrpId", nativeQuery = true)
 	GetItemSubGrp getSubItemBySubGroupId(@Param("subgrpId") int subgrpId);
 
+	@Query(value = "SELECT sg.*,g.grp_desc FROM m_item_group g ,m_item_subgroup sg WHERE g.grp_id=sg.grp_id AND sg.is_used=1 and sg.grp_id=:grpId", nativeQuery = true)
+	List<GetItemSubGrp> getSubGroupByGroupId(@Param("grpId")int grpId);
+
 
 }
