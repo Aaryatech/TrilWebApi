@@ -1354,6 +1354,24 @@ public class MasterController {
 		return itemList;
 
 	}
+	
+	@RequestMapping(value = { "/itemListByGroupId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItem> itemListByGroupId(@RequestParam("groupId") int groupId) {
+
+		List<GetItem> itemList = new ArrayList<GetItem>();
+
+		try {
+
+			itemList = getItemRepository.itemListByGroupId(groupId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return itemList;
+
+	}
 
 	@RequestMapping(value = { "/deleteItem" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage deleteItem(@RequestParam("itemId") int itemId,
