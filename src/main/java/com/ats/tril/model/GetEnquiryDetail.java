@@ -1,15 +1,18 @@
 package com.ats.tril.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "enq_detail")
-public class EnquiryDetail {
+public class GetEnquiryDetail {
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +23,7 @@ public class EnquiryDetail {
 	private int enqId;
 
 	@Column(name = "enq_detail_date")
-	private String enqDetailDate;
+	private Date enqDetailDate;
 
 	@Column(name = "ind_id")
 	private int indId;
@@ -28,8 +31,14 @@ public class EnquiryDetail {
 	@Column(name = "vend_id")
 	private int vendId;
 	
+	@Column(name = "vendor_name")
+	private String vendorName;
+	
 	@Column(name = "item_id")
 	private int itemId;
+	
+	@Column(name = "item_code")
+	private String itemCode;
 	
 	@Column(name = "enq_qty")
 	private int enqQty;
@@ -64,12 +73,12 @@ public class EnquiryDetail {
 	public void setEnqId(int enqId) {
 		this.enqId = enqId;
 	}
-
-	public String getEnqDetailDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getEnqDetailDate() {
 		return enqDetailDate;
 	}
 
-	public void setEnqDetailDate(String enqDetailDate) {
+	public void setEnqDetailDate(Date enqDetailDate) {
 		this.enqDetailDate = enqDetailDate;
 	}
 
@@ -87,6 +96,14 @@ public class EnquiryDetail {
 
 	public void setVendId(int vendId) {
 		this.vendId = vendId;
+	}
+
+	public String getVendorName() {
+		return vendorName;
+	}
+
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
 	}
 
 	public int getItemId() {
@@ -145,12 +162,20 @@ public class EnquiryDetail {
 		this.delStatus = delStatus;
 	}
 
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
 	@Override
 	public String toString() {
-		return "EnquiryDetail [enqDetailId=" + enqDetailId + ", enqId=" + enqId + ", enqDetailDate=" + enqDetailDate
-				+ ", indId=" + indId + ", vendId=" + vendId + ", itemId=" + itemId + ", enqQty=" + enqQty + ", enqUom="
-				+ enqUom + ", enqItemDesc=" + enqItemDesc + ", enqRemark=" + enqRemark + ", indNo=" + indNo
-				+ ", delStatus=" + delStatus + "]";
+		return "GetEnquiryDetail [enqDetailId=" + enqDetailId + ", enqId=" + enqId + ", enqDetailDate=" + enqDetailDate
+				+ ", indId=" + indId + ", vendId=" + vendId + ", vendorName=" + vendorName + ", itemId=" + itemId
+				+ ", itemCode=" + itemCode + ", enqQty=" + enqQty + ", enqUom=" + enqUom + ", enqItemDesc="
+				+ enqItemDesc + ", enqRemark=" + enqRemark + ", indNo=" + indNo + ", delStatus=" + delStatus + "]";
 	}
 	
 	
