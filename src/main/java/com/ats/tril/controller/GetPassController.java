@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetEnquiryDetail;
+import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.GetpassItem;
@@ -37,7 +39,7 @@ public class GetPassController {
 
 	@RequestMapping(value = { "/saveGatePass" }, method = RequestMethod.POST)
 	public @ResponseBody GetpassItem saveGetPassItem1(@RequestBody GetpassItem getpassItem) {
-System.err.println("Inside Save Gate Pass Item ");
+		System.err.println("Inside Save Gate Pass Item ");
 		GetpassItem res = new GetpassItem();
 
 		try {
@@ -45,8 +47,8 @@ System.err.println("Inside Save Gate Pass Item ");
 			res = getpassItemRepo.save(getpassItem);
 
 		} catch (Exception e) {
-			
-			System.err.println("exce in saving get pass item " +e.getMessage());
+
+			System.err.println("exce in saving get pass item " + e.getMessage());
 
 			e.printStackTrace();
 
@@ -73,13 +75,11 @@ System.err.println("Inside Save Gate Pass Item ");
 
 	@RequestMapping(value = { "/hello" }, method = RequestMethod.GET)
 	public @ResponseBody String getGpItemByGetPassId() {
-		
-		return "Hello";
-		
-	}
-	
 
-	
+		return "Hello";
+
+	}
+
 	@RequestMapping(value = { "/getAllGpItemByIsUsed" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetpassItem> getAllGpItemByIsUsed() {
 
@@ -142,6 +142,44 @@ System.err.println("Inside Save Gate Pass Item ");
 
 			List<GetpassDetail> getPassDetailList = getpassDetailRepo.saveAll(getPassRes.getGetpassDetail());
 			System.out.println("getPassDetailList" + getPassDetailList.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassHeader;
+
+	}
+
+	@RequestMapping(value = { "/getAllGetPassHeaderByIsUsed" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetpassHeader> getAllGetPassHeaderByIsUsed() {
+
+		List<GetpassHeader> GetpassHeaderList = new ArrayList<GetpassHeader>();
+
+		try {
+
+			GetpassHeaderList = getpassHeaderRepo.findAllByIsUsed(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return GetpassHeaderList;
+
+	}
+
+	@RequestMapping(value = { "/getGetpassItemHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody GetpassHeader getGetpassItemHeaderAndDetail(@RequestParam("gpId") int gpId) {
+
+		GetpassHeader getpassHeader = new GetpassHeader();
+
+		try {
+
+			getpassHeader = getpassHeaderRepo.findByGpId(gpId);
+			List<GetpassDetail> getpassDetailList = getpassDetailRepo.findByGpId(gpId);
+			getpassHeader.setGetpassDetail(getpassDetailList);
 
 		} catch (Exception e) {
 
