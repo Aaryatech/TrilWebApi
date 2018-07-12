@@ -136,7 +136,6 @@ private String indMNo;
 	public void setIndIsmonthly(int indIsmonthly) {
 		this.indIsmonthly = indIsmonthly;
 	}
-
 	
 	public void setIndMStatus(int indMStatus) {
 		this.indMStatus = indMStatus;
