@@ -25,6 +25,7 @@ import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.Item;
 import com.ats.tril.model.ItemGroup;
+import com.ats.tril.model.ItemList;
 import com.ats.tril.model.ItemSubGroup;
 import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.State;
@@ -1356,20 +1357,20 @@ public class MasterController {
 	}
 	
 	@RequestMapping(value = { "/itemListByGroupId" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetItem> itemListByGroupId(@RequestParam("groupId") int groupId) {
-
+	public @ResponseBody ItemList itemListByGroupId(@RequestParam("groupId") int groupId) {
+		ItemList  resList=new ItemList();
 		List<GetItem> itemList = new ArrayList<GetItem>();
 
 		try {
 
 			itemList = getItemRepository.itemListByGroupId(groupId);
-
+			resList.setItems(itemList);
 		} catch (Exception e) {
 
 			e.printStackTrace();
 
 		}
-		return itemList;
+		return resList;
 
 	}
 
