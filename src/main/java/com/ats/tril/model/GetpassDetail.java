@@ -21,6 +21,8 @@ public class GetpassDetail {
 	private Date gpReturnDate;
 	private int gpStatus;
 	private int isUsed;
+	private float gpRemQty;
+	private float gpRetQty;
 
 	public int getGpDetailId() {
 		return gpDetailId;
@@ -86,11 +88,27 @@ public class GetpassDetail {
 		this.isUsed = isUsed;
 	}
 
+	public float getGpRemQty() {
+		return gpRemQty;
+	}
+
+	public void setGpRemQty(float gpRemQty) {
+		this.gpRemQty = gpRemQty;
+	}
+
+	public float getGpRetQty() {
+		return gpRetQty;
+	}
+
+	public void setGpRetQty(float gpRetQty) {
+		this.gpRetQty = gpRetQty;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassDetail [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId + ", gpQty="
 				+ gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus
-				+ ", isUsed=" + isUsed + "]";
+				+ ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + "]";
 	}
 
 }
