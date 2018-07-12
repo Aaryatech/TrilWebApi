@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ats.tril.model.indent.GetIndentByStatus;
 import com.ats.tril.model.indent.IndentTrans;
 
 public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
@@ -24,5 +25,7 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 			+ " WHERE indDId=:indDId ")
 		int updateIndentDetail(@Param("indQty") 
 		int indQty,@Param("indDId") int indDId);
+
+	List<IndentTrans> findByIndMId(int indId);
 	
 }

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.indent.GetIndent;
+import com.ats.tril.model.indent.GetIndentByStatus;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.indent.IndentTrans;
+import com.ats.tril.repository.GetIndentByStatusRepo;
 import com.ats.tril.repository.indent.GetIndentRepo;
 import com.ats.tril.repository.indent.IndentRepository;
 import com.ats.tril.repository.indent.IndentTransRepo;
@@ -31,6 +33,9 @@ public class IndentController {
 
 	@Autowired
 	GetIndentRepo getIndentRepo;
+	
+	@Autowired
+	GetIndentByStatusRepo getIndentByStatusRepo;
 
 	@RequestMapping(value = { "/saveIndentAndTrans" }, method = RequestMethod.POST)
 	public @ResponseBody Indent saveIndentsHeaderDetail(@RequestBody Indent indent) {
@@ -186,6 +191,48 @@ public class IndentController {
 		}
 
 		return err;
+	}
+	
+	@RequestMapping(value = { "/getIntendsByStatus" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIndentByStatus> getIntendsByStatus(@RequestParam("status") String status) {
+
+		 
+
+		List<GetIndentByStatus> indentList = new ArrayList<GetIndentByStatus>();
+
+		try {
+
+			indentList = getIndentByStatusRepo.getIntendsByStatus(status);
+
+			 
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+
+		}
+
+		return indentList;
+
+	}
+	
+	@RequestMapping(value = { "/getIntendsDetailByIntendId" }, method = RequestMethod.POST)
+	public @ResponseBody List<IndentTrans> getIntendsDetailByIntendId(@RequestParam("indId") int indId) {
+ 
+		List<IndentTrans> indentDetailList = new ArrayList<IndentTrans>();
+
+		try {
+
+			indentDetailList = indentTransRepo.findByIndMId(indId);
+
+			 
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+
+		}
+
+		return indentDetailList;
+
 	}
 	
 	
