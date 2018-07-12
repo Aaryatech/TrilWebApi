@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
- 
+
+import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.PoHeader; 
 import com.ats.tril.repository.PoDetailRepository;
 import com.ats.tril.repository.PoHeaderRepository;
+import com.ats.tril.repository.getpodetail.GetPODetailRepo;
 
 @RestController
 public class PurchaseOrderRestController {
@@ -25,8 +27,33 @@ public class PurchaseOrderRestController {
 	@Autowired
 	PoDetailRepository poDetailRepository;
 	 
+	@Autowired
+	GetPODetailRepo getPODetailRepo;
 	
 	
+	@RequestMapping(value = { "/getPODetailList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPODetail> getPODetails(@RequestParam("poIdList") List<Integer> poIdList) {
+
+		
+		System.err.println("Inside getPODetailList ");
+		List<GetPODetail> poDetailList = new ArrayList<GetPODetail>();
+
+		try {
+			 
+			poDetailList = getPODetailRepo.getPoDetailsByPoIds(poIdList);
+			System.err.println("poDetailList  " +poDetailList.toString());
+
+		} catch (Exception e) {
+			
+			System.err.println("Exception /getPODetailList @PurchaseOrderRestControlle ");
+
+			e.printStackTrace();
+			 
+		}
+		return poDetailList;
+
+	}
+
 	
 	
 	//Sachin 12-07-2018
@@ -53,8 +80,6 @@ public class PurchaseOrderRestController {
 
 	}
 
-	
-	
 	
 	@RequestMapping(value = { "/savePoHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody PoHeader savePoHeaderAndDetail(@RequestBody  PoHeader  poHeader) {
