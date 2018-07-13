@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetIntendDetail;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.GetIndentByStatus;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.repository.GetIndentByStatusRepo;
+import com.ats.tril.repository.GetIntendDetailRepo;
 import com.ats.tril.repository.indent.GetIndentRepo;
 import com.ats.tril.repository.indent.IndentRepository;
 import com.ats.tril.repository.indent.IndentTransRepo;
@@ -36,6 +38,9 @@ public class IndentController {
 	
 	@Autowired
 	GetIndentByStatusRepo getIndentByStatusRepo;
+	
+	@Autowired
+	GetIntendDetailRepo getIntendDetailRepo;
 
 	@RequestMapping(value = { "/saveIndentAndTrans" }, method = RequestMethod.POST)
 	public @ResponseBody Indent saveIndentsHeaderDetail(@RequestBody Indent indent) {
@@ -216,13 +221,13 @@ public class IndentController {
 	}
 	
 	@RequestMapping(value = { "/getIntendsDetailByIntendId" }, method = RequestMethod.POST)
-	public @ResponseBody List<IndentTrans> getIntendsDetailByIntendId(@RequestParam("indId") int indId) {
+	public @ResponseBody List<GetIntendDetail> getIntendsDetailByIntendId(@RequestParam("indId") int indId) {
  
-		List<IndentTrans> indentDetailList = new ArrayList<IndentTrans>();
+		List<GetIntendDetail> indentDetailList = new ArrayList<GetIntendDetail>();
 
 		try {
 
-			indentDetailList = indentTransRepo.findByIndMId(indId);
+			indentDetailList = getIntendDetailRepo.findByIndMId(indId);
 
 			 
 		} catch (Exception e) {
