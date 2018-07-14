@@ -1,26 +1,19 @@
 package com.ats.tril.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "t_gatepass_header")
-public class GetpassHeader {
-
+public class GetpassItemVen {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int gpId;
 	private int gpNo;
 	private int gpVendor;
+	private String vendorName;
 	private int gpType;
 	private Date gpReturnDate;
 	private int gpStatus;
@@ -32,9 +25,6 @@ public class GetpassHeader {
 	private int isStockable;
 	private int forRepair;
 	private Date gpDate;
-
-	@Transient
-	List<GetpassDetail> getpassDetail;
 
 	public int getGpId() {
 		return gpId;
@@ -124,15 +114,16 @@ public class GetpassHeader {
 		this.forRepair = forRepair;
 	}
 
-	public List<GetpassDetail> getGetpassDetail() {
-		return getpassDetail;
+	public String getVendorName() {
+		return vendorName;
 	}
 
-	public void setGetpassDetail(List<GetpassDetail> getpassDetail) {
-		this.getpassDetail = getpassDetail;
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
 	}
 
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
 	public Date getGpReturnDate() {
 		return gpReturnDate;
 	}
@@ -142,6 +133,7 @@ public class GetpassHeader {
 	}
 
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
 	public Date getGpDate() {
 		return gpDate;
 	}
@@ -152,10 +144,11 @@ public class GetpassHeader {
 
 	@Override
 	public String toString() {
-		return "GetpassHeader [gpId=" + gpId + ", gpNo=" + gpNo + ", gpVendor=" + gpVendor + ", gpType=" + gpType
-				+ ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus + ", isUsed=" + isUsed + ", remark1="
-				+ remark1 + ", remark2=" + remark2 + ", sendingWith=" + sendingWith + ", isStockable=" + isStockable
-				+ ", forRepair=" + forRepair + ", gpDate=" + gpDate + ", getpassDetail=" + getpassDetail + "]";
+		return "GetpassItemVen [gpId=" + gpId + ", gpNo=" + gpNo + ", gpVendor=" + gpVendor + ", vendorName="
+				+ vendorName + ", gpType=" + gpType + ", gpReturnDate=" + gpReturnDate + ", gpStatus=" + gpStatus
+				+ ", isUsed=" + isUsed + ", remark1=" + remark1 + ", remark2=" + remark2 + ", sendingWith="
+				+ sendingWith + ", isStockable=" + isStockable + ", forRepair=" + forRepair + ", gpDate=" + gpDate
+				+ "]";
 	}
 
 }

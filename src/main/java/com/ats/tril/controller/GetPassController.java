@@ -19,15 +19,20 @@ import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.GetpassItem;
+import com.ats.tril.model.GetpassItemVen;
 import com.ats.tril.repository.GetpassDetailRepo;
 import com.ats.tril.repository.GetpassHeaderRepo;
 import com.ats.tril.repository.GetpassItemRepo;
+import com.ats.tril.repository.GetpassItemVenRepo;
 
 @RestController
 public class GetPassController {
 
 	@Autowired
 	GetpassItemRepo getpassItemRepo;
+
+	@Autowired
+	GetpassItemVenRepo getpassItemVenRepo;
 
 	@Autowired
 	GetpassHeaderRepo getpassHeaderRepo;
@@ -124,6 +129,32 @@ public class GetPassController {
 		return errorMessage;
 	}
 
+	@RequestMapping(value = { "/deleteGetpassHeader" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteGetpassHeader(@RequestParam("gpId") int gpId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			int delete = getpassHeaderRepo.deleteGetpassHeader(gpId);
+
+			if (delete == 1) {
+				errorMessage.setError(false);
+				errorMessage.setMessage("Dept Deleted Successfully");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("Deletion Failed :EXC");
+
+		}
+		return errorMessage;
+	}
+
 	@RequestMapping(value = { "/saveGetPassHeaderDetail" }, method = RequestMethod.POST)
 	public @ResponseBody GetpassHeader saveGetPassHeaderDetail(@RequestBody GetpassHeader getpassHeader) {
 
@@ -131,18 +162,14 @@ public class GetPassController {
 
 		try {
 
-			Date now = new Date();
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String strDateTime = simpleDateFormat.format(simpleDateFormat);
-
 			getPassRes = getpassHeaderRepo.saveAndFlush(getpassHeader);
 
 			for (int i = 0; i < getPassRes.getGetpassDetail().size(); i++)
-				getPassRes.getGetpassDetail().get(i).setGpId(getPassRes.getGpId());
+				getpassHeader.getGetpassDetail().get(i).setGpId(getPassRes.getGpId());
 
-			List<GetpassDetail> getPassDetailList = getpassDetailRepo.saveAll(getPassRes.getGetpassDetail());
+			List<GetpassDetail> getPassDetailList = getpassDetailRepo.saveAll(getpassHeader.getGetpassDetail());
 			System.out.println("getPassDetailList" + getPassDetailList.toString());
-
+			getPassRes.setGetpassDetail(getPassDetailList);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -180,6 +207,50 @@ public class GetPassController {
 			getpassHeader = getpassHeaderRepo.findByGpId(gpId);
 			List<GetpassDetail> getpassDetailList = getpassDetailRepo.findByGpId(gpId);
 			getpassHeader.setGetpassDetail(getpassDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassHeader;
+
+	}
+
+	@RequestMapping(value = { "/getGetpassNonReturnable" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetpassItemVen> getGetpassNonReturnable(@RequestParam("vendId") int vendId) {
+
+		List<GetpassItemVen> getpassHeader = new ArrayList<>();
+
+		try {
+			if (vendId != 0) {
+				getpassHeader = getpassItemVenRepo.getpassNonListByVendId(vendId);
+
+			} else {
+				getpassHeader = getpassItemVenRepo.getpassAllNonListByVendId();
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassHeader;
+
+	}
+
+	@RequestMapping(value = { "/getGetpassReturnable" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetpassItemVen> getGetpassReturnable(@RequestParam("vendId") int vendId) {
+
+		List<GetpassItemVen> getpassHeader = new ArrayList<>();
+
+		try {
+			if (vendId != 0) {
+				getpassHeader = getpassItemVenRepo.getpassListByVendId(vendId);
+
+			} else {
+				getpassHeader = getpassItemVenRepo.getpassAllListByVendId();
+			}
 
 		} catch (Exception e) {
 
