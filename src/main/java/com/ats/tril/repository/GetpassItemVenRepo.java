@@ -16,10 +16,17 @@ public interface GetpassItemVenRepo extends JpaRepository<GetpassItemVen, Intege
 	@Query(value = "SELECT h.*,v.vendor_name FROM t_gatepass_header h,m_vendor v WHERE gp_type=0 AND h.gp_vendor=v.vendor_id  AND h.is_used=1", nativeQuery = true)
 	List<GetpassItemVen> getpassAllNonListByVendId();
 
+	@Query(value = "SELECT h.*,v.vendor_name FROM t_gatepass_header h,m_vendor v WHERE gp_type=1 AND h.gp_vendor=v.vendor_id AND h.gp_vendor=:vendId  AND h.is_used=1 AND h.gp_status IN(:gpStatusList)", nativeQuery = true)
+	List<GetpassItemVen> getpassListByVendIdAndStatus(@Param("vendId") int vendId,
+			@Param("gpStatusList") List<Integer> gpStatusList);
+
+	@Query(value = "SELECT h.*,v.vendor_name FROM t_gatepass_header h,m_vendor v WHERE gp_type=1 AND h.gp_vendor=v.vendor_id AND h.is_used=1 AND h.gp_status IN (:gpStatusList)", nativeQuery = true)
+	List<GetpassItemVen> getpassListByStatus(@Param("gpStatusList") List<Integer> gpStatusList);
+
 	@Query(value = "SELECT h.*,v.vendor_name FROM t_gatepass_header h,m_vendor v WHERE gp_type=1 AND h.gp_vendor=v.vendor_id AND h.gp_vendor=:vendId  AND h.is_used=1", nativeQuery = true)
 	List<GetpassItemVen> getpassListByVendId(@Param("vendId") int vendId);
 
 	@Query(value = "SELECT h.*,v.vendor_name FROM t_gatepass_header h,m_vendor v WHERE gp_type=1 AND h.gp_vendor=v.vendor_id  AND h.is_used=1", nativeQuery = true)
-	List<GetpassItemVen> getpassAllListByVendId();
+	List<GetpassItemVen> getpassAllList();
 
 }

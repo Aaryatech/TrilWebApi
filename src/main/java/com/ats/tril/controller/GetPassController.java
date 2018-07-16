@@ -17,19 +17,39 @@ import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetpassDetail;
+import com.ats.tril.model.GetpassDetailItemName;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.GetpassItem;
 import com.ats.tril.model.GetpassItemVen;
+import com.ats.tril.model.GetpassReturn;
+import com.ats.tril.model.GetpassReturnDetail;
+import com.ats.tril.repository.GetpassDetailItemNameRepo;
 import com.ats.tril.repository.GetpassDetailRepo;
+import com.ats.tril.repository.GetpassHeaderItemName;
+import com.ats.tril.repository.GetpassHeaderItemNameRepo;
 import com.ats.tril.repository.GetpassHeaderRepo;
 import com.ats.tril.repository.GetpassItemRepo;
 import com.ats.tril.repository.GetpassItemVenRepo;
+import com.ats.tril.repository.GetpassReturnDetailRepo;
+import com.ats.tril.repository.GetpassReturnRepo;
 
 @RestController
 public class GetPassController {
 
 	@Autowired
 	GetpassItemRepo getpassItemRepo;
+
+	@Autowired
+	GetpassDetailItemNameRepo getpassDetailItemNameRepo;
+
+	@Autowired
+	GetpassHeaderItemNameRepo getpassHeaderItemNameRepo;
+
+	@Autowired
+	GetpassReturnRepo getpassReturnRepo;
+
+	@Autowired
+	GetpassReturnDetailRepo getpassReturnDetailRepo;
 
 	@Autowired
 	GetpassItemVenRepo getpassItemVenRepo;
@@ -240,17 +260,115 @@ public class GetPassController {
 	}
 
 	@RequestMapping(value = { "/getGetpassReturnable" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetpassItemVen> getGetpassReturnable(@RequestParam("vendId") int vendId) {
+	public @ResponseBody List<GetpassItemVen> getGetpassReturnable(@RequestParam("vendId") int vendId,
+			@RequestParam("gpStatusList") List<Integer> gpStatusList) {
 
 		List<GetpassItemVen> getpassHeader = new ArrayList<>();
 
 		try {
-			if (vendId != 0) {
-				getpassHeader = getpassItemVenRepo.getpassListByVendId(vendId);
+			if (vendId != 0 && !gpStatusList.contains(0)) {
+				getpassHeader = getpassItemVenRepo.getpassListByVendIdAndStatus(vendId, gpStatusList);
 
+			} else if (vendId == 0 && !gpStatusList.contains(0)) {
+				getpassHeader = getpassItemVenRepo.getpassListByStatus(gpStatusList);
+			} else if (vendId != 0 && gpStatusList.contains(0)) {
+				getpassHeader = getpassItemVenRepo.getpassListByVendId(vendId);
 			} else {
-				getpassHeader = getpassItemVenRepo.getpassAllListByVendId();
+				getpassHeader = getpassItemVenRepo.getpassAllList();
 			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassHeader;
+
+	}
+
+	// --------------Return Getpass-----------
+	@RequestMapping(value = { "/saveGetPassReturnHeaderDetail" }, method = RequestMethod.POST)
+	public @ResponseBody GetpassReturn saveGetPassReturnHeaderDetail(@RequestBody GetpassReturn getpassReturn) {
+
+		GetpassReturn getpassReturnRes = new GetpassReturn();
+
+		try {
+
+			getpassReturnRes = getpassReturnRepo.saveAndFlush(getpassReturn);
+
+			for (int i = 0; i < getpassReturnRes.getGetpassReturnDetailList().size(); i++)
+				getpassReturn.getGetpassReturnDetailList().get(i).setReturnId(getpassReturnRes.getReturnId());
+
+			List<GetpassReturnDetail> getPassReturnDetailList = getpassReturnDetailRepo
+					.saveAll(getpassReturn.getGetpassReturnDetailList());
+			System.out.println("getPassReturnDetailList" + getPassReturnDetailList.toString());
+			getpassReturnRes.setGetpassReturnDetailList(getPassReturnDetailList);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassReturnRes;
+
+	}
+
+	@RequestMapping(value = { "/getGetpassReturnItemHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody GetpassReturn getGetpassReturnItemHeaderAndDetail(@RequestParam("returnId") int returnId) {
+
+		GetpassReturn getpassReturn = new GetpassReturn();
+
+		try {
+
+			getpassReturn = getpassReturnRepo.findByReturnId(returnId);
+			List<GetpassReturnDetail> getpassReturnDetailList = getpassReturnDetailRepo.findByReturnId(returnId);
+			getpassReturn.setGetpassReturnDetailList(getpassReturnDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassReturn;
+
+	}
+
+	@RequestMapping(value = { "/deleteGetpassReturn" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteGetpassReturn(@RequestParam("returnId") int returnId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			int delete = getpassReturnRepo.deleteGetpassReturn(returnId);
+
+			if (delete == 1) {
+				errorMessage.setError(false);
+				errorMessage.setMessage("Dept Deleted Successfully");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("Deletion Failed :EXC");
+
+		}
+		return errorMessage;
+	}
+
+	@RequestMapping(value = { "/getGetpassItemHeaderAndDetailWithItemName" }, method = RequestMethod.POST)
+	public @ResponseBody GetpassHeaderItemName getGetpassItemHeaderAndDetailWithItemName(
+			@RequestParam("gpId") int gpId) {
+
+		GetpassHeaderItemName getpassHeader = new GetpassHeaderItemName();
+
+		try {
+
+			getpassHeader = getpassHeaderItemNameRepo.getAllHeaderItemByGpId(gpId);
+			List<GetpassDetailItemName> getpassDetailList = getpassDetailItemNameRepo.getAllItemByGpId(gpId);
+			getpassHeader.setGetpassDetailItemNameList(getpassDetailList);
 
 		} catch (Exception e) {
 
