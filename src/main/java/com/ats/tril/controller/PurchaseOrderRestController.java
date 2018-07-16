@@ -94,6 +94,7 @@ public class PurchaseOrderRestController {
 				for(int i=0 ; i<poHeader.getPoDetailList().size();i++)
 				{
 					poHeader.getPoDetailList().get(i).setPoId(save.getPoId());
+					poHeader.getPoDetailList().get(i).setVendId(save.getVendId());
 				}
 				
 			List<PoDetail> poDetailList	= poDetailRepository.saveAll(poHeader.getPoDetailList());
