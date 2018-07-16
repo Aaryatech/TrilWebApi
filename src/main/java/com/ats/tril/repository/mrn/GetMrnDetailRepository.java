@@ -14,4 +14,8 @@ public interface GetMrnDetailRepository extends JpaRepository<GetMrnDetail, Inte
 	/*@Query(value="",nativeQuery=true)
 	List<GetMrnDetail> getMrnDetailList(@Param("mrnId")int mrnId,@Param("mrnDetailStatus") int mrnDetailStatus);
 */
+	
+	
+	
+	List<GetMrnDetail> findByMrnId(int mrnId);
 }

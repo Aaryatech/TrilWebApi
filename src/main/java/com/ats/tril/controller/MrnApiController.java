@@ -164,4 +164,26 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getMrnDetailByMrnId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetMrnDetail> getMrnDetailByMrnId(@RequestParam("mrnId") int mrnId) {
+
+		List<GetMrnDetail> mrnDetailList = new ArrayList<GetMrnDetail>();
+
+		try {
+			mrnDetailList=	getMrnDetailRepository.findByMrnId(mrnId);
+          System.err.println("mrn mrnDetailList List by MrnId =  " +mrnDetailList.toString());
+         
+		} catch (Exception e) {
+
+			System.err.println("Exception in getMrnDetailByMrnId Mrn  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return mrnDetailList;
+
+	}
 }
