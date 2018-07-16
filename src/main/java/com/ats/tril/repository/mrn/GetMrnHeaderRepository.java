@@ -23,5 +23,16 @@ public interface GetMrnHeaderRepository extends JpaRepository<GetMrnHeader, Inte
 
 	@Query(value="select h.mrn_id,h.mrn_no,h.mrn_type,h.mrn_date,h.vendor_id,v.vendor_name,h.gate_entry_no,h.gate_entry_date,h.doc_no,h.doc_date,h.bill_no,h.bill_date,h.transport,h.lr_no,h.lr_date,h.remark1,h.remark2,h.user_id,h.mrn_status,h.del_status from t_mrn_header h,m_vendor v where v.vendor_id=h.vendor_id  and h.del_status=1",nativeQuery=true)
 	List<GetMrnHeader> getAllMrnHeaderList();
+	
+	
+	
+	@Query(value="SELECT h.mrn_id,h.mrn_no,h.mrn_type,h.mrn_date,h.vendor_id,v.vendor_name,h.gate_entry_no,h.gate_entry_date,h.doc_no,"
+			+ "h.doc_date,h.bill_no,h.bill_date,h.transport,h.lr_no,h.lr_date,h.remark1,h.remark2,h.user_id,h.mrn_status,h.del_status "
+			+ "FROM t_mrn_header h,m_vendor v WHERE v.vendor_id=h.vendor_id  AND h.del_status=1 AND h.mrn_date BETWEEN :fromDate AND :toDate"
+			+ " ",nativeQuery=true)
+	List<GetMrnHeader> getMrnHeaderByDate(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
+	
+	
+	
 
 }
