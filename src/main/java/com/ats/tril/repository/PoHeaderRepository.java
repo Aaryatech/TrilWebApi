@@ -10,4 +10,6 @@ public interface PoHeaderRepository extends JpaRepository<PoHeader, Integer>{
 
 	
 	List<PoHeader> findByVendIdAndDelStatusAndPoStatusIn(int vendId,int delStatus,List<Integer> statusList);
+
+	List<PoHeader> findByPoTypeAndPoStatusAndDelStatus(int poType, int status, int i);
 }

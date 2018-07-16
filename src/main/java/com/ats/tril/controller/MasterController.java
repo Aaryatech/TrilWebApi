@@ -420,7 +420,7 @@ public class MasterController {
 
 		try {
 
-			category = categoryRepository.findAllByIsUsed(1);
+			category = categoryRepository.findAllByIsUsedOrderByCatId(1);
 
 		} catch (Exception e) {
 
