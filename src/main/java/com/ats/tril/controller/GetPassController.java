@@ -23,6 +23,7 @@ import com.ats.tril.model.GetpassItem;
 import com.ats.tril.model.GetpassItemVen;
 import com.ats.tril.model.GetpassReturn;
 import com.ats.tril.model.GetpassReturnDetail;
+import com.ats.tril.model.GetpassReturnVendor;
 import com.ats.tril.repository.GetpassDetailItemNameRepo;
 import com.ats.tril.repository.GetpassDetailRepo;
 import com.ats.tril.repository.GetpassHeaderItemName;
@@ -32,12 +33,16 @@ import com.ats.tril.repository.GetpassItemRepo;
 import com.ats.tril.repository.GetpassItemVenRepo;
 import com.ats.tril.repository.GetpassReturnDetailRepo;
 import com.ats.tril.repository.GetpassReturnRepo;
+import com.ats.tril.repository.GetpassReturnVendorRepo;
 
 @RestController
 public class GetPassController {
 
 	@Autowired
 	GetpassItemRepo getpassItemRepo;
+
+	@Autowired
+	GetpassReturnVendorRepo getpassReturnVendorRepo;
 
 	@Autowired
 	GetpassDetailItemNameRepo getpassDetailItemNameRepo;
@@ -376,6 +381,59 @@ public class GetPassController {
 
 		}
 		return getpassHeader;
+
+	}
+
+	@RequestMapping(value = { "/saveGatePassDetailList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetpassDetail> saveGatePassDetail(@RequestBody List<GetpassDetail> getpassDetailList) {
+		System.err.println("Inside Save Gate Pass Item ");
+		List<GetpassDetail> detailList = new ArrayList<>();
+
+		try {
+			int gpId = getpassDetailList.get(0).getGpId();
+			for (int i = 0; i < getpassDetailList.size(); i++) {
+				GetpassDetail res = getpassDetailRepo.save(getpassDetailList.get(i));
+				detailList.add(res);
+			}
+			// Query
+			int count = getpassDetailRepo.getpassDetailCount(gpId);
+			if (count == 0) {
+				int r = getpassHeaderRepo.updateGetpassHeaderStatus(gpId);
+				System.out.println("R" + r);
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("exce in saving get pass item " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+		return detailList;
+
+	}
+
+	@RequestMapping(value = { "/getGetpassReturnVendor" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetpassReturnVendor> getGetpassReturnVendor(@RequestParam("vendId") int vendId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+
+		List<GetpassReturnVendor> getpassReturnVendor = new ArrayList<>();
+
+		try {
+			if (vendId == 0) {
+				getpassReturnVendor = getpassReturnVendorRepo.getAllHeaderWithVendor(fromDate, toDate);
+
+			} else {
+				getpassReturnVendor = getpassReturnVendorRepo.getAllHeaderByVendId(fromDate, toDate, vendId);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassReturnVendor;
 
 	}
 

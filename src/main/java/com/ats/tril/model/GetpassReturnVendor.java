@@ -1,20 +1,17 @@
 package com.ats.tril.model;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "t_getpass_return")
-public class GetpassReturn {
+public class GetpassReturnVendor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +27,7 @@ public class GetpassReturn {
 	private String gpRemark1;
 	private int status;
 	private int isUsed;
+	private String vendorName;
 
 	@Transient
 	List<GetpassReturnDetail> getpassReturnDetailList;
@@ -75,7 +73,6 @@ public class GetpassReturn {
 	}
 
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	
 
 	public String getGpRemark() {
 		return gpRemark;
@@ -125,12 +122,20 @@ public class GetpassReturn {
 		this.getpassReturnDetailList = getpassReturnDetailList;
 	}
 
+	public String getVendorName() {
+		return vendorName;
+	}
+
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
+	}
+
 	@Override
 	public String toString() {
-		return "GetpassReturn [returnId=" + returnId + ", returnNo=" + returnNo + ", gpId=" + gpId + ", gpNo=" + gpNo
-				+ ", vendorId=" + vendorId + ", gpReturnDate=" + gpReturnDate + ", gpRemark=" + gpRemark
-				+ ", gpRemark1=" + gpRemark1 + ", status=" + status + ", isUsed=" + isUsed
-				+ ", getpassReturnDetailList=" + getpassReturnDetailList + "]";
+		return "GetpassReturnVendor [returnId=" + returnId + ", returnNo=" + returnNo + ", gpId=" + gpId + ", gpNo="
+				+ gpNo + ", vendorId=" + vendorId + ", gpReturnDate=" + gpReturnDate + ", gpRemark=" + gpRemark
+				+ ", gpRemark1=" + gpRemark1 + ", status=" + status + ", isUsed=" + isUsed + ", vendorName="
+				+ vendorName + ", getpassReturnDetailList=" + getpassReturnDetailList + "]";
 	}
 
 }

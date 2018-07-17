@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "t_gatepass_detail")
 public class GetpassDetail {
@@ -18,7 +20,7 @@ public class GetpassDetail {
 	private int gpItemId;
 	private float gpQty;
 	private int gpNoDays;
-	private Date gpReturnDate;
+	private String gpReturnDate;
 	private int gpStatus;
 	private int isUsed;
 	private float gpRemQty;
@@ -63,12 +65,14 @@ public class GetpassDetail {
 	public void setGpNoDays(int gpNoDays) {
 		this.gpNoDays = gpNoDays;
 	}
+	
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 
-	public Date getGpReturnDate() {
+	public String getGpReturnDate() {
 		return gpReturnDate;
 	}
 
-	public void setGpReturnDate(Date gpReturnDate) {
+	public void setGpReturnDate(String gpReturnDate) {
 		this.gpReturnDate = gpReturnDate;
 	}
 
