@@ -149,6 +149,7 @@ public class MrnApiController {
 		try {
 
             int mrnId=getMrnDetailList.get(0).getMrnId();
+            boolean flag=false;
 			for (int i = 0; i < getMrnDetailList.size(); i++) {
 
 				 MrnDetail mrnDetail=new MrnDetail();
@@ -171,8 +172,19 @@ public class MrnApiController {
 			     mrnDetail.setMrnDetailStatus(1);
 			     mrnDetail.setMrnId(getMrnDetailList.get(i).getMrnId());
 				MrnDetail transRes = mrnDetailRepo.save(mrnDetail);
+				flag=true;
 				res.add(transRes); 
 			}
+			if(flag==true)
+			{
+				int isUpdated=mrnHeaderRepository.updateMrnStatusAsPartial(mrnId);
+			}
+            int count= mrnDetailRepo.getDetailCount(mrnId);
+            System.err.println(count);
+            if(count==0)
+            {
+            	int isUpdated=mrnHeaderRepository.updateMrnStatus(mrnId);
+            }
             
 		} catch (Exception e) {
 
