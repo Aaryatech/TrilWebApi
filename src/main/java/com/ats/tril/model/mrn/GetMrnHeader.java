@@ -127,7 +127,8 @@ public class GetMrnHeader implements Serializable{
 	public void setGateEntryNo(String gateEntryNo) {
 		this.gateEntryNo = gateEntryNo;
 	}
-
+	
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getGateEntryDate() {
 		return gateEntryDate;
 	}
@@ -143,7 +144,8 @@ public class GetMrnHeader implements Serializable{
 	public void setDocNo(String docNo) {
 		this.docNo = docNo;
 	}
-
+	
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getDocDate() {
 		return docDate;
 	}

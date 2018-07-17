@@ -214,7 +214,7 @@ public class MrnApiController {
 		List<GetMrnDetail> mrnDetailList = new ArrayList<GetMrnDetail>();
 
 		try {
-			mrnDetailList=	getMrnDetailRepository.findByMrnId(mrnId);
+			mrnDetailList=	getMrnDetailRepository.getMrnDetailByMrnId(mrnId);
           System.err.println("mrn mrnDetailList List by MrnId =  " +mrnDetailList.toString());
          
 		} catch (Exception e) {
