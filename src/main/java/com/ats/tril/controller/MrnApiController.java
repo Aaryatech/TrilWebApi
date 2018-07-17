@@ -62,12 +62,15 @@ public class MrnApiController {
 
 				MrnDetail detail = mrnDetailList.get(i);
 				detail.setMrnId(mrnId);
-				MrnDetail detailRes = mrnDetailRepo.save(detail);
+				MrnDetail mrnDetailRes = mrnDetailRepo.save(detail);
 				
-				if(detailRes!=null) {
+				PoDetail poDetail=poDetailRepo.findByPoDetailId(mrnDetailRes.getPoDetailId());
+				
+				
+				if(mrnDetailRes!=null) {
 					
-					int remainingQty=detailRes.getRemainingQty()-detailRes.getMrnQty();
-					
+					int remainingQty=poDetail.getPendingQty()-mrnDetailRes.getMrnQty();
+					poDetail.setPendingQty(remainingQty);
 					int status=1;
 				
 					
@@ -76,15 +79,17 @@ public class MrnApiController {
 						status=2;
 					}
 				
-					int detailStatusUpdate=poDetailRepo.updateResponse(remainingQty, status, detailRes.getPoDetailId());
+					poDetail.setStatus(status);
+					PoDetail poDetailStatusUpdate=poDetailRepo.save(poDetail);
+					//int detailStatusUpdate=poDetailRepo.updateResponse(remainingQty, status, mrnDetailRes.getPoDetailId());
 					
-					List<PoDetail> poDetailsList=poDetailRepo.findAllByStatusNotAndPoId(2,detailRes.getPoId());
+					List<PoDetail> poDetailsList=poDetailRepo.findAllByStatusNotAndPoId(2,mrnDetailRes.getPoId());
 					
 					if(poDetailsList.isEmpty()) {
 						
-						System.err.println("Po Detail list is Empty so Update po Header Status for POId " + detailRes.getPoId());
+						System.err.println("Po Detail list is Empty so Update po Header Status for POId " + mrnDetailRes.getPoId());
 						
-						int  updateMrnHeaderStatus=poHeaderRepository.updateResponsePoHead(2, detailRes.getPoId());
+						int  updateMrnHeaderStatus=poHeaderRepository.updateResponsePoHead(2, mrnDetailRes.getPoId());
 					
 					}
 					

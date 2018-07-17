@@ -13,14 +13,20 @@ import com.ats.tril.model.PoDetail;
 public interface PoDetailRepository extends JpaRepository<PoDetail, Integer>{
 	
 	
-	@Transactional
+	/*@Transactional
 	@Modifying
 	@Query(" UPDATE PoDetail  SET pendingQty=:pendingQty,status=:status "
 			+ " WHERE poDetailId=:poDetailId ")
 	int updateResponse(@Param("pendingQty") int pendingQty,@Param("status") int status,@Param("poDetailId") int poDetailId);
 	
+	Not used. used bean save method PoDetail(poDetail);
+	*/
 
 	List<PoDetail> findAllByStatusNotAndPoId(int status,int poId);
 
+	PoDetail findByPoDetailId(int poDId);
 	
+	PoDetail save(PoDetail poDetail);
 }
+
+
