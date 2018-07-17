@@ -13,8 +13,8 @@ public class GetMrnDetail implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ind_m_id")
-	private int indMId;
+	@Column(name = "mrn_detail_id")
+	private int mrnDetailId;
 	
 	private int mrnId;
 	
@@ -50,12 +50,13 @@ public class GetMrnDetail implements Serializable{
 	
 	private int delStatus;
 
-	public int getIndMId() {
-		return indMId;
+	
+	public int getMrnDetailId() {
+		return mrnDetailId;
 	}
 
-	public void setIndMId(int indMId) {
-		this.indMId = indMId;
+	public void setMrnDetailId(int mrnDetailId) {
+		this.mrnDetailId = mrnDetailId;
 	}
 
 	public int getMrnId() {
@@ -196,7 +197,7 @@ public class GetMrnDetail implements Serializable{
 
 	@Override
 	public String toString() {
-		return "GetMrnDetail [indMId=" + indMId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", itemName=" + itemName
+		return "GetMrnDetail [indMId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", itemName=" + itemName
 				+ ", itemCode=" + itemCode + ", indentQty=" + indentQty + ", poQty=" + poQty + ", mrnQty=" + mrnQty
 				+ ", approveQty=" + approveQty + ", rejectQty=" + rejectQty + ", rejectRemark=" + rejectRemark
 				+ ", batchNo=" + batchNo + ", issueQty=" + issueQty + ", remainingQty=" + remainingQty + ", poId="

@@ -126,9 +126,9 @@ public class MrnApiController {
            if(mrnHeaderList.size()>0) {
 			for(int i=0;i<mrnHeaderList.size();i++)
 			{
-				/*List<GetMrnDetail> getMrnDetailList =getMrnDetailRepository.getMrnDetailList(mrnHeaderList.get(i).getMrnId(),0);
+				List<GetMrnDetail> getMrnDetailList =getMrnDetailRepository.getMrnDetailList(mrnHeaderList.get(i).getMrnId(),0);
 				
-				mrnHeaderList.get(i).setGetMrnDetailList(getMrnDetailList);*/
+				mrnHeaderList.get(i).setGetMrnDetailList(getMrnDetailList);
 			}
            }
 		} catch (Exception e) {
@@ -142,6 +142,48 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
+	@RequestMapping(value = { "/saveMrnData" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnDetail> saveMrnData(@RequestBody List<MrnDetail> getMrnDetailList) {
+		List<MrnDetail> res = new ArrayList<>();
+
+		try {
+
+            int mrnId=getMrnDetailList.get(0).getMrnId();
+			for (int i = 0; i < getMrnDetailList.size(); i++) {
+
+				 MrnDetail mrnDetail=new MrnDetail();
+				 mrnDetail.setMrnDetailId(getMrnDetailList.get(i).getMrnDetailId());
+			     mrnDetail.setApproveQty(getMrnDetailList.get(i).getApproveQty());
+			     mrnDetail.setBatchNo(getMrnDetailList.get(i).getBatchNo());
+			     mrnDetail.setDelStatus(getMrnDetailList.get(i).getDelStatus());
+			     mrnDetail.setIndentQty(getMrnDetailList.get(i).getIndentQty());
+			     mrnDetail.setIssueQty(getMrnDetailList.get(i).getIssueQty());
+			     mrnDetail.setItemId(getMrnDetailList.get(i).getItemId());
+			     mrnDetail.setMrnDetailStatus(getMrnDetailList.get(i).getMrnDetailStatus());
+			     mrnDetail.setMrnId(getMrnDetailList.get(i).getMrnId());
+			     mrnDetail.setMrnQty(getMrnDetailList.get(i).getMrnQty());
+			     mrnDetail.setPoId(getMrnDetailList.get(i).getPoId());
+			     mrnDetail.setPoNo(getMrnDetailList.get(i).getPoNo());
+			     mrnDetail.setPoQty(getMrnDetailList.get(i).getPoQty());
+			     mrnDetail.setRejectQty(getMrnDetailList.get(i).getRejectQty());
+			     mrnDetail.setRejectRemark(getMrnDetailList.get(i).getRejectRemark());
+			     mrnDetail.setRemainingQty(getMrnDetailList.get(i).getRemainingQty());
+			     mrnDetail.setMrnDetailStatus(1);
+			     mrnDetail.setMrnId(getMrnDetailList.get(i).getMrnId());
+				MrnDetail transRes = mrnDetailRepo.save(mrnDetail);
+				res.add(transRes); 
+			}
+            
+		} catch (Exception e) {
+
+			System.err.println("Exception in saving Mrn Header and Detail  " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return res;
+	}
+	
 	
 	
 	@RequestMapping(value = { "/getMrnHeaderByDate" }, method = RequestMethod.POST)

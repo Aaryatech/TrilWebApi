@@ -13,8 +13,7 @@ public class MrnDetail {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ind_m_id")
-	private int indMId;
+	private int mrnDetailId;
 	
 	private int mrnId;
 	
@@ -48,9 +47,6 @@ public class MrnDetail {
 	
 	private int delStatus;
 
-	public int getIndMId() {
-		return indMId;
-	}
 
 	public int getMrnId() {
 		return mrnId;
@@ -110,10 +106,6 @@ public class MrnDetail {
 
 	public int getDelStatus() {
 		return delStatus;
-	}
-
-	public void setIndMId(int indMId) {
-		this.indMId = indMId;
 	}
 
 	public void setMrnId(int mrnId) {
@@ -185,9 +177,17 @@ public class MrnDetail {
 	}
 
 
+	public int getMrnDetailId() {
+		return mrnDetailId;
+	}
+
+	public void setMrnDetailId(int mrnDetailId) {
+		this.mrnDetailId = mrnDetailId;
+	}
+
 	@Override
 	public String toString() {
-		return "MrnDetail [indMId=" + indMId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", indentQty=" + indentQty
+		return "MrnDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", indentQty=" + indentQty
 				+ ", poQty=" + poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty=" + rejectQty
 				+ ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
 				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo + ", poDetailId=" + poDetailId

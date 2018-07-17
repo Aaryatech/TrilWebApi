@@ -161,7 +161,7 @@ public class GetPoHeader {
 	public Date getPoDate() {
 		return poDate;
 	}
-
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public void setPoDate(Date poDate) {
 		this.poDate = poDate;
 	}
@@ -409,7 +409,7 @@ public class GetPoHeader {
 	public Date getIndDate() {
 		return indDate;
 	}
-
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public void setIndDate(Date indDate) {
 		this.indDate = indDate;
 	}
