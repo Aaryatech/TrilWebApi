@@ -240,5 +240,40 @@ public class IndentController {
 
 	}
 	
+	@RequestMapping(value = { "/updateIndendPendingQty" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateIndendPendingQty(@RequestBody List<IndentTrans> intendDetailList) {
+	 
+		 ErrorMessage errorMessage = new ErrorMessage();
+		try {
+
+		 
+				int status = 2;
+				List<IndentTrans> transRes = indentTransRepo.saveAll(intendDetailList);
+				
+				for(int i=0 ; i<intendDetailList.size() ; i++)
+				{
+					if(intendDetailList.get(i).getIndDStatus()==0 || intendDetailList.get(i).getIndDStatus()==1)
+					{ 
+						status=0;
+						break; 
+					}
+				}
+				int update = indentRepository.updateStatus(intendDetailList.get(0).getIndMId(),status);
+				
+				errorMessage.setError(false);
+				errorMessage.setMessage("update");
+ 
+		} catch (Exception e) {
+
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed");
+
+			e.printStackTrace();
+
+		}
+		return errorMessage;
+		
+	}
+	
 	
 }

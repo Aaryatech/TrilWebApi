@@ -11,9 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetPODetail;
+import com.ats.tril.model.GetPoDetailList;
+import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.PoDetail;
-import com.ats.tril.model.PoHeader; 
+import com.ats.tril.model.PoHeader;
+import com.ats.tril.repository.GetPoDetailListRepository;
+import com.ats.tril.repository.GetPoHeaderListRepository;
 import com.ats.tril.repository.PoDetailRepository;
 import com.ats.tril.repository.PoHeaderRepository;
 import com.ats.tril.repository.getpodetail.GetPODetailRepo;
@@ -29,6 +34,12 @@ public class PurchaseOrderRestController {
 	 
 	@Autowired
 	GetPODetailRepo getPODetailRepo;
+	
+	@Autowired
+	GetPoHeaderListRepository getPoHeaderListRepository;
+	
+	@Autowired
+	GetPoDetailListRepository getPoDetailListRepository;
 	
 	
 	@RequestMapping(value = { "/getPODetailList" }, method = RequestMethod.POST)
@@ -107,6 +118,82 @@ public class PurchaseOrderRestController {
 			 
 		}
 		return save;
+
+	}
+	
+	
+	@RequestMapping(value = { "/deletePo" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deletePo(@RequestParam("poId")  int  poId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+
+			 
+			int delete = poHeaderRepository.delete(poId);
+				 if(delete!=0)
+				 {
+					 errorMessage.setError(false);
+					 errorMessage.setMessage("deleted");
+				 }
+				 else
+				 {
+					 errorMessage.setError(true);
+					 errorMessage.setMessage("failed");
+				 }
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 errorMessage.setError(true);
+			 errorMessage.setMessage("failed");
+			 
+		}
+		return errorMessage;
+
+	}
+	
+	@RequestMapping(value = { "/getPoHeaderListBetweenDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPoHeaderList> getPoHeaderListBetweenDate(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GetPoHeaderList> list = new ArrayList<GetPoHeaderList>();
+
+		try {
+
+			 
+			list = getPoHeaderListRepository.getPoHeaderListBetweenDate(fromDate,toDate);
+				
+			  
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+		}
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getPoHeaderAndDetailByHeaderId" }, method = RequestMethod.POST)
+	public @ResponseBody  GetPoHeaderList  getPoHeaderAndDetailByHeaderId(@RequestParam("poId") int poId ) {
+
+		 GetPoHeaderList  getPoHeaderList = new  GetPoHeaderList ();
+
+		try {
+ 
+					getPoHeaderList = getPoHeaderListRepository.getPoHeaderAndDetailByHeaderId(poId);
+					
+					List<GetPoDetailList> poDetailList = getPoDetailListRepository.getDetail(poId);
+					getPoHeaderList.setPoDetailList(poDetailList);
+			  
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+		}
+		return getPoHeaderList;
 
 	}
 

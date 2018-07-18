@@ -24,5 +24,10 @@ public interface IndentRepository extends JpaRepository<Indent, Integer> {
 		int subDeptId,@Param("indIsdev") int indIsdev,
 		@Param("indIsmonthly") 
 		int indIsmonthly,@Param("indMId") int indMId);
+
+	@Transactional
+	@Modifying
+	@Query(" UPDATE Indent  SET ind_m_status=:status WHERE ind_m_id=:indMId ")
+	int updateStatus(@Param("indMId")int indMId,@Param("status") int status);
 	
 }
