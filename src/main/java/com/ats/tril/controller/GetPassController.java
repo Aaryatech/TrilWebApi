@@ -187,9 +187,12 @@ public class GetPassController {
 
 		try {
 
+			System.out.println(getpassHeader); 
+			
+			
 			getPassRes = getpassHeaderRepo.saveAndFlush(getpassHeader);
 
-			for (int i = 0; i < getPassRes.getGetpassDetail().size(); i++)
+			for (int i = 0; i < getpassHeader.getGetpassDetail().size(); i++)
 				getpassHeader.getGetpassDetail().get(i).setGpId(getPassRes.getGpId());
 
 			List<GetpassDetail> getPassDetailList = getpassDetailRepo.saveAll(getpassHeader.getGetpassDetail());
@@ -200,7 +203,7 @@ public class GetPassController {
 			e.printStackTrace();
 
 		}
-		return getpassHeader;
+		return getPassRes;
 
 	}
 

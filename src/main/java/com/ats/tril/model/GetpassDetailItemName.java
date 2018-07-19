@@ -2,6 +2,7 @@ package com.ats.tril.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,12 +19,17 @@ public class GetpassDetailItemName {
 	private int gpItemId;
 	private float gpQty;
 	private int gpNoDays;
-	private String gpReturnDate;
+	private Date gpReturnDate;
 	private int gpStatus;
 	private int isUsed;
 	private float gpRemQty;
 	private float gpRetQty;
-
+	
+	@Column(name = "cat_id")
+	private int catId;
+	@Column(name = "grp_id")
+	private int grpId;
+	
 	private String itemCode;
 
 	public int getGpDetailId() {
@@ -65,12 +71,12 @@ public class GetpassDetailItemName {
 	public void setGpNoDays(int gpNoDays) {
 		this.gpNoDays = gpNoDays;
 	}
-
-	public String getGpReturnDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getGpReturnDate() {
 		return gpReturnDate;
 	}
 
-	public void setGpReturnDate(String gpReturnDate) {
+	public void setGpReturnDate(Date gpReturnDate) {
 		this.gpReturnDate = gpReturnDate;
 	}
 
@@ -114,12 +120,28 @@ public class GetpassDetailItemName {
 		this.itemCode = itemCode;
 	}
 
+	public int getCatId() {
+		return catId;
+	}
+
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
+
+	public int getGrpId() {
+		return grpId;
+	}
+
+	public void setGrpId(int grpId) {
+		this.grpId = grpId;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassDetailItemName [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId
 				+ ", gpQty=" + gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus="
-				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", itemCode="
-				+ itemCode + "]";
+				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", catId="
+				+ catId + ", grpId=" + grpId + ", itemCode=" + itemCode + "]";
 	}
 
 }

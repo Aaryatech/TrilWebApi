@@ -11,6 +11,7 @@ import javax.persistence.Transient;
 
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassDetailItemName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetpassHeaderItemName {
@@ -66,7 +67,7 @@ public class GetpassHeaderItemName {
 	public void setGpType(int gpType) {
 		this.gpType = gpType;
 	}
-
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getGpReturnDate() {
 		return gpReturnDate;
 	}
@@ -130,7 +131,7 @@ public class GetpassHeaderItemName {
 	public void setForRepair(int forRepair) {
 		this.forRepair = forRepair;
 	}
-
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getGpDate() {
 		return gpDate;
 	}
