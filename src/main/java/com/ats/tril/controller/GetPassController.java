@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
+import com.ats.tril.model.GetPassReturnDetailWithItemName;
+import com.ats.tril.model.GetPassReturnHeader;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassDetailItemName;
 import com.ats.tril.model.GetpassHeader;
@@ -24,6 +26,8 @@ import com.ats.tril.model.GetpassItemVen;
 import com.ats.tril.model.GetpassReturn;
 import com.ats.tril.model.GetpassReturnDetail;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.repository.GetPassReturnDetailWithItemNameRepo;
+import com.ats.tril.repository.GetPassReturnHeaderRepo;
 import com.ats.tril.repository.GetpassDetailItemNameRepo;
 import com.ats.tril.repository.GetpassDetailRepo;
 import com.ats.tril.repository.GetpassHeaderItemName;
@@ -64,6 +68,12 @@ public class GetPassController {
 
 	@Autowired
 	GetpassDetailRepo getpassDetailRepo;
+	
+	@Autowired
+	GetPassReturnHeaderRepo getPassReturnHeaderRepo;
+	
+	@Autowired
+	GetPassReturnDetailWithItemNameRepo getPassReturnDetailWithItemNameRepo;
 
 	// -------------------GetPassItem----------------------
 
@@ -437,6 +447,27 @@ public class GetPassController {
 
 		}
 		return getpassReturnVendor;
+
+	}
+	
+	@RequestMapping(value = { "/getPassReturnHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody GetPassReturnHeader GetPassReturnHeaderAndDetail(@RequestParam("returnId") int returnId) {
+
+		GetPassReturnHeader getpassReturn = new GetPassReturnHeader();
+
+		try {
+
+			getpassReturn = getPassReturnHeaderRepo.findByReturnId(returnId);
+			List<GetPassReturnDetailWithItemName> getpassReturnDetailList = getPassReturnDetailWithItemNameRepo.findByReturnId(returnId);
+			
+			getpassReturn.setGetPassReturnDetailList(getpassReturnDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassReturn;
 
 	}
 

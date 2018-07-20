@@ -1,5 +1,7 @@
 package com.ats.tril.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,5 +16,7 @@ public interface IssueHeaderRepository extends JpaRepository<IssueHeader, Intege
 	@Modifying
 	@Query("UPDATE IssueHeader SET delete_status=0 WHERE issue_id=:issueId")
 	int delete(@Param("issueId") int issueId);
+
+	List<IssueHeader> findByDeleteStatus(int i);
 
 }

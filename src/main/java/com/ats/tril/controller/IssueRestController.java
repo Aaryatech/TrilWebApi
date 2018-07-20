@@ -1,5 +1,6 @@
 package com.ats.tril.controller;
  
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetIssueDetail;
+import com.ats.tril.model.GetIssueHeader;
 import com.ats.tril.model.IssueDetail;
-import com.ats.tril.model.IssueHeader; 
+import com.ats.tril.model.IssueHeader;
+import com.ats.tril.repository.GetIssueDetailRepository;
+import com.ats.tril.repository.GetIssueHeaderRepository;
 import com.ats.tril.repository.IssueDetailRepository;
 import com.ats.tril.repository.IssueHeaderRepository;
 
@@ -25,6 +30,12 @@ public class IssueRestController {
 	
 	@Autowired
 	IssueDetailRepository issueDetailRepository;
+	
+	@Autowired
+	GetIssueHeaderRepository getIssueHeaderRepository;
+	
+	@Autowired
+	GetIssueDetailRepository getIssueDetailRepository;
 	
 	@RequestMapping(value = { "/saveIssueHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody IssueHeader saveIssueHeaderAndDetail(@RequestBody IssueHeader issueHeader) {
@@ -77,6 +88,47 @@ public class IssueRestController {
 			errorMessage.setMessage("failed"); 
 		}
 		return errorMessage;
+
+	}
+	
+	@RequestMapping(value = { "/getIssueHeaderList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIssueHeader> getIssueHeaderList(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GetIssueHeader> list = new ArrayList<GetIssueHeader>();
+
+		try {
+
+			list = getIssueHeaderRepository.findByDeleteStatus(fromDate,toDate); 
+			 
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+		}
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getIssueHeaderAndDetailById" }, method = RequestMethod.POST)
+	public @ResponseBody GetIssueHeader getIssueHeaderAndDetailById(@RequestParam("issueId") int issueId) {
+
+		GetIssueHeader getIssueHeader = new GetIssueHeader();
+
+		try {
+
+			getIssueHeader = getIssueHeaderRepository.findByIssueId(issueId); 
+			
+			List<GetIssueDetail> getIssueDetailList = getIssueDetailRepository.findByIssueId(issueId);
+			 
+			getIssueHeader.setIssueDetailList(getIssueDetailList);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+		}
+		return getIssueHeader;
 
 	}
 
