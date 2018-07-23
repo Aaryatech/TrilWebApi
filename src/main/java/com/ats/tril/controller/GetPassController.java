@@ -312,9 +312,10 @@ public class GetPassController {
 
 		try {
 
+			System.out.println(getpassReturn);
 			getpassReturnRes = getpassReturnRepo.saveAndFlush(getpassReturn);
 
-			for (int i = 0; i < getpassReturnRes.getGetpassReturnDetailList().size(); i++)
+			for (int i = 0; i < getpassReturn.getGetpassReturnDetailList().size(); i++)
 				getpassReturn.getGetpassReturnDetailList().get(i).setReturnId(getpassReturnRes.getReturnId());
 
 			List<GetpassReturnDetail> getPassReturnDetailList = getpassReturnDetailRepo
@@ -327,6 +328,47 @@ public class GetPassController {
 
 		}
 		return getpassReturnRes;
+
+	}
+	
+	@RequestMapping(value = { "/saveGetPassReturnHeader" }, method = RequestMethod.POST)
+	public @ResponseBody GetpassReturn saveGetPassReturnHeader(@RequestBody GetpassReturn getpassReturn) {
+
+		GetpassReturn getpassReturnRes = new GetpassReturn();
+
+		try {
+
+			 
+			getpassReturnRes = getpassReturnRepo.saveAndFlush(getpassReturn);
+
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassReturnRes;
+
+	}
+	
+	@RequestMapping(value = { "/saveGetPassDetail" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetpassReturnDetail> saveGetPassDetail(@RequestBody List<GetpassReturnDetail> getPassReturnDetailList) {
+
+		List<GetpassReturnDetail> list = new ArrayList<>();
+
+		try {
+
+			System.out.println(getPassReturnDetailList);
+			 
+			 list = getpassReturnDetailRepo .saveAll(getPassReturnDetailList);
+			System.out.println("getPassReturnDetailList" + getPassReturnDetailList.toString()); 
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
 
 	}
 
