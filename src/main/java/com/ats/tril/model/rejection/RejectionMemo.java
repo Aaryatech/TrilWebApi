@@ -23,7 +23,7 @@ public class RejectionMemo {
 
 	private int vendorId;
 	private int mrnId;
-	private int mrnNo;
+	private String mrnNo;
 	private String rejectionDate;
 	private int dcoId;
 	private String dcoDate;
@@ -67,11 +67,13 @@ public class RejectionMemo {
 		this.mrnId = mrnId;
 	}
 
-	public int getMrnNo() {
+	
+
+	public String getMrnNo() {
 		return mrnNo;
 	}
 
-	public void setMrnNo(int mrnNo) {
+	public void setMrnNo(String mrnNo) {
 		this.mrnNo = mrnNo;
 	}
 
@@ -92,7 +94,7 @@ public class RejectionMemo {
 		this.dcoId = dcoId;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	
 	public String getDcoDate() {
 		return dcoDate;
 	}

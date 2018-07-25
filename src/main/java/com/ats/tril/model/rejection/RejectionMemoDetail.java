@@ -14,7 +14,7 @@ public class RejectionMemoDetail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int rejectionDetailId;
+	private int rejDetailId;
 
 	private int rejectionId;
 
@@ -24,19 +24,21 @@ public class RejectionMemoDetail {
 
 	private float memoQty;
 
-	private int mrnNo;
+	private String mrnNo;
 
 	private String mrnDate;
 
 	private int status;
 	private int isUsed;
 
-	public int getRejectionDetailId() {
-		return rejectionDetailId;
+	
+
+	public int getRejDetailId() {
+		return rejDetailId;
 	}
 
-	public void setRejectionDetailId(int rejectionDetailId) {
-		this.rejectionDetailId = rejectionDetailId;
+	public void setRejDetailId(int rejDetailId) {
+		this.rejDetailId = rejDetailId;
 	}
 
 	public int getRejectionId() {
@@ -71,15 +73,17 @@ public class RejectionMemoDetail {
 		this.memoQty = memoQty;
 	}
 
-	public int getMrnNo() {
+	
+
+	public String getMrnNo() {
 		return mrnNo;
 	}
 
-	public void setMrnNo(int mrnNo) {
+	public void setMrnNo(String mrnNo) {
 		this.mrnNo = mrnNo;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	
 	public String getMrnDate() {
 		return mrnDate;
 	}
@@ -106,9 +110,11 @@ public class RejectionMemoDetail {
 
 	@Override
 	public String toString() {
-		return "RejectionMemoDetail [rejectionDetailId=" + rejectionDetailId + ", rejectionId=" + rejectionId
-				+ ", itemId=" + itemId + ", rejectionQty=" + rejectionQty + ", memoQty=" + memoQty + ", mrnNo=" + mrnNo
-				+ ", mrnDate=" + mrnDate + ", status=" + status + ", isUsed=" + isUsed + "]";
+		return "RejectionMemoDetail [rejDetailId=" + rejDetailId + ", rejectionId=" + rejectionId + ", itemId=" + itemId
+				+ ", rejectionQty=" + rejectionQty + ", memoQty=" + memoQty + ", mrnNo=" + mrnNo + ", mrnDate="
+				+ mrnDate + ", status=" + status + ", isUsed=" + isUsed + "]";
 	}
+
+	
 
 }
