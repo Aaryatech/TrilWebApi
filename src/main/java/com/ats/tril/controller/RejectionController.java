@@ -32,7 +32,7 @@ public class RejectionController {
 
 	@Autowired
 	GetRejectionMemoRepo getRejectionMemoRepo;
-	
+
 	@Autowired
 	GetRejectionMemoDetailRepo getRejectionMemoDetailRepo;
 
@@ -48,6 +48,7 @@ public class RejectionController {
 			for (int j = 0; j < rejectionMemoList.size(); j++) {
 
 				rejMemo = rejectionMemoRepo.saveAndFlush(rejectionMemoList.get(j));
+				System.out.println("List" + rejMemo);
 				for (int i = 0; i < rejMemo.getRejectionMemoDetailList().size(); i++)
 					rejMemo.getRejectionMemoDetailList().get(i).setRejectionId(rejMemo.getRejectionId());
 
@@ -73,7 +74,8 @@ public class RejectionController {
 		try {
 
 			rejectionMemo = getRejectionMemoRepo.getRejectionMemoById(rejectionId);
-			List<GetRejectionMemoDetail> rejectionMemoDetailList = getRejectionMemoDetailRepo.getRejectionMemoDetailById(rejectionId);
+			List<GetRejectionMemoDetail> rejectionMemoDetailList = getRejectionMemoDetailRepo
+					.getRejectionMemoDetailById(rejectionId);
 			rejectionMemo.setGetRejectionMemoDetail(rejectionMemoDetailList);
 
 		} catch (Exception e) {
