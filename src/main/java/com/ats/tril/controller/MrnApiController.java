@@ -107,6 +107,12 @@ public class MrnApiController {
 						int updateMrnHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailRes.getPoId());
 
 					}
+					
+					else {
+						
+						int updateMrnHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailRes.getPoId());
+
+					}
 
 				}
 
@@ -265,12 +271,22 @@ public class MrnApiController {
 				System.err.println("status   List Contain -1");
 			}
 			
-			mrnHeaderList = getMrnHeaderRepository.getMrnHeadReport(fromDate, toDate, grnTypeList, vendorIdList, statusList);
-			System.err.println("mrn Head List by Date =  " + mrnHeaderList.toString());
+			if(vendorIdList.contains("-1")) {
+				
+				mrnHeaderList = getMrnHeaderRepository.getMrnHeadReportAllVendor(fromDate, toDate, grnTypeList, statusList);
+
+			}
+			
+			else {
+				
+				mrnHeaderList = getMrnHeaderRepository.getMrnHeadReport(fromDate, toDate, grnTypeList, vendorIdList, statusList);
+			
+			}
+			System.err.println("mrn Head List Report =  " + mrnHeaderList.toString());
 
 		} catch (Exception e) {
 
-			System.err.println("Exception in getMrnHeaderByDate Mrn  " + e.getMessage());
+			System.err.println("Exception in getMrnHeaderReport Mrn  " + e.getMessage());
 
 			e.printStackTrace();
 
