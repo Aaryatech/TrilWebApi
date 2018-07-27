@@ -235,6 +235,52 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = { "/getMrnHeadReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetMrnHeader> getMrnHeadReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("grnTypeList") List<String> grnTypeList,@RequestParam("vendorIdList") List<String> vendorIdList,
+			@RequestParam("statusList") List<String> statusList) {
+
+		List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
+
+		try {
+			System.err.println("Input getMrnHeadReport  grnTypeList " +grnTypeList +"vendorIdList " +vendorIdList + "statusList " +statusList);
+			
+			
+			if(vendorIdList.contains("-1")) {
+				System.err.println("Vendor Id List Contain -1");
+				
+			}
+			
+			if(grnTypeList.contains("-1")) {
+				System.err.println("grnTypeList  List Contain -1");
+				
+			}
+			
+			if(statusList.contains("-1")) {
+				System.err.println("status   List Contain -1");
+			}
+			
+			mrnHeaderList = getMrnHeaderRepository.getMrnHeadReport(fromDate, toDate, grnTypeList, vendorIdList, statusList);
+			System.err.println("mrn Head List by Date =  " + mrnHeaderList.toString());
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in getMrnHeaderByDate Mrn  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return mrnHeaderList;
+
+	}
+	
+	
 
 	@RequestMapping(value = { "/getMrnDetailByMrnId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetMrnDetail> getMrnDetailByMrnId(@RequestParam("mrnId") int mrnId) {

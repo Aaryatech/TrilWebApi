@@ -49,11 +49,11 @@ public class RejectionController {
 
 				rejMemo = rejectionMemoRepo.saveAndFlush(rejectionMemoList.get(j));
 				System.out.println("List" + rejMemo);
-				for (int i = 0; i < rejMemo.getRejectionMemoDetailList().size(); i++)
-					rejMemo.getRejectionMemoDetailList().get(i).setRejectionId(rejMemo.getRejectionId());
+				for (int i = 0; i < rejectionMemoList.get(j).getRejectionMemoDetailList().size(); i++)
+					rejectionMemoList.get(j).getRejectionMemoDetailList().get(i).setRejectionId(rejMemo.getRejectionId());
 
 				List<RejectionMemoDetail> rejectionMemoDetail = rejectionMemoDetailRepo
-						.saveAll(rejMemo.getRejectionMemoDetailList());
+						.saveAll(rejectionMemoList.get(j).getRejectionMemoDetailList());
 				System.out.println("rejectionMemoDetail" + rejectionMemoDetail.toString());
 				rejMemo.setRejectionMemoDetailList(rejectionMemoDetail);
 			}
