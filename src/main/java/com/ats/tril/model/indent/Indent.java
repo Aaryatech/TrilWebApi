@@ -14,40 +14,38 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "indent")
 public class Indent {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ind_m_id")
 	private int indMId;
-	
-		@Column(name = "ind_m_no")
-private String indMNo;
+
+	@Column(name = "ind_m_no")
+	private String indMNo;
 	@Column(name = "ind_m_date")
 	private Date indMDate;
-	
+
 	@Column(name = "ind_m_type")
-	private	 int indMType;
-	
+	private int indMType;
+
 	private int catId;
-	
+
 	private int achdId;
-	
-	private int indIsdev;//change to int 
-	
+
+	private int indIsdev;// change to int
+
 	private String indRemark;
-	
+
 	private int indIsmonthly;
-	
+
 	@Column(name = "ind_m_status")
 
 	private int indMStatus;
-	
+
 	private int indFyr;
-	
+
 	private int deptId;
 	private int subDeptId;
-	
-	
 
 	public int getDeptId() {
 		return deptId;
@@ -97,7 +95,7 @@ private String indMNo;
 		return indIsmonthly;
 	}
 
-		public int getIndMStatus() {
+	public int getIndMStatus() {
 		return indMStatus;
 	}
 
@@ -128,7 +126,7 @@ private String indMNo;
 	public void setAchdId(int achdId) {
 		this.achdId = achdId;
 	}
-	
+
 	public void setIndRemark(String indRemark) {
 		this.indRemark = indRemark;
 	}
@@ -136,7 +134,7 @@ private String indMNo;
 	public void setIndIsmonthly(int indIsmonthly) {
 		this.indIsmonthly = indIsmonthly;
 	}
-	
+
 	public void setIndMStatus(int indMStatus) {
 		this.indMStatus = indMStatus;
 	}
@@ -144,9 +142,9 @@ private String indMNo;
 	public void setIndFyr(int indFyr) {
 		this.indFyr = indFyr;
 	}
-	
-	
-	@Transient List<IndentTrans> indentTrans;
+
+	@Transient
+	List<IndentTrans> indentTrans;
 
 	public List<IndentTrans> getIndentTrans() {
 		return indentTrans;
@@ -164,5 +162,4 @@ private String indMNo;
 				+ deptId + ", subDeptId=" + subDeptId + ", indentTrans=" + indentTrans + "]";
 	}
 
-	
 }
