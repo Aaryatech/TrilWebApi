@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.indent.DashIndentDetails;
 import com.ats.tril.model.indent.GetIndents;
@@ -68,8 +69,21 @@ public class MrnApiController {
 				PoDetail poDetail = poDetailRepo.findByPoDetailId(mrnDetailRes.getPoDetailId());
 
 				if (mrnDetailRes != null) {
+					int remainingQty=0;
+					
+					if(detail.getMrnQtyBeforeEdit()==-1) {
+						
+						System.err.println("Inside mrn qty before Edit ==-1");
+						
+						 remainingQty = poDetail.getPendingQty() - mrnDetailRes.getMrnQty();
+					
+					}else {
+						
+						System.err.println("Inside mrn qty before edit is greater than 0");
+						 remainingQty = poDetail.getPendingQty() -(detail.getMrnQtyBeforeEdit()- mrnDetailRes.getMrnQty());
 
-					int remainingQty = poDetail.getPendingQty() - mrnDetailRes.getMrnQty();
+					}
+					
 					poDetail.setPendingQty(remainingQty);
 					int status = 1;
 
@@ -242,6 +256,8 @@ public class MrnApiController {
 		return mrnDetailList;
 
 	}
+	
+	
 
 	@RequestMapping(value = { "/getMrnList" }, method = RequestMethod.GET)
 	public @ResponseBody List<MrnHeader> getMrnList() {
@@ -305,5 +321,64 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
+	
+	
+	@RequestMapping(value = { "/deleteMrnHeader" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteMrnHeader(@RequestParam("mrnId") int mrnId) {
+		System.err.println("inside web api  deleteMrnHeader");
+		ErrorMessage errMsg = new ErrorMessage();
+
+		try {
+
+			int delRes = mrnHeaderRepository.deleteMrnHeader(mrnId);
+			
+			if(delRes>0) {
+				errMsg.setError(false);
+				errMsg.setMessage("Mrn Header deleted Successfull");
+			}else {
+				errMsg.setError(true);
+				errMsg.setMessage("Mrn Header delete failed ");
+			}
+			
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in deleteMrnHeader  " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return errMsg;
+	}
+	
+	
+	@RequestMapping(value = { "/deleteMrnDetail" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteMrnDetail(@RequestParam("mrnDetailId") int mrnDetailId) {
+		System.err.println("inside web api  deleteMrnDetail");
+		ErrorMessage errMsg = new ErrorMessage();
+
+		try {
+
+			int delRes = mrnDetailRepo.deleteMrnDetail(mrnDetailId);
+			
+			if(delRes>0) {
+				errMsg.setError(false);
+				errMsg.setMessage("Mrn Detail deleted Successfull");
+			}else {
+				errMsg.setError(true);
+				errMsg.setMessage("Mrn Detail delete failed ");
+			}
+			
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in deleteMrnHeader  " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return errMsg;
+	}
+
 
 }

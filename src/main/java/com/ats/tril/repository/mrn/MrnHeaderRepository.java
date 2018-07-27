@@ -26,6 +26,12 @@ public interface MrnHeaderRepository extends JpaRepository<MrnHeader, Integer>{
 	int updateMrnStatusAsPartial(@Param("mrnId")int mrnId);
 
 	
+	@Transactional
+	@Modifying
+	@Query("UPDATE MrnHeader SET del_status=0 WHERE mrn_id=:mrnId ")
+	int deleteMrnHeader(@Param("mrnId")int mrnId);
+
+	
 
 	List<MrnHeader> findAllByDelStatus(int i);
 

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "t_mrn_detail")
@@ -46,7 +47,21 @@ public class MrnDetail {
 	private int mrnDetailStatus;
 	
 	private int delStatus;
+	
+	
+	@Transient
+	private int mrnQtyBeforeEdit;
+	
+	
 
+
+	public int getMrnQtyBeforeEdit() {
+		return mrnQtyBeforeEdit;
+	}
+
+	public void setMrnQtyBeforeEdit(int mrnQtyBeforeEdit) {
+		this.mrnQtyBeforeEdit = mrnQtyBeforeEdit;
+	}
 
 	public int getMrnId() {
 		return mrnId;
@@ -187,11 +202,12 @@ public class MrnDetail {
 
 	@Override
 	public String toString() {
-		return "MrnDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", indentQty=" + indentQty
-				+ ", poQty=" + poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty=" + rejectQty
-				+ ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
+		return "MrnDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId + ", indentQty="
+				+ indentQty + ", poQty=" + poQty + ", mrnQty=" + mrnQty + ", approveQty=" + approveQty + ", rejectQty="
+				+ rejectQty + ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty=" + issueQty
 				+ ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo + ", poDetailId=" + poDetailId
-				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + "]";
+				+ ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", mrnQtyBeforeEdit="
+				+ mrnQtyBeforeEdit + "]";
 	}
 
 
