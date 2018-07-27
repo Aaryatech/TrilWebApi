@@ -40,11 +40,11 @@ public interface GetMrnHeaderRepository extends JpaRepository<GetMrnHeader, Inte
 	
 	@Query(value = " SELECT h.mrn_id,h.mrn_no,h.mrn_type,h.mrn_date,h.vendor_id,v.vendor_name,h.gate_entry_no,h.gate_entry_date,h.doc_no," + 
 			"			  h.doc_date,h.bill_no,h.bill_date,h.transport,h.lr_no,h.lr_date,h.remark1,h.remark2,h.user_id,h.mrn_status,h.del_status "+ 
-			"			 FROM t_mrn_header h,m_vendor v WHERE h.vendor_id IN(:vendorIdList) AND h.mrn_type " + 
+			"			 FROM t_mrn_header h,m_vendor v WHERE h.vendor_id IN(:vendorIdList) AND v.vendor_id=h.vendor_id AND h.mrn_type " + 
 			" IN(:grnTypeList) AND h.mrn_status IN(:statusList) AND h.del_status=1 AND h.mrn_date BETWEEN :fromDate AND :toDate"
 			+ " ", nativeQuery = true)
-	List<GetMrnHeader> getMrnHeadReport(@Param("fromDate") String fromDate, @Param("toDate") String toDate,@Param("grnTypeList") List<String> grnTypeList, @Param("vendorIdList") List<String> vendorIdList,
-			@Param("statusList") List<String> statusList);
+	List<GetMrnHeader> getMrnHeadReport( @Param("vendorIdList") List<String> vendorIdList,@Param("grnTypeList") List<String> grnTypeList,
+			@Param("statusList") List<String> statusList,@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
 	
 	@Query(value = " SELECT h.mrn_id,h.mrn_no,h.mrn_type,h.mrn_date,h.vendor_id,v.vendor_name,h.gate_entry_no,h.gate_entry_date,h.doc_no," + 

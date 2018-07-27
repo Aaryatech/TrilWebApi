@@ -26,6 +26,7 @@ import com.ats.tril.repository.mrn.GetMrnDetailRepository;
 import com.ats.tril.repository.mrn.GetMrnHeaderRepository;
 import com.ats.tril.repository.mrn.MrnDetailRepo;
 import com.ats.tril.repository.mrn.MrnHeaderRepository;
+import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 
 @RestController
 public class MrnApiController {
@@ -271,17 +272,23 @@ public class MrnApiController {
 				System.err.println("status   List Contain -1");
 			}
 			
+			
+			
 			if(vendorIdList.contains("-1")) {
 				
+				System.err.println("All Vendor Selected");
 				mrnHeaderList = getMrnHeaderRepository.getMrnHeadReportAllVendor(fromDate, toDate, grnTypeList, statusList);
 
 			}
 			
 			else {
-				
-				mrnHeaderList = getMrnHeaderRepository.getMrnHeadReport(fromDate, toDate, grnTypeList, vendorIdList, statusList);
+				System.err.println("few Vendor Selected ");
+				mrnHeaderList = getMrnHeaderRepository.getMrnHeadReport(vendorIdList, grnTypeList, statusList, fromDate, toDate);
 			
 			}
+			
+			System.err.println("mrn Head List Report  Size=  " + mrnHeaderList.size());
+
 			System.err.println("mrn Head List Report =  " + mrnHeaderList.toString());
 
 		} catch (Exception e) {
