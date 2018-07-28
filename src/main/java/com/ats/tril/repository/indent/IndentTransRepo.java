@@ -17,7 +17,7 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 	
 	List<IndentTrans> findByIndDStatus(int indDStatus);
 	
-	List<IndentTrans> findByIndMIdAndIndDStatus(int indMId,int delStatus);
+	List<IndentTrans> findByIndMId(int indMId);
 	
 	@Transactional
 	@Modifying
@@ -26,6 +26,6 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 		int updateIndentDetail(@Param("indQty") 
 		int indQty,@Param("indDId") int indDId);
 
-	List<IndentTrans> findByIndMId(int indId);
+	//List<IndentTrans> findByIndMId(int indId);
 	
 }

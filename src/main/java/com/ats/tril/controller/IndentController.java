@@ -148,7 +148,7 @@ public class IndentController {
 
 		try {
 
-			indDetailList = indentTransRepo.findByIndMIdAndIndDStatus(indMId, delStatus);
+			indDetailList = indentTransRepo.findByIndMId(indMId);
 
 			System.err.println("indDetailList List " + indDetailList.toString());
 

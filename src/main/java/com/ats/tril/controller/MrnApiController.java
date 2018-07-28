@@ -18,6 +18,7 @@ import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
+import com.ats.tril.model.mrn.MrnReport;
 import com.ats.tril.model.rejection.RejectionMemo;
 import com.ats.tril.model.rejection.RejectionMemoDetail;
 import com.ats.tril.repository.PoDetailRepository;
@@ -26,6 +27,7 @@ import com.ats.tril.repository.mrn.GetMrnDetailRepository;
 import com.ats.tril.repository.mrn.GetMrnHeaderRepository;
 import com.ats.tril.repository.mrn.MrnDetailRepo;
 import com.ats.tril.repository.mrn.MrnHeaderRepository;
+import com.ats.tril.repository.mrn.MrnReportRepo;
 import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 
 @RestController
@@ -244,15 +246,15 @@ public class MrnApiController {
 	}
 	
 	
-	
-	
+	@Autowired
+	MrnReportRepo mrnReportrRepo;
 	
 	@RequestMapping(value = { "/getMrnHeadReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetMrnHeader> getMrnHeadReport(@RequestParam("fromDate") String fromDate,
+	public @ResponseBody List<MrnReport> getMrnHeadReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate,@RequestParam("grnTypeList") List<String> grnTypeList,@RequestParam("vendorIdList") List<String> vendorIdList,
 			@RequestParam("statusList") List<String> statusList) {
 
-		List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
+		List<MrnReport> mrnHeaderList = new ArrayList<MrnReport>();
 
 		try {
 			System.err.println("Input getMrnHeadReport  grnTypeList " +grnTypeList +"vendorIdList " +vendorIdList + "statusList " +statusList);
@@ -277,13 +279,13 @@ public class MrnApiController {
 			if(vendorIdList.contains("-1")) {
 				
 				System.err.println("All Vendor Selected");
-				mrnHeaderList = getMrnHeaderRepository.getMrnHeadReportAllVendor(fromDate, toDate, grnTypeList, statusList);
+				mrnHeaderList = mrnReportrRepo.getMrnReportAllVendor(fromDate, toDate, grnTypeList, statusList);
 
 			}
 			
 			else {
 				System.err.println("few Vendor Selected ");
-				mrnHeaderList = getMrnHeaderRepository.getMrnHeadReport(vendorIdList, grnTypeList, statusList, fromDate, toDate);
+				mrnHeaderList = mrnReportrRepo.getMrnReport(vendorIdList, grnTypeList, statusList, fromDate, toDate);
 			
 			}
 			
