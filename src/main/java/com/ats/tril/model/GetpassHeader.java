@@ -22,7 +22,7 @@ public class GetpassHeader {
 	private int gpNo;
 	private int gpVendor;
 	private int gpType;
-	private Date gpReturnDate;
+	private String gpReturnDate;
 	private int gpStatus;
 	private int isUsed;
 
@@ -31,7 +31,7 @@ public class GetpassHeader {
 	private String sendingWith;
 	private int isStockable;
 	private int forRepair;
-	private Date gpDate;
+	private String gpDate;
 
 	@Transient
 	List<GetpassDetail> getpassDetail;
@@ -66,6 +66,14 @@ public class GetpassHeader {
 
 	public void setGpType(int gpType) {
 		this.gpType = gpType;
+	}
+
+	public String getGpReturnDate() {
+		return gpReturnDate;
+	}
+
+	public void setGpReturnDate(String gpReturnDate) {
+		this.gpReturnDate = gpReturnDate;
 	}
 
 	public int getGpStatus() {
@@ -124,30 +132,20 @@ public class GetpassHeader {
 		this.forRepair = forRepair;
 	}
 
+	public String getGpDate() {
+		return gpDate;
+	}
+
+	public void setGpDate(String gpDate) {
+		this.gpDate = gpDate;
+	}
+
 	public List<GetpassDetail> getGetpassDetail() {
 		return getpassDetail;
 	}
 
 	public void setGetpassDetail(List<GetpassDetail> getpassDetail) {
 		this.getpassDetail = getpassDetail;
-	}
-
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getGpReturnDate() {
-		return gpReturnDate;
-	}
-
-	public void setGpReturnDate(Date gpReturnDate) {
-		this.gpReturnDate = gpReturnDate;
-	}
-
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getGpDate() {
-		return gpDate;
-	}
-
-	public void setGpDate(Date gpDate) {
-		this.gpDate = gpDate;
 	}
 
 	@Override

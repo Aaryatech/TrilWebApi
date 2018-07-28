@@ -1,5 +1,6 @@
 package com.ats.tril.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ public class GetpassReturnVendor {
 	private int gpNo;
 	private int vendorId;
 
-	private String gpReturnDate;
+	private Date gpReturnDate;
 	private String gpRemark;
 	private String gpRemark1;
 	private int status;
@@ -72,18 +73,8 @@ public class GetpassReturnVendor {
 		this.vendorId = vendorId;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-
 	public String getGpRemark() {
 		return gpRemark;
-	}
-
-	public String getGpReturnDate() {
-		return gpReturnDate;
-	}
-
-	public void setGpReturnDate(String gpReturnDate) {
-		this.gpReturnDate = gpReturnDate;
 	}
 
 	public void setGpRemark(String gpRemark) {
@@ -128,6 +119,15 @@ public class GetpassReturnVendor {
 
 	public void setVendorName(String vendorName) {
 		this.vendorName = vendorName;
+	}
+
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getGpReturnDate() {
+		return gpReturnDate;
+	}
+
+	public void setGpReturnDate(Date gpReturnDate) {
+		this.gpReturnDate = gpReturnDate;
 	}
 
 	@Override

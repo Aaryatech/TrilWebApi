@@ -74,9 +74,6 @@ public class GetpassReturn {
 		this.vendorId = vendorId;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	
-
 	public String getGpRemark() {
 		return gpRemark;
 	}
