@@ -110,10 +110,10 @@ public class MasterController {
 
 	@Autowired
 	GetItemGroupRepository getItemGroupRepository;
-	
+
 	@Autowired
 	GetItemRepository getItemRepository;
-	
+
 	@Autowired
 	DocTypeRepository docTypeRepository;
 
@@ -358,7 +358,7 @@ public class MasterController {
 		}
 		return errorMessage;
 	}
-	
+
 	@RequestMapping(value = { "/getSubDeptListByDeptId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetSubDept> getSubDeptListByDeptId(@RequestParam("deptId") int deptId) {
 
@@ -781,7 +781,7 @@ public class MasterController {
 		}
 		return errorMessage;
 	}
-	
+
 	@RequestMapping(value = { "/getgroupListByCatId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetItemGroup> getgroupListByCatId(@RequestParam("catId") int catId) {
 
@@ -880,7 +880,7 @@ public class MasterController {
 		}
 		return errorMessage;
 	}
-	
+
 	@RequestMapping(value = { "/getSubGroupByGroupId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetItemSubGrp> getSubGroupByGroupId(@RequestParam("grpId") int grpId) {
 
@@ -895,7 +895,7 @@ public class MasterController {
 			e.printStackTrace();
 
 		}
-		return getItemSubGrpList; 
+		return getItemSubGrpList;
 
 	}
 
@@ -1355,10 +1355,10 @@ public class MasterController {
 		return itemList;
 
 	}
-	
+
 	@RequestMapping(value = { "/itemListByGroupId" }, method = RequestMethod.POST)
 	public @ResponseBody ItemList itemListByGroupId(@RequestParam("groupId") int groupId) {
-		ItemList  resList=new ItemList();
+		ItemList resList = new ItemList();
 		List<GetItem> itemList = new ArrayList<GetItem>();
 
 		try {
@@ -1371,6 +1371,24 @@ public class MasterController {
 
 		}
 		return resList;
+
+	}
+
+	@RequestMapping(value = { "/itemListByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItem> itemListByCatId(@RequestParam("catId") int catId) {
+		ItemList resList = new ItemList();
+		List<GetItem> itemList = new ArrayList<GetItem>();
+
+		try {
+
+			itemList = getItemRepository.itemListByCatId(catId);
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return itemList;
 
 	}
 
@@ -1400,7 +1418,7 @@ public class MasterController {
 		}
 		return errorMessage;
 	}
-	
+
 	@RequestMapping(value = { "/saveDocType" }, method = RequestMethod.POST)
 	public @ResponseBody DocType saveDocType(@RequestBody DocType docType) {
 
@@ -1418,7 +1436,7 @@ public class MasterController {
 		return res;
 
 	}
-	
+
 	@RequestMapping(value = { "/docTypeById" }, method = RequestMethod.POST)
 	public @ResponseBody DocType docTypeById(@RequestParam("docTypeId") int docTypeId) {
 
@@ -1436,7 +1454,7 @@ public class MasterController {
 		return res;
 
 	}
-	
+
 	@RequestMapping(value = { "/docTypeByDocName" }, method = RequestMethod.POST)
 	public @ResponseBody DocType docTypeByDocName(@RequestParam("docName") String docName) {
 
@@ -1454,7 +1472,7 @@ public class MasterController {
 		return res;
 
 	}
-	
+
 	@RequestMapping(value = { "/getAllDocType" }, method = RequestMethod.GET)
 	public @ResponseBody List<DocType> getAllDocType() {
 

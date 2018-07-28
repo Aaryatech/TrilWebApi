@@ -162,4 +162,31 @@ public class RejectionController {
 
 	}
 
+	@RequestMapping(value = { "/getRejectionListItemwise" }, method = RequestMethod.POST)
+	public @ResponseBody List<RejectionReport> getRejectionListItemwise(
+
+			@RequestParam("itemIdList") List<Integer> itemIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<RejectionReport> rejList = new ArrayList<RejectionReport>();
+
+		try {
+
+			if (itemIdList.contains(0)) {
+				rejList = rejectionReportRepo.getAllRejectionMemoItemwise(fromDate, toDate);
+
+			} else {
+
+				rejList = rejectionReportRepo.getRejectionMemoItemwise(fromDate, toDate, itemIdList);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return rejList;
+
+	}
+
 }

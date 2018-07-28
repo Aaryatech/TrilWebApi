@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.ats.tril.model.GetItem;
 
-public interface GetItemRepository extends JpaRepository<GetItem, Integer>{
+public interface GetItemRepository extends JpaRepository<GetItem, Integer> {
 
 	@Query(value = "select m.*, c.cat_desc, g.grp_code, sg.subgrp_desc from m_item m, m_category c, m_item_group g, m_item_subgroup sg "
 			+ " where  c.cat_id = m.cat_id and g.grp_id = m.grp_id and sg.subgrp_id = m.sub_grp_id ", nativeQuery = true)
@@ -20,6 +20,10 @@ public interface GetItemRepository extends JpaRepository<GetItem, Integer>{
 
 	@Query(value = "select m.*, c.cat_desc, g.grp_code, sg.subgrp_desc from m_item m, m_category c, m_item_group g, m_item_subgroup sg "
 			+ " where  c.cat_id = m.cat_id and g.grp_id = m.grp_id and sg.subgrp_id = m.sub_grp_id and g.grp_id=:groupId", nativeQuery = true)
-	List<GetItem> itemListByGroupId(@Param("groupId")int groupId);
+	List<GetItem> itemListByGroupId(@Param("groupId") int groupId);
+
+	@Query(value = "select m.*, c.cat_desc, g.grp_code, sg.subgrp_desc from m_item m, m_category c, m_item_group g, m_item_subgroup sg "
+			+ " where  c.cat_id = m.cat_id and g.grp_id = m.grp_id and sg.subgrp_id = m.sub_grp_id and m.cat_id=:catId", nativeQuery = true)
+	List<GetItem> itemListByCatId(@Param("catId") int catId);
 
 }
