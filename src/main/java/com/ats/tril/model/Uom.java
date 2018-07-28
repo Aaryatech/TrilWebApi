@@ -15,7 +15,7 @@ public class Uom {
 	@Column(name = "uom_id")
 	private int uomId;
 
-	private int uom;
+	private String uom;
 
 	private int isUsed;
 
@@ -27,11 +27,11 @@ public class Uom {
 		this.uomId = uomId;
 	}
 
-	public int getUom() {
+	public String getUom() {
 		return uom;
 	}
 
-	public void setUom(int uom) {
+	public void setUom(String uom) {
 		this.uom = uom;
 	}
 

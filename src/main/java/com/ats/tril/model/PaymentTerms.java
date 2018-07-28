@@ -23,6 +23,8 @@ public class PaymentTerms {
 	private int createdIn;
 
 	private int deletedIn;
+	
+	private int days;
 
 	public int getPymtTermId() {
 		return pymtTermId;
@@ -64,10 +66,18 @@ public class PaymentTerms {
 		this.deletedIn = deletedIn;
 	}
 
+	public int getDays() {
+		return days;
+	}
+
+	public void setDays(int days) {
+		this.days = days;
+	}
+
 	@Override
 	public String toString() {
 		return "PaymentTerms [pymtTermId=" + pymtTermId + ", pymtDesc=" + pymtDesc + ", isUsed=" + isUsed
-				+ ", createdIn=" + createdIn + ", deletedIn=" + deletedIn + "]";
+				+ ", createdIn=" + createdIn + ", deletedIn=" + deletedIn + ", days=" + days + "]";
 	}
 
 }
