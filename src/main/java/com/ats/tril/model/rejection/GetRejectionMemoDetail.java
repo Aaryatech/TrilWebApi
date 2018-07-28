@@ -1,10 +1,14 @@
 package com.ats.tril.model.rejection;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetRejectionMemoDetail {
@@ -17,7 +21,7 @@ public class GetRejectionMemoDetail {
 	private int rejectionId;
 
 	private int itemId;
-	
+
 	private String itemCode;
 
 	private float rejectionQty;
@@ -26,12 +30,10 @@ public class GetRejectionMemoDetail {
 
 	private String mrnNo;
 
-	private String mrnDate;
+	private Date mrnDate;
 
 	private int status;
 	private int isUsed;
-
-	
 
 	public int getRejDetailId() {
 		return rejDetailId;
@@ -55,6 +57,14 @@ public class GetRejectionMemoDetail {
 
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
+	}
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
 	}
 
 	public float getRejectionQty() {
@@ -81,11 +91,12 @@ public class GetRejectionMemoDetail {
 		this.mrnNo = mrnNo;
 	}
 
-	public String getMrnDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getMrnDate() {
 		return mrnDate;
 	}
 
-	public void setMrnDate(String mrnDate) {
+	public void setMrnDate(Date mrnDate) {
 		this.mrnDate = mrnDate;
 	}
 
@@ -104,16 +115,6 @@ public class GetRejectionMemoDetail {
 	public void setIsUsed(int isUsed) {
 		this.isUsed = isUsed;
 	}
-	
-	
-
-	public String getItemCode() {
-		return itemCode;
-	}
-
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
 
 	@Override
 	public String toString() {
@@ -122,5 +123,4 @@ public class GetRejectionMemoDetail {
 				+ ", mrnNo=" + mrnNo + ", mrnDate=" + mrnDate + ", status=" + status + ", isUsed=" + isUsed + "]";
 	}
 
-	
 }

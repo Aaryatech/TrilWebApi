@@ -67,8 +67,6 @@ public class RejectionMemo {
 		this.mrnId = mrnId;
 	}
 
-	
-
 	public String getMrnNo() {
 		return mrnNo;
 	}
@@ -77,7 +75,6 @@ public class RejectionMemo {
 		this.mrnNo = mrnNo;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public String getRejectionDate() {
 		return rejectionDate;
 	}
@@ -94,7 +91,6 @@ public class RejectionMemo {
 		this.dcoId = dcoId;
 	}
 
-	
 	public String getDcoDate() {
 		return dcoDate;
 	}

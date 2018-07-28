@@ -12,17 +12,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.ErrorMessage;
-import com.ats.tril.model.GetpassDetail;
-import com.ats.tril.model.GetpassHeader;
-import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.rejection.GetRejectionMemo;
 import com.ats.tril.model.rejection.GetRejectionMemoDetail;
 import com.ats.tril.model.rejection.RejectionMemo;
 import com.ats.tril.model.rejection.RejectionMemoDetail;
+import com.ats.tril.model.rejection.RejectionReport;
 import com.ats.tril.model.rejection.repo.GetRejectionMemoDetailRepo;
 import com.ats.tril.model.rejection.repo.GetRejectionMemoRepo;
 import com.ats.tril.model.rejection.repo.RejectionMemoDetailRepo;
 import com.ats.tril.model.rejection.repo.RejectionMemoRepo;
+import com.ats.tril.model.rejection.repo.RejectionReportRepo;
 
 @RestController
 public class RejectionController {
@@ -39,6 +38,9 @@ public class RejectionController {
 	@Autowired
 	RejectionMemoDetailRepo rejectionMemoDetailRepo;
 
+	@Autowired
+	RejectionReportRepo rejectionReportRepo;
+
 	@RequestMapping(value = { "/saveRejectionMemoHeaderDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<RejectionMemo> saveRejectionMemoHeaderDetail(
 			@RequestBody List<RejectionMemo> rejectionMemoList) {
@@ -50,7 +52,8 @@ public class RejectionController {
 				rejMemo = rejectionMemoRepo.saveAndFlush(rejectionMemoList.get(j));
 				System.out.println("List" + rejMemo);
 				for (int i = 0; i < rejectionMemoList.get(j).getRejectionMemoDetailList().size(); i++)
-					rejectionMemoList.get(j).getRejectionMemoDetailList().get(i).setRejectionId(rejMemo.getRejectionId());
+					rejectionMemoList.get(j).getRejectionMemoDetailList().get(i)
+							.setRejectionId(rejMemo.getRejectionId());
 
 				List<RejectionMemoDetail> rejectionMemoDetail = rejectionMemoDetailRepo
 						.saveAll(rejectionMemoList.get(j).getRejectionMemoDetailList());
@@ -129,6 +132,33 @@ public class RejectionController {
 		}
 
 		return rejectionMemoList;
+
+	}
+
+	@RequestMapping(value = { "/getRejectionListReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<RejectionReport> getRejectionListReport(
+
+			@RequestParam("vendorIdList") List<Integer> vendorIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<RejectionReport> indentList = new ArrayList<RejectionReport>();
+
+		try {
+
+			if (vendorIdList.contains(0)) {
+				indentList = rejectionReportRepo.getRejectionMemoBetDate(fromDate, toDate);
+
+			} else {
+
+				indentList = rejectionReportRepo.getRejectionMemoBetDateAndList(fromDate, toDate, vendorIdList);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return indentList;
 
 	}
 

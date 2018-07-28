@@ -1,5 +1,6 @@
 package com.ats.tril.model.rejection;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetRejectionMemo {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int rejectionId;
@@ -22,18 +23,16 @@ public class GetRejectionMemo {
 	private int vendorId;
 	private int mrnId;
 	private String mrnNo;
-	private String rejectionDate;
+	private Date rejectionDate;
 	private int dcoId;
-	private String dcoDate;
+	private Date dcoDate;
 	private String rejectionRemark;
 	private String rejectionRemark1;
 	private int status;
 	private int isUsed;
-	
+
 	private String vendorName;
-	
-	
-	
+	private String vendorCode;
 
 	@Transient
 	List<GetRejectionMemoDetail> getRejectionMemoDetail;
@@ -70,8 +69,6 @@ public class GetRejectionMemo {
 		this.mrnId = mrnId;
 	}
 
-	
-
 	public String getMrnNo() {
 		return mrnNo;
 	}
@@ -81,11 +78,11 @@ public class GetRejectionMemo {
 	}
 
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public String getRejectionDate() {
+	public Date getRejectionDate() {
 		return rejectionDate;
 	}
 
-	public void setRejectionDate(String rejectionDate) {
+	public void setRejectionDate(Date rejectionDate) {
 		this.rejectionDate = rejectionDate;
 	}
 
@@ -98,11 +95,11 @@ public class GetRejectionMemo {
 	}
 
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public String getDcoDate() {
+	public Date getDcoDate() {
 		return dcoDate;
 	}
 
-	public void setDcoDate(String dcoDate) {
+	public void setDcoDate(Date dcoDate) {
 		this.dcoDate = dcoDate;
 	}
 
@@ -137,8 +134,6 @@ public class GetRejectionMemo {
 	public void setIsUsed(int isUsed) {
 		this.isUsed = isUsed;
 	}
-	
-	
 
 	public String getVendorName() {
 		return vendorName;
@@ -155,6 +150,16 @@ public class GetRejectionMemo {
 	public void setGetRejectionMemoDetail(List<GetRejectionMemoDetail> getRejectionMemoDetail) {
 		this.getRejectionMemoDetail = getRejectionMemoDetail;
 	}
+	
+	
+
+	public String getVendorCode() {
+		return vendorCode;
+	}
+
+	public void setVendorCode(String vendorCode) {
+		this.vendorCode = vendorCode;
+	}
 
 	@Override
 	public String toString() {
@@ -162,9 +167,7 @@ public class GetRejectionMemo {
 				+ vendorId + ", mrnId=" + mrnId + ", mrnNo=" + mrnNo + ", rejectionDate=" + rejectionDate + ", dcoId="
 				+ dcoId + ", dcoDate=" + dcoDate + ", rejectionRemark=" + rejectionRemark + ", rejectionRemark1="
 				+ rejectionRemark1 + ", status=" + status + ", isUsed=" + isUsed + ", vendorName=" + vendorName
-				+ ", getRejectionMemoDetail=" + getRejectionMemoDetail + "]";
+				+ ", vendorCode=" + vendorCode + ", getRejectionMemoDetail=" + getRejectionMemoDetail + "]";
 	}
-
-	
 
 }
