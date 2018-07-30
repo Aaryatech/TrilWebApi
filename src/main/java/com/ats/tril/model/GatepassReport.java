@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class GatepassReport {
 
@@ -65,6 +67,7 @@ public class GatepassReport {
 		this.gpVendor = gpVendor;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getGpDate() {
 		return gpDate;
 	}
@@ -73,6 +76,7 @@ public class GatepassReport {
 		this.gpDate = gpDate;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getGpReturnDate() {
 		return gpReturnDate;
 	}

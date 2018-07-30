@@ -585,4 +585,75 @@ public class GetPassController {
 		return gatepassReportList;
 
 	}
+
+	@RequestMapping(value = { "/getGatepassReturnableReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<GatepassReport> getGatepassReturnableReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GatepassReport> gatepassReportList = new ArrayList<>();
+
+		try {
+
+			gatepassReportList = gatepassReportRepo.gatepassReturnableReportList(fromDate, toDate);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gatepassReportList;
+
+	}
+
+	@RequestMapping(value = { "/getGatepassReturnableReportVendor" }, method = RequestMethod.POST)
+	public @ResponseBody List<GatepassReport> getGatepassReturnableReportVendor(
+			@RequestParam("vendorIdList") List<Integer> vendorIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GatepassReport> gatepassReportList = new ArrayList<>();
+
+		try {
+			if (vendorIdList.contains(0)) {
+				gatepassReportList = gatepassReportRepo.gatepassReturnableReportList(fromDate, toDate);
+
+			} else {
+				gatepassReportList = gatepassReportRepo.gatepassReportReturnListWWithVendor(fromDate, toDate,
+						vendorIdList);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gatepassReportList;
+
+	}
+
+	@RequestMapping(value = { "/getGatepassReturnableReportItem" }, method = RequestMethod.POST)
+	public @ResponseBody List<GatepassReport> getGatepassReturnableReportItem(
+			@RequestParam("itemIdList") List<Integer> itemIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GatepassReport> gatepassReportList = new ArrayList<>();
+
+		try {
+			if (itemIdList.contains(0)) {
+				gatepassReportList = gatepassReportRepo.gatepassReturnableReportList(fromDate, toDate);
+
+			} else {
+				gatepassReportList = gatepassReportRepo.gatepassReportReturnableListWWithItem(fromDate, toDate,
+						itemIdList);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gatepassReportList;
+
+	}
 }
