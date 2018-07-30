@@ -138,7 +138,7 @@ public class DashIndentDetails implements Serializable{
 	public void setIndItemSchd(int indItemSchd) {
 		this.indItemSchd = indItemSchd;
 	}
-
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy") 
 	public Date getIndItemSchddt() {
 		return indItemSchddt;
 	}
