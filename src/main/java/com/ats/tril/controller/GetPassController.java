@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GatepassReport;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetPassReturnDetailWithItemName;
@@ -26,6 +27,7 @@ import com.ats.tril.model.GetpassItemVen;
 import com.ats.tril.model.GetpassReturn;
 import com.ats.tril.model.GetpassReturnDetail;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.repository.GatepassReportRepo;
 import com.ats.tril.repository.GetPassReturnDetailWithItemNameRepo;
 import com.ats.tril.repository.GetPassReturnHeaderRepo;
 import com.ats.tril.repository.GetpassDetailItemNameRepo;
@@ -44,6 +46,9 @@ public class GetPassController {
 
 	@Autowired
 	GetpassItemRepo getpassItemRepo;
+
+	@Autowired
+	GatepassReportRepo gatepassReportRepo;
 
 	@Autowired
 	GetpassReturnVendorRepo getpassReturnVendorRepo;
@@ -68,10 +73,10 @@ public class GetPassController {
 
 	@Autowired
 	GetpassDetailRepo getpassDetailRepo;
-	
+
 	@Autowired
 	GetPassReturnHeaderRepo getPassReturnHeaderRepo;
-	
+
 	@Autowired
 	GetPassReturnDetailWithItemNameRepo getPassReturnDetailWithItemNameRepo;
 
@@ -197,9 +202,8 @@ public class GetPassController {
 
 		try {
 
-			System.out.println(getpassHeader); 
-			
-			
+			System.out.println(getpassHeader);
+
 			getPassRes = getpassHeaderRepo.saveAndFlush(getpassHeader);
 
 			for (int i = 0; i < getpassHeader.getGetpassDetail().size(); i++)
@@ -330,7 +334,7 @@ public class GetPassController {
 		return getpassReturnRes;
 
 	}
-	
+
 	@RequestMapping(value = { "/saveGetPassReturnHeader" }, method = RequestMethod.POST)
 	public @ResponseBody GetpassReturn saveGetPassReturnHeader(@RequestBody GetpassReturn getpassReturn) {
 
@@ -338,10 +342,8 @@ public class GetPassController {
 
 		try {
 
-			 
 			getpassReturnRes = getpassReturnRepo.saveAndFlush(getpassReturn);
 
-			 
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -350,19 +352,20 @@ public class GetPassController {
 		return getpassReturnRes;
 
 	}
-	
+
 	@RequestMapping(value = { "/saveGetPassDetail" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetpassReturnDetail> saveGetPassDetail(@RequestBody List<GetpassReturnDetail> getPassReturnDetailList) {
+	public @ResponseBody List<GetpassReturnDetail> saveGetPassDetail(
+			@RequestBody List<GetpassReturnDetail> getPassReturnDetailList) {
 
 		List<GetpassReturnDetail> list = new ArrayList<>();
 
 		try {
 
 			System.out.println(getPassReturnDetailList);
-			 
-			 list = getpassReturnDetailRepo .saveAll(getPassReturnDetailList);
-			System.out.println("getPassReturnDetailList" + getPassReturnDetailList.toString()); 
-			
+
+			list = getpassReturnDetailRepo.saveAll(getPassReturnDetailList);
+			System.out.println("getPassReturnDetailList" + getPassReturnDetailList.toString());
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -491,7 +494,7 @@ public class GetPassController {
 		return getpassReturnVendor;
 
 	}
-	
+
 	@RequestMapping(value = { "/getPassReturnHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody GetPassReturnHeader GetPassReturnHeaderAndDetail(@RequestParam("returnId") int returnId) {
 
@@ -500,8 +503,9 @@ public class GetPassController {
 		try {
 
 			getpassReturn = getPassReturnHeaderRepo.findByReturnId(returnId);
-			List<GetPassReturnDetailWithItemName> getpassReturnDetailList = getPassReturnDetailWithItemNameRepo.findByReturnId(returnId);
-			
+			List<GetPassReturnDetailWithItemName> getpassReturnDetailList = getPassReturnDetailWithItemNameRepo
+					.findByReturnId(returnId);
+
 			getpassReturn.setGetPassReturnDetailList(getpassReturnDetailList);
 
 		} catch (Exception e) {
@@ -513,4 +517,72 @@ public class GetPassController {
 
 	}
 
+	@RequestMapping(value = { "/getGatepassReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<GatepassReport> getGatepassReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GatepassReport> gatepassReportList = new ArrayList<>();
+
+		try {
+
+			gatepassReportList = gatepassReportRepo.gatepassReportList(fromDate, toDate);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gatepassReportList;
+
+	}
+
+	@RequestMapping(value = { "/getGatepassReportVendor" }, method = RequestMethod.POST)
+	public @ResponseBody List<GatepassReport> getGatepassReportVendor(
+			@RequestParam("vendorIdList") List<Integer> vendorIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GatepassReport> gatepassReportList = new ArrayList<>();
+
+		try {
+			if (vendorIdList.contains(0)) {
+				gatepassReportList = gatepassReportRepo.gatepassReportList(fromDate, toDate);
+
+			} else {
+				gatepassReportList = gatepassReportRepo.gatepassReportListWWithVendor(fromDate, toDate, vendorIdList);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gatepassReportList;
+
+	}
+
+	@RequestMapping(value = { "/getGatepassReportItem" }, method = RequestMethod.POST)
+	public @ResponseBody List<GatepassReport> getGatepassReportItem(
+			@RequestParam("itemIdList") List<Integer> itemIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GatepassReport> gatepassReportList = new ArrayList<>();
+
+		try {
+			if (itemIdList.contains(0)) {
+				gatepassReportList = gatepassReportRepo.gatepassReportList(fromDate, toDate);
+
+			} else {
+				gatepassReportList = gatepassReportRepo.gatepassReportListWWithItem(fromDate, toDate, itemIdList);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gatepassReportList;
+
+	}
 }
