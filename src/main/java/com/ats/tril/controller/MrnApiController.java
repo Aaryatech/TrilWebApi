@@ -15,12 +15,16 @@ import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.indent.DashIndentDetails;
 import com.ats.tril.model.indent.GetIndents;
 import com.ats.tril.model.mrn.GetMrnDetail;
+import com.ats.tril.model.mrn.GetMrnDetailRej;
 import com.ats.tril.model.mrn.GetMrnHeader;
+import com.ats.tril.model.mrn.GetMrnHeaderRej;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
 import com.ats.tril.model.mrn.MrnReport;
 import com.ats.tril.model.rejection.RejectionMemo;
 import com.ats.tril.model.rejection.RejectionMemoDetail;
+import com.ats.tril.model.rejection.repo.GetMrnDetailRejRepo;
+import com.ats.tril.model.rejection.repo.GetMrnHeaderRejRepo;
 import com.ats.tril.repository.PoDetailRepository;
 import com.ats.tril.repository.PoHeaderRepository;
 import com.ats.tril.repository.mrn.GetMrnDetailRepository;
@@ -32,9 +36,15 @@ import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 
 @RestController
 public class MrnApiController {
- 
+
 	@Autowired
 	MrnHeaderRepository mrnHeaderRepository;
+
+	@Autowired
+	GetMrnHeaderRejRepo getMrnHeaderRejRepo;
+
+	@Autowired
+	GetMrnDetailRejRepo getMrnDetailRejRepo;
 
 	@Autowired
 	MrnDetailRepo mrnDetailRepo;
@@ -72,21 +82,22 @@ public class MrnApiController {
 				PoDetail poDetail = poDetailRepo.findByPoDetailId(mrnDetailRes.getPoDetailId());
 
 				if (mrnDetailRes != null) {
-					int remainingQty=0;
-					
-					if(detail.getMrnQtyBeforeEdit()==-1) {
-						
+					int remainingQty = 0;
+
+					if (detail.getMrnQtyBeforeEdit() == -1) {
+
 						System.err.println("Inside mrn qty before Edit ==-1");
-						
-						 remainingQty = poDetail.getPendingQty() - mrnDetailRes.getMrnQty();
-					
-					}else {
-						
+
+						remainingQty = poDetail.getPendingQty() - mrnDetailRes.getMrnQty();
+
+					} else {
+
 						System.err.println("Inside mrn qty before edit is greater than 0");
-						 remainingQty = poDetail.getPendingQty() -(detail.getMrnQtyBeforeEdit()- mrnDetailRes.getMrnQty());
+						remainingQty = poDetail.getPendingQty()
+								- (detail.getMrnQtyBeforeEdit() - mrnDetailRes.getMrnQty());
 
 					}
-					
+
 					poDetail.setPendingQty(remainingQty);
 					int status = 1;
 
@@ -110,9 +121,9 @@ public class MrnApiController {
 						int updateMrnHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailRes.getPoId());
 
 					}
-					
+
 					else {
-						
+
 						int updateMrnHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailRes.getPoId());
 
 					}
@@ -244,51 +255,49 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
-	
-	
+
 	@Autowired
 	MrnReportRepo mrnReportrRepo;
-	
+
 	@RequestMapping(value = { "/getMrnHeadReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<MrnReport> getMrnHeadReport(@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate,@RequestParam("grnTypeList") List<String> grnTypeList,@RequestParam("vendorIdList") List<String> vendorIdList,
+			@RequestParam("toDate") String toDate, @RequestParam("grnTypeList") List<String> grnTypeList,
+			@RequestParam("vendorIdList") List<String> vendorIdList,
 			@RequestParam("statusList") List<String> statusList) {
 
 		List<MrnReport> mrnHeaderList = new ArrayList<MrnReport>();
 
 		try {
-			System.err.println("Input getMrnHeadReport  grnTypeList " +grnTypeList +"vendorIdList " +vendorIdList + "statusList " +statusList);
-			
-			
-			if(vendorIdList.contains("-1")) {
+			System.err.println("Input getMrnHeadReport  grnTypeList " + grnTypeList + "vendorIdList " + vendorIdList
+					+ "statusList " + statusList);
+
+			if (vendorIdList.contains("-1")) {
 				System.err.println("Vendor Id List Contain -1");
-				
+
 			}
-			
-			if(grnTypeList.contains("-1")) {
+
+			if (grnTypeList.contains("-1")) {
 				System.err.println("grnTypeList  List Contain -1");
-				
+
 			}
-			
-			if(statusList.contains("-1")) {
+
+			if (statusList.contains("-1")) {
 				System.err.println("status   List Contain -1");
 			}
-			
-			
-			
-			if(vendorIdList.contains("-1")) {
-				
+
+			if (vendorIdList.contains("-1")) {
+
 				System.err.println("All Vendor Selected");
 				mrnHeaderList = mrnReportrRepo.getMrnReportAllVendor(fromDate, toDate, grnTypeList, statusList);
 
 			}
-			
+
 			else {
 				System.err.println("few Vendor Selected ");
 				mrnHeaderList = mrnReportrRepo.getMrnReport(vendorIdList, grnTypeList, statusList, fromDate, toDate);
-			
+
 			}
-			
+
 			System.err.println("mrn Head List Report  Size=  " + mrnHeaderList.size());
 
 			System.err.println("mrn Head List Report =  " + mrnHeaderList.toString());
@@ -304,8 +313,6 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
-	
-	
 
 	@RequestMapping(value = { "/getMrnDetailByMrnId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetMrnDetail> getMrnDetailByMrnId(@RequestParam("mrnId") int mrnId) {
@@ -327,8 +334,6 @@ public class MrnApiController {
 		return mrnDetailList;
 
 	}
-	
-	
 
 	@RequestMapping(value = { "/getMrnList" }, method = RequestMethod.GET)
 	public @ResponseBody List<MrnHeader> getMrnList() {
@@ -351,37 +356,36 @@ public class MrnApiController {
 
 	}
 
+	// Neha
 	@RequestMapping(value = { "/getMrnHeaderDetail" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetMrnHeader> getMrnHeaderDetail(@RequestParam("status") List<Integer> status) {
+	public @ResponseBody List<GetMrnHeaderRej> getMrnHeaderDetail(@RequestParam("status") List<Integer> status) {
 
-		List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
+		List<GetMrnHeaderRej> mrnHeaderList = new ArrayList<GetMrnHeaderRej>();
 
 		try {
 
-			mrnHeaderList = getMrnHeaderRepository.getMrnHeaderByList(status);
-			List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository.getMrnDetailByList(status);
-			
+			mrnHeaderList = getMrnHeaderRejRepo.getMrnHeaderByList(status);
+			List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(status);
+
 			for (int i = 0; i < mrnHeaderList.size(); i++) {
 
-				List<GetMrnDetail> detailsList = new ArrayList<>();
+				List<GetMrnDetailRej> detailsList = new ArrayList<>();
 
 				int mrnId = mrnHeaderList.get(i).getMrnId();
 
 				for (int j = 0; j < getMrnDetailList.size(); j++) {
 
-					int detailMRNId= getMrnDetailList.get(j).getMrnId();
-					
-					if(detailMRNId==mrnId) {
-						
+					int detailMRNId = getMrnDetailList.get(j).getMrnId();
+
+					if (detailMRNId == mrnId) {
 
 						detailsList.add(getMrnDetailList.get(j));
 					}
-					
-					
+
 				}
-				
-				mrnHeaderList.get(i).setGetMrnDetailList(detailsList);
-				
+
+				mrnHeaderList.get(i).setGetMrnDetailRejList(detailsList);
+
 			}
 
 		} catch (Exception e) {
@@ -392,8 +396,7 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/deleteMrnHeader" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage deleteMrnHeader(@RequestParam("mrnId") int mrnId) {
 		System.err.println("inside web api  deleteMrnHeader");
@@ -402,15 +405,14 @@ public class MrnApiController {
 		try {
 
 			int delRes = mrnHeaderRepository.deleteMrnHeader(mrnId);
-			
-			if(delRes>0) {
+
+			if (delRes > 0) {
 				errMsg.setError(false);
 				errMsg.setMessage("Mrn Header deleted Successfull");
-			}else {
+			} else {
 				errMsg.setError(true);
 				errMsg.setMessage("Mrn Header delete failed ");
 			}
-			
 
 		} catch (Exception e) {
 
@@ -421,8 +423,7 @@ public class MrnApiController {
 
 		return errMsg;
 	}
-	
-	
+
 	@RequestMapping(value = { "/deleteMrnDetail" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage deleteMrnDetail(@RequestParam("mrnDetailId") int mrnDetailId) {
 		System.err.println("inside web api  deleteMrnDetail");
@@ -431,15 +432,14 @@ public class MrnApiController {
 		try {
 
 			int delRes = mrnDetailRepo.deleteMrnDetail(mrnDetailId);
-			
-			if(delRes>0) {
+
+			if (delRes > 0) {
 				errMsg.setError(false);
 				errMsg.setMessage("Mrn Detail deleted Successfull");
-			}else {
+			} else {
 				errMsg.setError(true);
 				errMsg.setMessage("Mrn Detail delete failed ");
 			}
-			
 
 		} catch (Exception e) {
 
@@ -450,6 +450,5 @@ public class MrnApiController {
 
 		return errMsg;
 	}
-
 
 }

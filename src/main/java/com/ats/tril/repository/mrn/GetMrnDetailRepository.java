@@ -25,8 +25,8 @@ public interface GetMrnDetailRepository extends JpaRepository<GetMrnDetail, Inte
 			+ "from t_mrn_detail d,m_item i,po_detail podetail where d.mrn_id=:mrnId and d.del_status=1 and i.item_id=d.item_id and podetail.po_detail_id=d.po_detail_id ",nativeQuery=true)
 	List<GetMrnDetail> getMrnDetailByMrnId(@Param("mrnId")int mrnId);
 
-	@Query(value="SELECT podetail.po_detail_id,podetail.pending_qty as po_pending_qty,d.mrn_qty as mrn_qty_before_edit, "
+	@Query(value="SELECT podetail.po_detail_id,podetail.pending_qty as po_pending_qty,m.mrn_qty as mrn_qty_before_edit, "
 			+ "m.*,i.item_desc as item_name,i.item_code FROM t_mrn_detail m,m_item i ,po_detail podetail WHERE  m.item_id=i.item_id AND m.mrn_id IN(:status) "
-			+ "AND m.del_status=1 and podetail.po_detail_id=d.po_detail_id ",nativeQuery=true)
+			+ "AND m.del_status=1 and podetail.po_detail_id=m.po_detail_id ",nativeQuery=true)
 	List<GetMrnDetail> getMrnDetailByList(@Param("status")List<Integer> status);
 }

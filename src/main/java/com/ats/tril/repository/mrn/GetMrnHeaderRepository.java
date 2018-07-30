@@ -31,8 +31,6 @@ public interface GetMrnHeaderRepository extends JpaRepository<GetMrnHeader, Inte
 			+ " ", nativeQuery = true)
 	List<GetMrnHeader> getMrnHeaderByDate(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
-	@Query(value = "SELECT m.*, v.vendor_name FROM t_mrn_header m,m_vendor v WHERE m.vendor_id=v.vendor_id AND  m.mrn_id IN(:status)  AND m.del_status=1", nativeQuery = true)
-	List<GetMrnHeader> getMrnHeaderByList(@Param("status") List<Integer> status);
 
 	
 	
