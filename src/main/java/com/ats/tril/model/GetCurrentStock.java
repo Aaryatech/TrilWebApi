@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class GetCurrentStock {
@@ -37,7 +38,10 @@ public class GetCurrentStock {
 	
 	@Column(name = "gatepass_return_qty")
 	private int gatepassReturnQty;
-
+	
+	@Transient
+	private int rolLevel;
+	
 	public int getItemId() {
 		return itemId;
 	}
@@ -110,12 +114,20 @@ public class GetCurrentStock {
 		this.gatepassReturnQty = gatepassReturnQty;
 	}
 
+	public int getRolLevel() {
+		return rolLevel;
+	}
+
+	public void setRolLevel(int rolLevel) {
+		this.rolLevel = rolLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "GetCurrentStock [itemId=" + itemId + ", itemCode=" + itemCode + ", openingStock=" + openingStock
 				+ ", approveQty=" + approveQty + ", issueQty=" + issueQty + ", returnIssueQty=" + returnIssueQty
 				+ ", damageQty=" + damageQty + ", gatepassQty=" + gatepassQty + ", gatepassReturnQty="
-				+ gatepassReturnQty + "]";
+				+ gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
 	}
 	
 	

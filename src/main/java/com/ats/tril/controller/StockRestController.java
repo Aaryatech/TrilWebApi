@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.GetCurrentStock;
+import com.ats.tril.model.GetItem;
 import com.ats.tril.model.StockDetail;
 import com.ats.tril.model.StockHeader;
+import com.ats.tril.repository.GetItemRepository;
 import com.ats.tril.repository.stock.GetCurrentStockHeaderRepository;
 import com.ats.tril.repository.stock.StockDetailRepository;
 import com.ats.tril.repository.stock.StockHeaderRepository;
@@ -30,6 +32,9 @@ public class StockRestController {
 	
 	@Autowired
 	GetCurrentStockHeaderRepository getCurrentStockHeaderRepository;
+	
+	@Autowired
+	GetItemRepository getItemRepository;
 
 	@RequestMapping(value = { "/insertStock" }, method = RequestMethod.POST)
 	public @ResponseBody StockHeader insertStock(@RequestBody StockHeader stockHeader) {
@@ -113,6 +118,50 @@ public class StockRestController {
 
 		}
 		return StockDetails;
+
+	}
+	
+	@RequestMapping(value = { "/getItemListLessThanROL" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetCurrentStock> getItemListLessThanROL(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+		
+		List<GetCurrentStock> getCurrentStock = new ArrayList<GetCurrentStock>();
+
+		try {
+			
+			List<GetItem>  itemList = getItemRepository.getAllItems();
+
+			getCurrentStock = getCurrentStockHeaderRepository.getCurrentStock(fromDate,toDate);
+			
+			for(int i = 0 ; i<itemList.size() ; i++)
+			{
+				for(int j = 0 ; j<getCurrentStock.size() ; j++)
+				{
+					if(itemList.get(i).getItemId()==getCurrentStock.get(j).getItemId())
+					{
+						if(itemList.get(i).getItemRodLevel()<(getCurrentStock.get(j).getOpeningStock()+getCurrentStock.get(j).getApproveQty()-
+									getCurrentStock.get(j).getIssueQty()+getCurrentStock.get(j).getReturnIssueQty()-getCurrentStock.get(j).getDamageQty()-
+									getCurrentStock.get(j).getGatepassQty()+getCurrentStock.get(j).getGatepassReturnQty()))
+							
+						{
+							getCurrentStock.remove(j);
+						}
+						else
+						{
+							getCurrentStock.get(j).setRolLevel(itemList.get(i).getItemRodLevel());
+						}
+						
+						break;
+					} 
+				}
+			}
+ 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getCurrentStock;
 
 	}
 
