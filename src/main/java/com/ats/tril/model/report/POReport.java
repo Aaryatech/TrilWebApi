@@ -1,10 +1,14 @@
 package com.ats.tril.model.report;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class POReport {
@@ -24,7 +28,7 @@ public class POReport {
 	private String poNo;
 
 	@Column(name = "po_date")
-	private String poDate;
+	private Date poDate;
 
 	@Column(name = "vend_id")
 	private int vendId;
@@ -33,7 +37,7 @@ public class POReport {
 	private String vendQuation;
 
 	@Column(name = "vend_quation_date")
-	private String vendQuationDate;
+	private Date vendQuationDate;
 
 	@Column(name = "po_basic_value")
 	private float poBasicValue;
@@ -159,7 +163,7 @@ public class POReport {
 	private int schDays;
 
 	@Column(name = "sch_date")
-	private String schDate;
+	private Date schDate;
 
 	@Column(name = "insu")
 	private float insu;
@@ -220,11 +224,12 @@ public class POReport {
 		this.poNo = poNo;
 	}
 
-	public String getPoDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getPoDate() {
 		return poDate;
 	}
 
-	public void setPoDate(String poDate) {
+	public void setPoDate(Date poDate) {
 		this.poDate = poDate;
 	}
 
@@ -244,11 +249,12 @@ public class POReport {
 		this.vendQuation = vendQuation;
 	}
 
-	public String getVendQuationDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getVendQuationDate() {
 		return vendQuationDate;
 	}
 
-	public void setVendQuationDate(String vendQuationDate) {
+	public void setVendQuationDate(Date vendQuationDate) {
 		this.vendQuationDate = vendQuationDate;
 	}
 
@@ -580,11 +586,12 @@ public class POReport {
 		this.schDays = schDays;
 	}
 
-	public String getSchDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getSchDate() {
 		return schDate;
 	}
 
-	public void setSchDate(String schDate) {
+	public void setSchDate(Date schDate) {
 		this.schDate = schDate;
 	}
 
@@ -644,8 +651,6 @@ public class POReport {
 		this.vendorCode = vendorCode;
 	}
 
-	
-
 	public String getVendorName() {
 		return vendorName;
 	}
@@ -692,6 +697,30 @@ public class POReport {
 
 	public void setPymtDesc(String pymtDesc) {
 		this.pymtDesc = pymtDesc;
+	}
+
+	@Override
+	public String toString() {
+		return "POReport [poDetailId=" + poDetailId + ", poId=" + poId + ", poType=" + poType + ", poNo=" + poNo
+				+ ", poDate=" + poDate + ", vendId=" + vendId + ", vendQuation=" + vendQuation + ", vendQuationDate="
+				+ vendQuationDate + ", poBasicValue=" + poBasicValue + ", discValue=" + discValue + ", poTaxId="
+				+ poTaxId + ", poTaxPer=" + poTaxPer + ", poTaxValue=" + poTaxValue + ", poPackPer=" + poPackPer
+				+ ", poPackVal=" + poPackVal + ", poPackRemark=" + poPackRemark + ", poInsuPer=" + poInsuPer
+				+ ", poInsuVal=" + poInsuVal + ", poInsuRemark=" + poInsuRemark + ", poFrtPer=" + poFrtPer
+				+ ", poFrtVal=" + poFrtVal + ", poFrtRemark=" + poFrtRemark + ", otherChargeBefore=" + otherChargeBefore
+				+ ", otherChargeBeforeRemark=" + otherChargeBeforeRemark + ", otherChargeAfter=" + otherChargeAfter
+				+ ", otherChargeAfterRemark=" + otherChargeAfterRemark + ", totalValue=" + totalValue + ", deliveryId="
+				+ deliveryId + ", dispatchId=" + dispatchId + ", paymentTermId=" + paymentTermId + ", poRemark="
+				+ poRemark + ", poStatus=" + poStatus + ", prnStatus=" + prnStatus + ", prnCopies=" + prnCopies
+				+ ", indId=" + indId + ", indNo=" + indNo + ", userId=" + userId + ", delStatus=" + delStatus
+				+ ", approvStatus=" + approvStatus + ", itemId=" + itemId + ", itemDesc=" + itemDesc + ", itemUom="
+				+ itemUom + ", itemQty=" + itemQty + ", itemRate=" + itemRate + ", mrnQty=" + mrnQty + ", pendingQty="
+				+ pendingQty + ", indedQty=" + indedQty + ", discPer=" + discPer + ", schDays=" + schDays + ", schDate="
+				+ schDate + ", insu=" + insu + ", otherChargesBefor=" + otherChargesBefor + ", taxValue=" + taxValue
+				+ ", freightValue=" + freightValue + ", otherChargesAfter=" + otherChargesAfter + ", landingCost="
+				+ landingCost + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName + ", vendorAdd1="
+				+ vendorAdd1 + ", taxDesc=" + taxDesc + ", deliveryDesc=" + deliveryDesc + ", dispModeDesc="
+				+ dispModeDesc + ", pymtDesc=" + pymtDesc + "]";
 	}
 
 }
