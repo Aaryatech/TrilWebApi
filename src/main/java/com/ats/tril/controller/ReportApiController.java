@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.tril.model.report.ApproveStatusMrnReport;
 import com.ats.tril.model.report.IndentReport;
 import com.ats.tril.model.report.MrnReport;
 import com.ats.tril.model.report.POReport;
+import com.ats.tril.repository.report.ApproveStatusMrnReportRepo;
 import com.ats.tril.repository.report.IndentReportRepo;
 import com.ats.tril.repository.report.MrnReportrepo;
 import com.ats.tril.repository.report.POReportRepository;
@@ -28,6 +30,9 @@ public class ReportApiController {
 
 	@Autowired
 	MrnReportrepo mrnReportrepo;
+
+	@Autowired
+	ApproveStatusMrnReportRepo approveStatusMrnReportRepo;
 
 	@RequestMapping(value = { "/getIndentListHeaderDetailReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IndentReport> getIndentListHeaderDetailReport(
@@ -79,6 +84,26 @@ public class ReportApiController {
 		try {
 
 			mrnList = mrnReportrepo.getMrnReportList(mrnIdList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return mrnList;
+
+	}
+
+	@RequestMapping(value = { "/getMrnApproveStatusReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<ApproveStatusMrnReport> getMrnApproveStatusReport(
+
+			@RequestParam("mrnIdList") List<Integer> mrnIdList) {
+
+		List<ApproveStatusMrnReport> mrnList = new ArrayList<ApproveStatusMrnReport>();
+
+		try {
+
+			mrnList = approveStatusMrnReportRepo.getApproveStatusMrnReport(mrnIdList);
 
 		} catch (Exception e) {
 
