@@ -1,19 +1,21 @@
 package com.ats.tril.model.report;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class ApproveStatusMrnReport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int mrnDetailId;
-
 	private int mrnId;
 
 	private String mrnNo;
@@ -51,43 +53,8 @@ public class ApproveStatusMrnReport {
 	private String vendorName;
 	private String vendorAdd1;
 
-	private String itemCode;
-	private String itemDesc;
-
-	private int itemId;
-	private int approveQty;
-
-	private int poQty;
-
-	private int mrnQty;
-
-	private int rejectQty;
-
-	private int rejectRemark;
-
-	private String batchNo;
-
-	private int issueQty;
-
-	private int remainingQty;
-
-	private int poId;
-
-	private String poNo;
-
-	private int poDetailId;
-
-	private int schDays;
-
-	private String schRemark;
-
-	public int getMrnDetailId() {
-		return mrnDetailId;
-	}
-
-	public void setMrnDetailId(int mrnDetailId) {
-		this.mrnDetailId = mrnDetailId;
-	}
+	@Transient
+	List<ApproveStatusMrnReportDetail> ApproveStatusMrnReportDetail;
 
 	public int getMrnId() {
 		return mrnId;
@@ -105,6 +72,7 @@ public class ApproveStatusMrnReport {
 		this.mrnNo = mrnNo;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getMrnDate() {
 		return mrnDate;
 	}
@@ -137,6 +105,8 @@ public class ApproveStatusMrnReport {
 		this.gateEntryNo = gateEntryNo;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
 	public Date getGateEntryDate() {
 		return gateEntryDate;
 	}
@@ -153,6 +123,7 @@ public class ApproveStatusMrnReport {
 		this.docNo = docNo;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getDocDate() {
 		return docDate;
 	}
@@ -169,6 +140,7 @@ public class ApproveStatusMrnReport {
 		this.billNo = billNo;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getBillDate() {
 		return billDate;
 	}
@@ -201,6 +173,7 @@ public class ApproveStatusMrnReport {
 		this.lrNo = lrNo;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getLrDate() {
 		return lrDate;
 	}
@@ -265,147 +238,23 @@ public class ApproveStatusMrnReport {
 		this.vendorAdd1 = vendorAdd1;
 	}
 
-	public String getItemCode() {
-		return itemCode;
+	public List<ApproveStatusMrnReportDetail> getApproveStatusMrnReportDetail() {
+		return ApproveStatusMrnReportDetail;
 	}
 
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
-
-	public String getItemDesc() {
-		return itemDesc;
-	}
-
-	public void setItemDesc(String itemDesc) {
-		this.itemDesc = itemDesc;
-	}
-
-	public int getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
-	}
-
-	public int getApproveQty() {
-		return approveQty;
-	}
-
-	public void setApproveQty(int approveQty) {
-		this.approveQty = approveQty;
-	}
-
-	public int getPoQty() {
-		return poQty;
-	}
-
-	public void setPoQty(int poQty) {
-		this.poQty = poQty;
-	}
-
-	public int getMrnQty() {
-		return mrnQty;
-	}
-
-	public void setMrnQty(int mrnQty) {
-		this.mrnQty = mrnQty;
-	}
-
-	public int getRejectQty() {
-		return rejectQty;
-	}
-
-	public void setRejectQty(int rejectQty) {
-		this.rejectQty = rejectQty;
-	}
-
-	public int getRejectRemark() {
-		return rejectRemark;
-	}
-
-	public void setRejectRemark(int rejectRemark) {
-		this.rejectRemark = rejectRemark;
-	}
-
-	public String getBatchNo() {
-		return batchNo;
-	}
-
-	public void setBatchNo(String batchNo) {
-		this.batchNo = batchNo;
-	}
-
-	public int getIssueQty() {
-		return issueQty;
-	}
-
-	public void setIssueQty(int issueQty) {
-		this.issueQty = issueQty;
-	}
-
-	public int getRemainingQty() {
-		return remainingQty;
-	}
-
-	public void setRemainingQty(int remainingQty) {
-		this.remainingQty = remainingQty;
-	}
-
-	public int getPoId() {
-		return poId;
-	}
-
-	public void setPoId(int poId) {
-		this.poId = poId;
-	}
-
-	public String getPoNo() {
-		return poNo;
-	}
-
-	public void setPoNo(String poNo) {
-		this.poNo = poNo;
-	}
-
-	public int getPoDetailId() {
-		return poDetailId;
-	}
-
-	public void setPoDetailId(int poDetailId) {
-		this.poDetailId = poDetailId;
-	}
-
-	public int getSchDays() {
-		return schDays;
-	}
-
-	public void setSchDays(int schDays) {
-		this.schDays = schDays;
-	}
-
-	public String getSchRemark() {
-		return schRemark;
-	}
-
-	public void setSchRemark(String schRemark) {
-		this.schRemark = schRemark;
+	public void setApproveStatusMrnReportDetail(List<ApproveStatusMrnReportDetail> approveStatusMrnReportDetail) {
+		ApproveStatusMrnReportDetail = approveStatusMrnReportDetail;
 	}
 
 	@Override
 	public String toString() {
-		return "ApproveStatusMrnReport [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", mrnNo=" + mrnNo
-				+ ", mrnDate=" + mrnDate + ", mrnType=" + mrnType + ", vendorId=" + vendorId + ", gateEntryNo="
-				+ gateEntryNo + ", gateEntryDate=" + gateEntryDate + ", docNo=" + docNo + ", docDate=" + docDate
-				+ ", billNo=" + billNo + ", billDate=" + billDate + ", userId=" + userId + ", transport=" + transport
-				+ ", lrNo=" + lrNo + ", lrDate=" + lrDate + ", remark1=" + remark1 + ", remark2=" + remark2
-				+ ", mrnStatus=" + mrnStatus + ", delStatus=" + delStatus + ", vendorCode=" + vendorCode
-				+ ", vendorName=" + vendorName + ", vendorAdd1=" + vendorAdd1 + ", itemCode=" + itemCode + ", itemDesc="
-				+ itemDesc + ", itemId=" + itemId + ", approveQty=" + approveQty + ", poQty=" + poQty + ", mrnQty="
-				+ mrnQty + ", rejectQty=" + rejectQty + ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo
-				+ ", issueQty=" + issueQty + ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo
-				+ ", poDetailId=" + poDetailId + ", schDays=" + schDays + ", schRemark=" + schRemark + "]";
+		return "ApproveStatusMrnReport [mrnId=" + mrnId + ", mrnNo=" + mrnNo + ", mrnDate=" + mrnDate + ", mrnType="
+				+ mrnType + ", vendorId=" + vendorId + ", gateEntryNo=" + gateEntryNo + ", gateEntryDate="
+				+ gateEntryDate + ", docNo=" + docNo + ", docDate=" + docDate + ", billNo=" + billNo + ", billDate="
+				+ billDate + ", userId=" + userId + ", transport=" + transport + ", lrNo=" + lrNo + ", lrDate=" + lrDate
+				+ ", remark1=" + remark1 + ", remark2=" + remark2 + ", mrnStatus=" + mrnStatus + ", delStatus="
+				+ delStatus + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName + ", vendorAdd1=" + vendorAdd1
+				+ ", ApproveStatusMrnReportDetail=" + ApproveStatusMrnReportDetail + "]";
 	}
 
 }

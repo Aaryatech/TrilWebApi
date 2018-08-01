@@ -13,16 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.rejection.RejectionReport;
 import com.ats.tril.model.report.ApproveStatusMrnReport;
+import com.ats.tril.model.report.ApproveStatusMrnReportDetail;
 import com.ats.tril.model.report.IndentReport;
 import com.ats.tril.model.report.IndentReportDetail;
 import com.ats.tril.model.report.IssueReport;
+import com.ats.tril.model.report.IssueReportDetail;
 import com.ats.tril.model.report.MrnReport;
 import com.ats.tril.model.report.MrnReportDetail;
 import com.ats.tril.model.report.POReport;
 import com.ats.tril.model.report.POReportDetail;
 import com.ats.tril.repository.indent.IndentReportDetailRepository;
+import com.ats.tril.repository.report.ApproveMrnDetailRepository;
 import com.ats.tril.repository.report.ApproveStatusMrnReportRepo;
 import com.ats.tril.repository.report.IndentReportRepo;
+import com.ats.tril.repository.report.IssueReportDetailRepository;
 import com.ats.tril.repository.report.IssueReportRepository;
 import com.ats.tril.repository.report.MrnReportDetailRepo;
 import com.ats.tril.repository.report.MrnReportrepo;
@@ -35,6 +39,9 @@ public class ReportApiController {
 
 	@Autowired
 	IndentReportRepo indentReportRepo;
+
+	@Autowired
+	ApproveMrnDetailRepository approveMrnDetailRepository;
 
 	@Autowired
 	MrnReportDetailRepo mrnReportDetailRepo;
@@ -59,6 +66,8 @@ public class ReportApiController {
 
 	@Autowired
 	IssueReportRepository issueReportRepository;
+	@Autowired
+	IssueReportDetailRepository issueReportDetailRepository;
 
 	@RequestMapping(value = { "/getIndentListHeaderDetailReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IndentReport> getIndentListHeaderDetailReport(
@@ -159,46 +168,73 @@ public class ReportApiController {
 
 	}
 
-
-	@RequestMapping(value = { "/getMrnApproveStatusReportList" }, method = RequestMethod.POST)
-	public @ResponseBody List<ApproveStatusMrnReport> getMrnApproveStatusReportList(
-
-			@RequestParam("mrnIdList") List<Integer> mrnIdList) {
-
-		List<ApproveStatusMrnReport> mrnList = new ArrayList<ApproveStatusMrnReport>();
-
-		try {
-
-			mrnList = approveStatusMrnReportRepo.getApproveStatusMrnReport(mrnIdList);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-		return mrnList;
-
-	}
-
-	@RequestMapping(value = { "/getIssueReportList" }, method = RequestMethod.POST)
-	public @ResponseBody List<IssueReport> getIssueReportList(
+	@RequestMapping(value = { "/getIssueHeaderDetailReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueReport> getIssueHeaderDetailReport(
 
 			@RequestParam("issueIdList") List<Integer> issueIdList) {
 
-		List<IssueReport> issueList = new ArrayList<IssueReport>();
+		List<IssueReport> issList = new ArrayList<IssueReport>();
 
 		try {
 
-			issueList = issueReportRepository.getIssueReportList(issueIdList);
+			issList = issueReportRepository.getIssueReportList(issueIdList);
+
+			List<IssueReportDetail> list = issueReportDetailRepository.getIssueDetailReportList(issueIdList);
+
+			for (int i = 0; i < issList.size(); i++) {
+				List<IssueReportDetail> listRes = new ArrayList<>();
+				for (int j = 0; j < list.size(); j++) {
+					if (issList.get(i).getIssueId() == list.get(j).getIssueId()) {
+						listRes.add(list.get(j));
+					}
+				}
+				issList.get(i).setIssueReportDetailList(listRes);
+
+			}
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 
 		}
-		return issueList;
+		return issList;
 
 	}
+
+	@RequestMapping(value = { "/getApproveStatusReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<ApproveStatusMrnReport> getApproveStatusReport(
+
+			@RequestParam("mrnIdList") List<Integer> mrnIdList) {
+
+		List<ApproveStatusMrnReport> appList = new ArrayList<ApproveStatusMrnReport>();
+
+		try {
+
+			appList = approveStatusMrnReportRepo.getApproveStatusMrnHeaderReport(mrnIdList);
+
+			List<ApproveStatusMrnReportDetail> list = approveMrnDetailRepository
+					.getApproveStatusMrnDetailReport(mrnIdList);
+
+			for (int i = 0; i < appList.size(); i++) {
+				List<ApproveStatusMrnReportDetail> listRes = new ArrayList<>();
+				for (int j = 0; j < list.size(); j++) {
+					if (appList.get(i).getMrnId() == list.get(j).getMrnId()) {
+						listRes.add(list.get(j));
+					}
+				}
+				appList.get(i).setApproveStatusMrnReportDetail(listRes);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return appList;
+
+	}
+
 
 	@RequestMapping(value = { "/getRejectionReportList" }, method = RequestMethod.POST)
 	public @ResponseBody List<RejectionReport> getRejectionReportList(
