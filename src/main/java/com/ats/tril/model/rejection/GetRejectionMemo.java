@@ -3,6 +3,7 @@ package com.ats.tril.model.rejection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,9 @@ public class GetRejectionMemo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "rej_detail_id")
+	private int rejDetailId; 
+	
 	private int rejectionId;
 
 	private int rejectionNo;

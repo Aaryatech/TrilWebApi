@@ -1,29 +1,25 @@
 package com.ats.tril.model.report;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import javax.persistence.Transient;
 
 @Entity
 public class IndentReport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ind_d_id")
-	private int indDId;
-
 	@Column(name = "ind_m_id")
 	private int indMId;
 
 	@Column(name = "ind_m_no")
 	private String indMNo;
-
 	@Column(name = "ind_m_date")
 	private Date indMDate;
 
@@ -41,38 +37,21 @@ public class IndentReport {
 	private int indIsmonthly;
 
 	@Column(name = "ind_m_status")
+
 	private int indMStatus;
 
 	private int indFyr;
 
-	private int delStatus;
-
 	private int deptId;
 	private int subDeptId;
-
-	private int itemId;
-	private String indItemUom;
-	private String indItemDesc;
-	private int indQty;
-
-	private int indItemCurstk;
-
-	private int indItemSchd;
-
-	private Date indItemSchddt;
 
 	private String deptDesc;
 	private String subDeptDesc;
 	private String catDesc;
 	private String accHeadDesc;
 
-	public int getIndDId() {
-		return indDId;
-	}
-
-	public void setIndDId(int indDId) {
-		this.indDId = indDId;
-	}
+	@Transient
+	List<IndentReportDetail> indentReportDetailList;
 
 	public int getIndMId() {
 		return indMId;
@@ -90,7 +69,6 @@ public class IndentReport {
 		this.indMNo = indMNo;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getIndMDate() {
 		return indMDate;
 	}
@@ -163,14 +141,6 @@ public class IndentReport {
 		this.indFyr = indFyr;
 	}
 
-	public int getDelStatus() {
-		return delStatus;
-	}
-
-	public void setDelStatus(int delStatus) {
-		this.delStatus = delStatus;
-	}
-
 	public int getDeptId() {
 		return deptId;
 	}
@@ -185,63 +155,6 @@ public class IndentReport {
 
 	public void setSubDeptId(int subDeptId) {
 		this.subDeptId = subDeptId;
-	}
-
-	public int getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
-	}
-
-	public String getIndItemUom() {
-		return indItemUom;
-	}
-
-	public void setIndItemUom(String indItemUom) {
-		this.indItemUom = indItemUom;
-	}
-
-	public String getIndItemDesc() {
-		return indItemDesc;
-	}
-
-	public void setIndItemDesc(String indItemDesc) {
-		this.indItemDesc = indItemDesc;
-	}
-
-	public int getIndQty() {
-		return indQty;
-	}
-
-	public void setIndQty(int indQty) {
-		this.indQty = indQty;
-	}
-
-	public int getIndItemCurstk() {
-		return indItemCurstk;
-	}
-
-	public void setIndItemCurstk(int indItemCurstk) {
-		this.indItemCurstk = indItemCurstk;
-	}
-
-	public int getIndItemSchd() {
-		return indItemSchd;
-	}
-
-	public void setIndItemSchd(int indItemSchd) {
-		this.indItemSchd = indItemSchd;
-	}
-
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getIndItemSchddt() {
-		return indItemSchddt;
-	}
-
-	public void setIndItemSchddt(Date indItemSchddt) {
-		this.indItemSchddt = indItemSchddt;
 	}
 
 	public String getDeptDesc() {
@@ -276,16 +189,22 @@ public class IndentReport {
 		this.accHeadDesc = accHeadDesc;
 	}
 
+	public List<IndentReportDetail> getIndentReportDetailList() {
+		return indentReportDetailList;
+	}
+
+	public void setIndentReportDetailList(List<IndentReportDetail> indentReportDetailList) {
+		this.indentReportDetailList = indentReportDetailList;
+	}
+
 	@Override
 	public String toString() {
-		return "IndentReport [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate
-				+ ", indMType=" + indMType + ", catId=" + catId + ", achdId=" + achdId + ", indIsdev=" + indIsdev
-				+ ", indRemark=" + indRemark + ", indIsmonthly=" + indIsmonthly + ", indMStatus=" + indMStatus
-				+ ", indFyr=" + indFyr + ", delStatus=" + delStatus + ", deptId=" + deptId + ", subDeptId=" + subDeptId
-				+ ", itemId=" + itemId + ", indItemUom=" + indItemUom + ", indItemDesc=" + indItemDesc + ", indQty="
-				+ indQty + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd + ", indItemSchddt="
-				+ indItemSchddt + ", deptDesc=" + deptDesc + ", subDeptDesc=" + subDeptDesc + ", catDesc=" + catDesc
-				+ ", accHeadDesc=" + accHeadDesc + "]";
+		return "IndentReport [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType="
+				+ indMType + ", catId=" + catId + ", achdId=" + achdId + ", indIsdev=" + indIsdev + ", indRemark="
+				+ indRemark + ", indIsmonthly=" + indIsmonthly + ", indMStatus=" + indMStatus + ", indFyr=" + indFyr
+				+ ", deptId=" + deptId + ", subDeptId=" + subDeptId + ", deptDesc=" + deptDesc + ", subDeptDesc="
+				+ subDeptDesc + ", catDesc=" + catDesc + ", accHeadDesc=" + accHeadDesc + ", indentReportDetailList="
+				+ indentReportDetailList + "]";
 	}
 
 }
