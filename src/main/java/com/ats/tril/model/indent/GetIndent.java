@@ -31,8 +31,18 @@ public class GetIndent {
 	
 	private int achdId;
 	
+	private String accHeadDesc;
 	
 	
+	
+	public String getAccHeadDesc() {
+		return accHeadDesc;
+	}
+
+	public void setAccHeadDesc(String accHeadDesc) {
+		this.accHeadDesc = accHeadDesc;
+	}
+
 	@Column(name = "ind_m_status")
 	private int indMStatus;
 
@@ -134,8 +144,8 @@ public class GetIndent {
 	public String toString() {
 		return "GetIndent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType="
 				+ indMType + ", indIsdev=" + indIsdev + ", indIsmonthly=" + indIsmonthly + ", catDesc=" + catDesc
-				+ ", achdId=" + achdId + ", indMStatus=" + indMStatus + ", deptId=" + deptId + ", subDeptId="
-				+ subDeptId + "]";
+				+ ", achdId=" + achdId + ", accHeadDesc=" + accHeadDesc + ", indMStatus=" + indMStatus + ", deptId="
+				+ deptId + ", subDeptId=" + subDeptId + "]";
 	}
 
 	
