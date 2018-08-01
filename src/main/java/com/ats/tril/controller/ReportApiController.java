@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ats.tril.model.rejection.RejectionReport;
 import com.ats.tril.model.report.ApproveStatusMrnReport;
 import com.ats.tril.model.report.ApproveStatusMrnReportDetail;
+import com.ats.tril.model.report.GatepassReport;
+import com.ats.tril.model.report.GatepassReportDetail;
 import com.ats.tril.model.report.IndentReport;
 import com.ats.tril.model.report.IndentReportDetail;
 import com.ats.tril.model.report.IssueReport;
@@ -22,9 +23,13 @@ import com.ats.tril.model.report.MrnReport;
 import com.ats.tril.model.report.MrnReportDetail;
 import com.ats.tril.model.report.POReport;
 import com.ats.tril.model.report.POReportDetail;
+import com.ats.tril.model.report.RejectionReport;
+import com.ats.tril.model.report.RejectionReportDetail;
 import com.ats.tril.repository.indent.IndentReportDetailRepository;
 import com.ats.tril.repository.report.ApproveMrnDetailRepository;
 import com.ats.tril.repository.report.ApproveStatusMrnReportRepo;
+import com.ats.tril.repository.report.GatepassReportDetailRepo;
+import com.ats.tril.repository.report.GatepassReportRepository;
 import com.ats.tril.repository.report.IndentReportRepo;
 import com.ats.tril.repository.report.IssueReportDetailRepository;
 import com.ats.tril.repository.report.IssueReportRepository;
@@ -32,6 +37,7 @@ import com.ats.tril.repository.report.MrnReportDetailRepo;
 import com.ats.tril.repository.report.MrnReportrepo;
 import com.ats.tril.repository.report.POReportDetailRepo;
 import com.ats.tril.repository.report.POReportRepository;
+import com.ats.tril.repository.report.RejectionReportDetailRepo;
 import com.ats.tril.repository.report.RejectionReportRepository;
 
 @RestController
@@ -39,6 +45,15 @@ public class ReportApiController {
 
 	@Autowired
 	IndentReportRepo indentReportRepo;
+
+	@Autowired
+	GatepassReportDetailRepo gatepassReportDetailRepo;
+
+	@Autowired
+	GatepassReportRepository gatepassReportRepository;
+
+	@Autowired
+	RejectionReportDetailRepo rejectionReportDetailRepo;
 
 	@Autowired
 	ApproveMrnDetailRepository approveMrnDetailRepository;
@@ -235,9 +250,8 @@ public class ReportApiController {
 
 	}
 
-
-	@RequestMapping(value = { "/getRejectionReportList" }, method = RequestMethod.POST)
-	public @ResponseBody List<RejectionReport> getRejectionReportList(
+	@RequestMapping(value = { "/getAllRejectionListReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<RejectionReport> getAllRejectionListReport(
 
 			@RequestParam("rejectionIdList") List<Integer> rejectionIdList) {
 
@@ -245,7 +259,20 @@ public class ReportApiController {
 
 		try {
 
-			rejList = rejectionReportRepository.getRejReportList(rejectionIdList);
+			rejList = rejectionReportRepository.getRejHeaderReportList(rejectionIdList);
+
+			List<RejectionReportDetail> list = rejectionReportDetailRepo.getRejDetailReportList(rejectionIdList);
+
+			for (int i = 0; i < rejList.size(); i++) {
+				List<RejectionReportDetail> listRes = new ArrayList<>();
+				for (int j = 0; j < list.size(); j++) {
+					if (rejList.get(i).getRejectionId() == list.get(j).getRejectionId()) {
+						listRes.add(list.get(j));
+					}
+				}
+				rejList.get(i).setRejReportDetailList(listRes);
+
+			}
 
 		} catch (Exception e) {
 
@@ -253,6 +280,72 @@ public class ReportApiController {
 
 		}
 		return rejList;
+
+	}
+
+	@RequestMapping(value = { "/getGatepassListReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<GatepassReport> getGatepassListReport(
+
+			@RequestParam("gpIdList") List<Integer> gpIdList) {
+
+		List<GatepassReport> gpList = new ArrayList<GatepassReport>();
+
+		try {
+
+			gpList = gatepassReportRepository.gatepassReportHeader(gpIdList);
+
+			List<GatepassReportDetail> list = gatepassReportDetailRepo.gatepassReportDetail(gpIdList);
+
+			for (int i = 0; i < gpList.size(); i++) {
+				List<GatepassReportDetail> listRes = new ArrayList<>();
+				for (int j = 0; j < list.size(); j++) {
+					if (gpList.get(i).getGpId() == list.get(j).getGpId()) {
+						listRes.add(list.get(j));
+					}
+				}
+				gpList.get(i).setGatepassReportDetailList(listRes);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gpList;
+
+	}
+
+	@RequestMapping(value = { "/getGatepassListReturnableReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<GatepassReport> getGatepassListReturnableReport(
+
+			@RequestParam("gpIdList") List<Integer> gpIdList) {
+
+		List<GatepassReport> gpList = new ArrayList<GatepassReport>();
+
+		try {
+
+			gpList = gatepassReportRepository.gatepassReportHeaderReturnable(gpIdList);
+
+			List<GatepassReportDetail> list = gatepassReportDetailRepo.gatepassReportDetailReturnable(gpIdList);
+
+			for (int i = 0; i < gpList.size(); i++) {
+				List<GatepassReportDetail> listRes = new ArrayList<>();
+				for (int j = 0; j < list.size(); j++) {
+					if (gpList.get(i).getGpId() == list.get(j).getGpId()) {
+						listRes.add(list.get(j));
+					}
+				}
+				gpList.get(i).setGatepassReportDetailList(listRes);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return gpList;
 
 	}
 

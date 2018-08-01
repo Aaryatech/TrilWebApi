@@ -1,11 +1,13 @@
 package com.ats.tril.model.report;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,8 +16,6 @@ public class RejectionReport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int rejDetailId;
-
 	private int rejectionId;
 
 	private int rejectionNo;
@@ -31,27 +31,12 @@ public class RejectionReport {
 	private int status;
 	private int isUsed;
 
-	private int itemId;
-
-	private float rejectionQty;
-
-	private float memoQty;
-
-	private Date mrnDate;
-
-	private String itemDesc;
-	private String itemCode;
 	private String vendorName;
 	private String vendorCode;
 	private String vendorAdd1;
 
-	public int getRejDetailId() {
-		return rejDetailId;
-	}
-
-	public void setRejDetailId(int rejDetailId) {
-		this.rejDetailId = rejDetailId;
-	}
+	@Transient
+	List<RejectionReportDetail> rejReportDetailList;
 
 	public int getRejectionId() {
 		return rejectionId;
@@ -151,55 +136,6 @@ public class RejectionReport {
 		this.isUsed = isUsed;
 	}
 
-	public int getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
-	}
-
-	public float getRejectionQty() {
-		return rejectionQty;
-	}
-
-	public void setRejectionQty(float rejectionQty) {
-		this.rejectionQty = rejectionQty;
-	}
-
-	public float getMemoQty() {
-		return memoQty;
-	}
-
-	public void setMemoQty(float memoQty) {
-		this.memoQty = memoQty;
-	}
-
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getMrnDate() {
-		return mrnDate;
-	}
-
-	public void setMrnDate(Date mrnDate) {
-		this.mrnDate = mrnDate;
-	}
-
-	public String getItemDesc() {
-		return itemDesc;
-	}
-
-	public void setItemDesc(String itemDesc) {
-		this.itemDesc = itemDesc;
-	}
-
-	public String getItemCode() {
-		return itemCode;
-	}
-
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
-
 	public String getVendorName() {
 		return vendorName;
 	}
@@ -224,15 +160,22 @@ public class RejectionReport {
 		this.vendorAdd1 = vendorAdd1;
 	}
 
+	public List<RejectionReportDetail> getRejReportDetailList() {
+		return rejReportDetailList;
+	}
+
+	public void setRejReportDetailList(List<RejectionReportDetail> rejReportDetailList) {
+		this.rejReportDetailList = rejReportDetailList;
+	}
+
 	@Override
 	public String toString() {
-		return "RejectionReport [rejDetailId=" + rejDetailId + ", rejectionId=" + rejectionId + ", rejectionNo="
-				+ rejectionNo + ", vendorId=" + vendorId + ", mrnId=" + mrnId + ", mrnNo=" + mrnNo + ", rejectionDate="
-				+ rejectionDate + ", dcoId=" + dcoId + ", dcoDate=" + dcoDate + ", rejectionRemark=" + rejectionRemark
-				+ ", rejectionRemark1=" + rejectionRemark1 + ", status=" + status + ", isUsed=" + isUsed + ", itemId="
-				+ itemId + ", rejectionQty=" + rejectionQty + ", memoQty=" + memoQty + ", mrnDate=" + mrnDate
-				+ ", itemDesc=" + itemDesc + ", itemCode=" + itemCode + ", vendorName=" + vendorName + ", vendorCode="
-				+ vendorCode + ", vendorAdd1=" + vendorAdd1 + "]";
+		return "RejectionReport [rejectionId=" + rejectionId + ", rejectionNo=" + rejectionNo + ", vendorId=" + vendorId
+				+ ", mrnId=" + mrnId + ", mrnNo=" + mrnNo + ", rejectionDate=" + rejectionDate + ", dcoId=" + dcoId
+				+ ", dcoDate=" + dcoDate + ", rejectionRemark=" + rejectionRemark + ", rejectionRemark1="
+				+ rejectionRemark1 + ", status=" + status + ", isUsed=" + isUsed + ", vendorName=" + vendorName
+				+ ", vendorCode=" + vendorCode + ", vendorAdd1=" + vendorAdd1 + ", rejReportDetailList="
+				+ rejReportDetailList + "]";
 	}
 
 }
