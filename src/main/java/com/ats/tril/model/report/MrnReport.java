@@ -1,11 +1,13 @@
 package com.ats.tril.model.report;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,8 +16,6 @@ public class MrnReport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int mrnDetailId;
-
 	private int mrnId;
 
 	private String mrnNo;
@@ -53,11 +53,8 @@ public class MrnReport {
 	private String vendorName;
 	private String vendorAdd1;
 
-	private String itemCode;
-	private String itemDesc;
-
-	private int itemId;
-	private int approveQty;
+	@Transient
+	List<MrnReportDetail> mrnReportDetailList;
 
 	public int getMrnId() {
 		return mrnId;
@@ -76,6 +73,7 @@ public class MrnReport {
 	}
 
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
 	public Date getMrnDate() {
 		return mrnDate;
 	}
@@ -109,6 +107,7 @@ public class MrnReport {
 	}
 
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
 	public Date getGateEntryDate() {
 		return gateEntryDate;
 	}
@@ -240,56 +239,23 @@ public class MrnReport {
 		this.vendorAdd1 = vendorAdd1;
 	}
 
-	public String getItemCode() {
-		return itemCode;
+	public List<MrnReportDetail> getMrnReportDetailList() {
+		return mrnReportDetailList;
 	}
 
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
-
-	public String getItemDesc() {
-		return itemDesc;
-	}
-
-	public void setItemDesc(String itemDesc) {
-		this.itemDesc = itemDesc;
-	}
-
-	public int getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
-	}
-
-	public int getApproveQty() {
-		return approveQty;
-	}
-
-	public void setApproveQty(int approveQty) {
-		this.approveQty = approveQty;
-	}
-
-	public int getMrnDetailId() {
-		return mrnDetailId;
-	}
-
-	public void setMrnDetailId(int mrnDetailId) {
-		this.mrnDetailId = mrnDetailId;
+	public void setMrnReportDetailList(List<MrnReportDetail> mrnReportDetailList) {
+		this.mrnReportDetailList = mrnReportDetailList;
 	}
 
 	@Override
 	public String toString() {
-		return "MrnReport [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", mrnNo=" + mrnNo + ", mrnDate="
-				+ mrnDate + ", mrnType=" + mrnType + ", vendorId=" + vendorId + ", gateEntryNo=" + gateEntryNo
-				+ ", gateEntryDate=" + gateEntryDate + ", docNo=" + docNo + ", docDate=" + docDate + ", billNo="
-				+ billNo + ", billDate=" + billDate + ", userId=" + userId + ", transport=" + transport + ", lrNo="
-				+ lrNo + ", lrDate=" + lrDate + ", remark1=" + remark1 + ", remark2=" + remark2 + ", mrnStatus="
-				+ mrnStatus + ", delStatus=" + delStatus + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName
-				+ ", vendorAdd1=" + vendorAdd1 + ", itemCode=" + itemCode + ", itemDesc=" + itemDesc + ", itemId="
-				+ itemId + ", approveQty=" + approveQty + "]";
+		return "MrnReport [mrnId=" + mrnId + ", mrnNo=" + mrnNo + ", mrnDate=" + mrnDate + ", mrnType=" + mrnType
+				+ ", vendorId=" + vendorId + ", gateEntryNo=" + gateEntryNo + ", gateEntryDate=" + gateEntryDate
+				+ ", docNo=" + docNo + ", docDate=" + docDate + ", billNo=" + billNo + ", billDate=" + billDate
+				+ ", userId=" + userId + ", transport=" + transport + ", lrNo=" + lrNo + ", lrDate=" + lrDate
+				+ ", remark1=" + remark1 + ", remark2=" + remark2 + ", mrnStatus=" + mrnStatus + ", delStatus="
+				+ delStatus + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName + ", vendorAdd1=" + vendorAdd1
+				+ ", mrnReportDetailList=" + mrnReportDetailList + "]";
 	}
 
 }

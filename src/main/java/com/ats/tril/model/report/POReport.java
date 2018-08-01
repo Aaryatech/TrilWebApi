@@ -1,12 +1,14 @@
 package com.ats.tril.model.report;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -15,9 +17,6 @@ public class POReport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "po_detail_id")
-	private int poDetailId;
-
 	@Column(name = "po_id")
 	private int poId;
 
@@ -132,73 +131,16 @@ public class POReport {
 	@Column(name = "approv_status")
 	private int approvStatus;
 
-	@Column(name = "item_id")
-	private int itemId;
-
-	@Column(name = "item_desc")
-	private String itemDesc;
-
-	@Column(name = "item_uom")
-	private String itemUom;
-
-	@Column(name = "item_qty")
-	private int itemQty;
-
-	@Column(name = "item_rate")
-	private float itemRate;
-
-	@Column(name = "mrn_qty")
-	private int mrnQty;
-
-	@Column(name = "pending_qty")
-	private int pendingQty;
-
-	@Column(name = "inded_qty")
-	private int indedQty;
-
-	@Column(name = "disc_per")
-	private float discPer;
-
-	@Column(name = "sch_days")
-	private int schDays;
-
-	@Column(name = "sch_date")
-	private Date schDate;
-
-	@Column(name = "insu")
-	private float insu;
-
-	@Column(name = "other_charges_befor")
-	private float otherChargesBefor;
-
-	@Column(name = "tax_value")
-	private float taxValue;
-
-	@Column(name = "freight_value")
-	private String freightValue;
-
-	@Column(name = "other_charges_after")
-	private float otherChargesAfter;
-
-	@Column(name = "landing_cost")
-	private float landingCost;
-
 	private String vendorCode;
 	private String vendorName;
 	private String vendorAdd1;
-
 	private String taxDesc;
 	private String deliveryDesc;
 	private String dispModeDesc;
 	private String pymtDesc;
 
-	public int getPoDetailId() {
-		return poDetailId;
-	}
-
-	public void setPoDetailId(int poDetailId) {
-		this.poDetailId = poDetailId;
-	}
+	@Transient
+	List<POReportDetail> pOReportDetailList;
 
 	public int getPoId() {
 		return poId;
@@ -506,143 +448,6 @@ public class POReport {
 		this.approvStatus = approvStatus;
 	}
 
-	public int getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
-	}
-
-	public String getItemDesc() {
-		return itemDesc;
-	}
-
-	public void setItemDesc(String itemDesc) {
-		this.itemDesc = itemDesc;
-	}
-
-	public String getItemUom() {
-		return itemUom;
-	}
-
-	public void setItemUom(String itemUom) {
-		this.itemUom = itemUom;
-	}
-
-	public int getItemQty() {
-		return itemQty;
-	}
-
-	public void setItemQty(int itemQty) {
-		this.itemQty = itemQty;
-	}
-
-	public float getItemRate() {
-		return itemRate;
-	}
-
-	public void setItemRate(float itemRate) {
-		this.itemRate = itemRate;
-	}
-
-	public int getMrnQty() {
-		return mrnQty;
-	}
-
-	public void setMrnQty(int mrnQty) {
-		this.mrnQty = mrnQty;
-	}
-
-	public int getPendingQty() {
-		return pendingQty;
-	}
-
-	public void setPendingQty(int pendingQty) {
-		this.pendingQty = pendingQty;
-	}
-
-	public int getIndedQty() {
-		return indedQty;
-	}
-
-	public void setIndedQty(int indedQty) {
-		this.indedQty = indedQty;
-	}
-
-	public float getDiscPer() {
-		return discPer;
-	}
-
-	public void setDiscPer(float discPer) {
-		this.discPer = discPer;
-	}
-
-	public int getSchDays() {
-		return schDays;
-	}
-
-	public void setSchDays(int schDays) {
-		this.schDays = schDays;
-	}
-
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getSchDate() {
-		return schDate;
-	}
-
-	public void setSchDate(Date schDate) {
-		this.schDate = schDate;
-	}
-
-	public float getInsu() {
-		return insu;
-	}
-
-	public void setInsu(float insu) {
-		this.insu = insu;
-	}
-
-	public float getOtherChargesBefor() {
-		return otherChargesBefor;
-	}
-
-	public void setOtherChargesBefor(float otherChargesBefor) {
-		this.otherChargesBefor = otherChargesBefor;
-	}
-
-	public float getTaxValue() {
-		return taxValue;
-	}
-
-	public void setTaxValue(float taxValue) {
-		this.taxValue = taxValue;
-	}
-
-	public String getFreightValue() {
-		return freightValue;
-	}
-
-	public void setFreightValue(String freightValue) {
-		this.freightValue = freightValue;
-	}
-
-	public float getOtherChargesAfter() {
-		return otherChargesAfter;
-	}
-
-	public void setOtherChargesAfter(float otherChargesAfter) {
-		this.otherChargesAfter = otherChargesAfter;
-	}
-
-	public float getLandingCost() {
-		return landingCost;
-	}
-
-	public void setLandingCost(float landingCost) {
-		this.landingCost = landingCost;
-	}
-
 	public String getVendorCode() {
 		return vendorCode;
 	}
@@ -698,29 +503,35 @@ public class POReport {
 	public void setPymtDesc(String pymtDesc) {
 		this.pymtDesc = pymtDesc;
 	}
+	
+	
+
+	public List<POReportDetail> getpOReportDetailList() {
+		return pOReportDetailList;
+	}
+
+	public void setpOReportDetailList(List<POReportDetail> pOReportDetailList) {
+		this.pOReportDetailList = pOReportDetailList;
+	}
 
 	@Override
 	public String toString() {
-		return "POReport [poDetailId=" + poDetailId + ", poId=" + poId + ", poType=" + poType + ", poNo=" + poNo
-				+ ", poDate=" + poDate + ", vendId=" + vendId + ", vendQuation=" + vendQuation + ", vendQuationDate="
-				+ vendQuationDate + ", poBasicValue=" + poBasicValue + ", discValue=" + discValue + ", poTaxId="
-				+ poTaxId + ", poTaxPer=" + poTaxPer + ", poTaxValue=" + poTaxValue + ", poPackPer=" + poPackPer
-				+ ", poPackVal=" + poPackVal + ", poPackRemark=" + poPackRemark + ", poInsuPer=" + poInsuPer
-				+ ", poInsuVal=" + poInsuVal + ", poInsuRemark=" + poInsuRemark + ", poFrtPer=" + poFrtPer
-				+ ", poFrtVal=" + poFrtVal + ", poFrtRemark=" + poFrtRemark + ", otherChargeBefore=" + otherChargeBefore
+		return "POReport [poId=" + poId + ", poType=" + poType + ", poNo=" + poNo + ", poDate=" + poDate + ", vendId="
+				+ vendId + ", vendQuation=" + vendQuation + ", vendQuationDate=" + vendQuationDate + ", poBasicValue="
+				+ poBasicValue + ", discValue=" + discValue + ", poTaxId=" + poTaxId + ", poTaxPer=" + poTaxPer
+				+ ", poTaxValue=" + poTaxValue + ", poPackPer=" + poPackPer + ", poPackVal=" + poPackVal
+				+ ", poPackRemark=" + poPackRemark + ", poInsuPer=" + poInsuPer + ", poInsuVal=" + poInsuVal
+				+ ", poInsuRemark=" + poInsuRemark + ", poFrtPer=" + poFrtPer + ", poFrtVal=" + poFrtVal
+				+ ", poFrtRemark=" + poFrtRemark + ", otherChargeBefore=" + otherChargeBefore
 				+ ", otherChargeBeforeRemark=" + otherChargeBeforeRemark + ", otherChargeAfter=" + otherChargeAfter
 				+ ", otherChargeAfterRemark=" + otherChargeAfterRemark + ", totalValue=" + totalValue + ", deliveryId="
 				+ deliveryId + ", dispatchId=" + dispatchId + ", paymentTermId=" + paymentTermId + ", poRemark="
 				+ poRemark + ", poStatus=" + poStatus + ", prnStatus=" + prnStatus + ", prnCopies=" + prnCopies
 				+ ", indId=" + indId + ", indNo=" + indNo + ", userId=" + userId + ", delStatus=" + delStatus
-				+ ", approvStatus=" + approvStatus + ", itemId=" + itemId + ", itemDesc=" + itemDesc + ", itemUom="
-				+ itemUom + ", itemQty=" + itemQty + ", itemRate=" + itemRate + ", mrnQty=" + mrnQty + ", pendingQty="
-				+ pendingQty + ", indedQty=" + indedQty + ", discPer=" + discPer + ", schDays=" + schDays + ", schDate="
-				+ schDate + ", insu=" + insu + ", otherChargesBefor=" + otherChargesBefor + ", taxValue=" + taxValue
-				+ ", freightValue=" + freightValue + ", otherChargesAfter=" + otherChargesAfter + ", landingCost="
-				+ landingCost + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName + ", vendorAdd1="
-				+ vendorAdd1 + ", taxDesc=" + taxDesc + ", deliveryDesc=" + deliveryDesc + ", dispModeDesc="
-				+ dispModeDesc + ", pymtDesc=" + pymtDesc + "]";
+				+ ", approvStatus=" + approvStatus + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName
+				+ ", vendorAdd1=" + vendorAdd1 + ", taxDesc=" + taxDesc + ", deliveryDesc=" + deliveryDesc
+				+ ", dispModeDesc=" + dispModeDesc + ", pymtDesc=" + pymtDesc + ", pOReportDetailList="
+				+ pOReportDetailList + "]";
 	}
 
 }

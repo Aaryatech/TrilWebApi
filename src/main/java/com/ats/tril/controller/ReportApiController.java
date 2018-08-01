@@ -1,6 +1,7 @@
 package com.ats.tril.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +11,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ats.tril.model.GetpassDetail;
-import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.rejection.RejectionReport;
 import com.ats.tril.model.report.ApproveStatusMrnReport;
 import com.ats.tril.model.report.IndentReport;
 import com.ats.tril.model.report.IndentReportDetail;
 import com.ats.tril.model.report.IssueReport;
 import com.ats.tril.model.report.MrnReport;
+import com.ats.tril.model.report.MrnReportDetail;
 import com.ats.tril.model.report.POReport;
+import com.ats.tril.model.report.POReportDetail;
 import com.ats.tril.repository.indent.IndentReportDetailRepository;
 import com.ats.tril.repository.report.ApproveStatusMrnReportRepo;
 import com.ats.tril.repository.report.IndentReportRepo;
 import com.ats.tril.repository.report.IssueReportRepository;
+import com.ats.tril.repository.report.MrnReportDetailRepo;
 import com.ats.tril.repository.report.MrnReportrepo;
+import com.ats.tril.repository.report.POReportDetailRepo;
 import com.ats.tril.repository.report.POReportRepository;
 import com.ats.tril.repository.report.RejectionReportRepository;
 
@@ -34,6 +37,9 @@ public class ReportApiController {
 	IndentReportRepo indentReportRepo;
 
 	@Autowired
+	MrnReportDetailRepo mrnReportDetailRepo;
+
+	@Autowired
 	IndentReportDetailRepository indentReportDetailRepository;
 
 	@Autowired
@@ -41,6 +47,9 @@ public class ReportApiController {
 
 	@Autowired
 	POReportRepository pOReportRepository;
+
+	@Autowired
+	POReportDetailRepo pOReportDetailRepo;
 
 	@Autowired
 	MrnReportrepo mrnReportrepo;
@@ -61,23 +70,18 @@ public class ReportApiController {
 		try {
 
 			indentList = indentReportRepo.getIndentHeaderReportList(indentIdList);
-			
-			
 
 			List<IndentReportDetail> list = indentReportDetailRepository.getIndentReportDetailList(indentIdList);
-			
-			for(int i=0;i<indentList.size();i++)
-			{
-				List<IndentReportDetail> listRes=new ArrayList<>();
-				for(int j =0;j<list.size();j++)
-				{
-					if(indentList.get(i).getIndMId()==list.get(j).getIndMId())
-					{
+
+			for (int i = 0; i < indentList.size(); i++) {
+				List<IndentReportDetail> listRes = new ArrayList<>();
+				for (int j = 0; j < list.size(); j++) {
+					if (indentList.get(i).getIndMId() == list.get(j).getIndMId()) {
 						listRes.add(list.get(j));
 					}
 				}
 				indentList.get(i).setIndentReportDetailList(listRes);
-			
+
 			}
 
 		} catch (Exception e) {
@@ -89,8 +93,8 @@ public class ReportApiController {
 
 	}
 
-	@RequestMapping(value = { "/getPoListHeaderDetailReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<POReport> getPoListHeaderDetailReport(
+	@RequestMapping(value = { "/getAllPoListHeaderDetailReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<POReport> getAllPoListHeaderDetailReport(
 
 			@RequestParam("poIdList") List<Integer> poIdList) {
 
@@ -98,7 +102,20 @@ public class ReportApiController {
 
 		try {
 
-			poList = pOReportRepository.getPOReportList(poIdList);
+			poList = pOReportRepository.getPOReportHeaderList(poIdList);
+
+			List<POReportDetail> list = pOReportDetailRepo.getPOReportDetailList(poIdList);
+
+			for (int i = 0; i < poList.size(); i++) {
+				List<POReportDetail> listRes = new ArrayList<>();
+				for (int j = 0; j < list.size(); j++) {
+					if (poList.get(i).getPoId() == list.get(j).getPoId()) {
+						listRes.add(list.get(j));
+					}
+				}
+				poList.get(i).setpOReportDetailList(listRes);
+
+			}
 
 		} catch (Exception e) {
 
@@ -109,8 +126,8 @@ public class ReportApiController {
 
 	}
 
-	@RequestMapping(value = { "/getMrnListHeaderDetailReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<MrnReport> getMrnListHeaderDetailReport(
+	@RequestMapping(value = { "/getAllMrnListHeaderDetailReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnReport> getAllMrnListHeaderDetailReport(
 
 			@RequestParam("mrnIdList") List<Integer> mrnIdList) {
 
@@ -118,7 +135,20 @@ public class ReportApiController {
 
 		try {
 
-			mrnList = mrnReportrepo.getMrnReportList(mrnIdList);
+			mrnList = mrnReportrepo.getHeaderMrnReportList(mrnIdList);
+
+			List<MrnReportDetail> list = mrnReportDetailRepo.getMrnDetailReportList(mrnIdList);
+
+			for (int i = 0; i < mrnList.size(); i++) {
+				List<MrnReportDetail> listRes = new ArrayList<>();
+				for (int j = 0; j < list.size(); j++) {
+					if (mrnList.get(i).getMrnId() == list.get(j).getMrnId()) {
+						listRes.add(list.get(j));
+					}
+				}
+				mrnList.get(i).setMrnReportDetailList(listRes);
+
+			}
 
 		} catch (Exception e) {
 
@@ -128,6 +158,7 @@ public class ReportApiController {
 		return mrnList;
 
 	}
+
 
 	@RequestMapping(value = { "/getMrnApproveStatusReportList" }, method = RequestMethod.POST)
 	public @ResponseBody List<ApproveStatusMrnReport> getMrnApproveStatusReportList(
