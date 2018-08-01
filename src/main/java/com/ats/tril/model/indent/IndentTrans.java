@@ -45,6 +45,8 @@ public class IndentTrans {
 	@Column(name = "ind_d_status")
 	private int indDStatus;
 	
+	private int delStatus;
+	
 	private int	indFyr;
 
 	public int getIndDId() {
@@ -158,14 +160,23 @@ public class IndentTrans {
 	public void setIndFyr(int indFyr) {
 		this.indFyr = indFyr;
 	}
-	
+
+	public int getDelStatus() {
+		return delStatus;
+	}
+
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "IndentTrans [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate
 				+ ", itemId=" + itemId + ", indQty=" + indQty + ", indItemUom=" + indItemUom + ", indItemDesc="
 				+ indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd + ", indItemSchddt="
-				+ indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus + ", indFyr=" + indFyr
-				+ "]";
+				+ indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus + ", delStatus=" + delStatus
+				+ ", indFyr=" + indFyr + "]";
 	}
-
+	
+	
 }

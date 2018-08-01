@@ -25,6 +25,14 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 			+ " WHERE indDId=:indDId ")
 		int updateIndentDetail(@Param("indQty") 
 		int indQty,@Param("indDId") int indDId);
+	
+	
+	@Transactional
+	@Modifying
+	@Query(" UPDATE IndentTrans  SET delStatus=:delStatus"
+			+ " WHERE indDId=:indDId ")
+		int delteIndentDetail(@Param("delStatus") 
+		int delStatus,@Param("indDId") int indDId);
 
 	//List<IndentTrans> findByIndMId(int indId);
 	

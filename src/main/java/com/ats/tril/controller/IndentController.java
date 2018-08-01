@@ -200,6 +200,43 @@ public class IndentController {
 
 		return err;
 	}
+	
+	//sac
+	
+	@RequestMapping(value = { "/delteIndentDetailItem" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage delteIndentDetailItem(@RequestParam("delStatus") int delStatus,
+			@RequestParam("indDId") int indDId) {
+
+		ErrorMessage err = new ErrorMessage();
+		int response = 0;
+
+		try {
+
+			response = indentTransRepo.delteIndentDetail(delStatus, indDId);
+
+			if (response > 0) {
+
+				err.setError(false);
+				err.setMessage("success delete Indent Detail");
+
+			}
+
+			else {
+
+				err.setError(true);
+				err.setMessage("failed delete Indent Detail");
+
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in delteIndentDetailItem   " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return err;
+	}
 
 	@RequestMapping(value = { "/getIntendsByStatus" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetIndentByStatus> getIntendsByStatus(@RequestParam("status") String status) {
