@@ -10,11 +10,11 @@ import com.ats.tril.model.report.GatepassReportDetail;
 
 public interface GatepassReportDetailRepo extends JpaRepository<GatepassReportDetail, Integer> {
 
-	@Query(value = "SELECT d.*,i.item_desc,i.item_code FROM t_gatepass_detail d,m_item i WHERE d.gp_id IN(:gpIdList) AND d.is_used=1 AND d.gp_item_id=i.item_id"
+	@Query(value = "SELECT d.*,i.item_desc,i.item_code,i.item_uom FROM t_gatepass_detail d,m_item i WHERE d.gp_id IN(:gpIdList) AND d.is_used=1 AND d.gp_item_id=i.item_id"
 			+ "", nativeQuery = true)
 	List<GatepassReportDetail> gatepassReportDetail(@Param("gpIdList") List<Integer> gpIdList);
 
-	@Query(value = "SELECT d.*,i.item_desc,i.item_code FROM t_gatepass_detail d,m_item i WHERE d.gp_id IN(:gpIdList) AND d.gp_status!=3 AND d.is_used=1 AND d.gp_item_id=i.item_id"
+	@Query(value = "SELECT d.*,i.item_desc,i.item_code ,i.item_uom FROM t_gatepass_detail d,m_item i WHERE d.gp_id IN(:gpIdList) AND d.gp_status!=3 AND d.is_used=1 AND d.gp_item_id=i.item_id"
 			+ "", nativeQuery = true)
 	List<GatepassReportDetail> gatepassReportDetailReturnable(@Param("gpIdList") List<Integer> gpIdList);
 

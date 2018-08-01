@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class POReportDetail {
 	@Id
@@ -58,7 +60,7 @@ public class POReportDetail {
 	private int schDays;
 
 	@Column(name = "sch_date")
-	private String schDate;
+	private Date schDate;
 
 	@Column(name = "sch_remark")
 	private String schRemark;
@@ -210,11 +212,13 @@ public class POReportDetail {
 		this.schDays = schDays;
 	}
 
-	public String getSchDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
+	public Date getSchDate() {
 		return schDate;
 	}
 
-	public void setSchDate(String schDate) {
+	public void setSchDate(Date schDate) {
 		this.schDate = schDate;
 	}
 

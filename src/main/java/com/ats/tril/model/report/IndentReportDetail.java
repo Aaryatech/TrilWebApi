@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class IndentReportDetail {
 
@@ -71,6 +73,7 @@ public class IndentReportDetail {
 		this.indMNo = indMNo;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getIndMDate() {
 		return indMDate;
 	}
@@ -127,6 +130,7 @@ public class IndentReportDetail {
 		this.indItemSchd = indItemSchd;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getIndItemSchddt() {
 		return indItemSchddt;
 	}

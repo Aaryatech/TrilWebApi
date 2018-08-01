@@ -2,11 +2,12 @@ package com.ats.tril.model.report;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GatepassReportDetail {
@@ -25,6 +26,7 @@ public class GatepassReportDetail {
 
 	private String itemCode;
 	private String itemDesc;
+	private String itemUom;
 
 	public int getGpDetailId() {
 		return gpDetailId;
@@ -66,6 +68,7 @@ public class GatepassReportDetail {
 		this.gpNoDays = gpNoDays;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getGpReturnDate() {
 		return gpReturnDate;
 	}
@@ -122,12 +125,20 @@ public class GatepassReportDetail {
 		this.itemDesc = itemDesc;
 	}
 
+	public String getItemUom() {
+		return itemUom;
+	}
+
+	public void setItemUom(String itemUom) {
+		this.itemUom = itemUom;
+	}
+
 	@Override
 	public String toString() {
 		return "GatepassReportDetail [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId
 				+ ", gpQty=" + gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus="
 				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", itemCode="
-				+ itemCode + ", itemDesc=" + itemDesc + "]";
+				+ itemCode + ", itemDesc=" + itemDesc + ", itemUom=" + itemUom + "]";
 	}
 
 }
