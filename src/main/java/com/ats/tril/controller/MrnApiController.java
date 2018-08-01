@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetItem;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.indent.DashIndentDetails;
 import com.ats.tril.model.indent.GetIndents;
@@ -25,6 +26,7 @@ import com.ats.tril.model.rejection.RejectionMemo;
 import com.ats.tril.model.rejection.RejectionMemoDetail;
 import com.ats.tril.model.rejection.repo.GetMrnDetailRejRepo;
 import com.ats.tril.model.rejection.repo.GetMrnHeaderRejRepo;
+import com.ats.tril.repository.GetItemRepository;
 import com.ats.tril.repository.PoDetailRepository;
 import com.ats.tril.repository.PoHeaderRepository;
 import com.ats.tril.repository.mrn.GetMrnDetailRepository;
@@ -60,6 +62,11 @@ public class MrnApiController {
 	@Autowired
 	PoHeaderRepository poHeaderRepository;
 
+	
+	@Autowired
+	GetItemRepository getItemRepository;
+
+	
 	@RequestMapping(value = { "/saveMrnHeadAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody MrnHeader saveMrnHeadAndDetail(@RequestBody MrnHeader mrnHeader) {
 		System.err.println("inside web api save saveMrnHeadAndDetail");
@@ -72,10 +79,19 @@ public class MrnApiController {
 			List<MrnDetail> mrnDetailList = mrnHeader.getMrnDetailList();
 
 			int mrnId = res.getMrnId();
+			String mrnNo=res.getMrnNo();
+			String batchNo;
 
 			for (int i = 0; i < mrnDetailList.size(); i++) {
 
 				MrnDetail detail = mrnDetailList.get(i);
+				
+				GetItem item = getItemRepository.getItemByItemId(detail.getItemId());
+				batchNo=new String();
+				batchNo=mrnNo+"-"+item.getItemCode();
+				
+				detail.setBatchNo(batchNo);
+				
 				detail.setMrnId(mrnId);
 				MrnDetail mrnDetailRes = mrnDetailRepo.save(detail);
 
