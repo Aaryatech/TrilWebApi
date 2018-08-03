@@ -14,8 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetEnquiryHeader {
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "enq_id")
@@ -26,7 +25,7 @@ public class GetEnquiryHeader {
 
 	@Column(name = "vend_id")
 	private int vendId;
-	
+
 	@Column(name = "vendor_name")
 	private String vendorName;
 
@@ -35,19 +34,21 @@ public class GetEnquiryHeader {
 
 	@Column(name = "enq_status")
 	private int enqStatus;
-	
+
 	@Column(name = "del_status")
 	private int delStatus;
-	
+
 	@Column(name = "enq_no")
 	private String enqNo;
-	
+
 	@Column(name = "ind_no")
 	private String indNo;
-	
+
 	@Column(name = "ind_id")
 	private int indId;
-	
+
+	private String vendorCode;
+
 	@Transient
 	List<GetEnquiryDetail> enquiryDetailList;
 
@@ -58,6 +59,7 @@ public class GetEnquiryHeader {
 	public void setEnqId(int enqId) {
 		this.enqId = enqId;
 	}
+
 	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getEnqDate() {
 		return enqDate;
@@ -138,15 +140,23 @@ public class GetEnquiryHeader {
 	public void setEnquiryDetailList(List<GetEnquiryDetail> enquiryDetailList) {
 		this.enquiryDetailList = enquiryDetailList;
 	}
+	
+	
+
+	public String getVendorCode() {
+		return vendorCode;
+	}
+
+	public void setVendorCode(String vendorCode) {
+		this.vendorCode = vendorCode;
+	}
 
 	@Override
 	public String toString() {
 		return "GetEnquiryHeader [enqId=" + enqId + ", enqDate=" + enqDate + ", vendId=" + vendId + ", vendorName="
 				+ vendorName + ", enqRemark=" + enqRemark + ", enqStatus=" + enqStatus + ", delStatus=" + delStatus
-				+ ", enqNo=" + enqNo + ", indNo=" + indNo + ", indId=" + indId + ", enquiryDetailList="
-				+ enquiryDetailList + "]";
+				+ ", enqNo=" + enqNo + ", indNo=" + indNo + ", indId=" + indId + ", vendorCode=" + vendorCode
+				+ ", enquiryDetailList=" + enquiryDetailList + "]";
 	}
-	
-	
 
 }

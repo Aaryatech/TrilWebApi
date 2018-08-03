@@ -24,20 +24,19 @@ import com.ats.tril.repository.GetEnquiryHeaderRepository;
 
 @RestController
 public class EnquiryRestController {
-	
-	
+
 	@Autowired
 	EnquiryHeaderRepository enquiryHeaderRepository;
-	
+
 	@Autowired
 	EnquiryDetailRepository enquiryDetailRepository;
-	
+
 	@Autowired
 	GetEnquiryHeaderRepository getEnquiryHeaderRepository;
-	
+
 	@Autowired
-	GetEnquiryDetailRepository  getEnquiryDetailRepository;
-	
+	GetEnquiryDetailRepository getEnquiryDetailRepository;
+
 	@RequestMapping(value = { "/saveEnquiryHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage saveEnquiryHeaderAndDetail(@RequestBody List<EnquiryHeader> enquiryHeaderList) {
 
@@ -45,20 +44,20 @@ public class EnquiryRestController {
 
 		try {
 
-			for(int i = 0 ; i<enquiryHeaderList.size();i++)
-			{
+			for (int i = 0; i < enquiryHeaderList.size(); i++) {
 				EnquiryHeader enquiryHeader = enquiryHeaderRepository.save(enquiryHeaderList.get(i));
-				
-				for(int j=0 ; j<enquiryHeaderList.get(i).getEnquiryDetailList().size();j++)
-				{
+
+				for (int j = 0; j < enquiryHeaderList.get(i).getEnquiryDetailList().size(); j++) {
 					enquiryHeaderList.get(i).getEnquiryDetailList().get(j).setEnqId(enquiryHeader.getEnqId());
 					enquiryHeaderList.get(i).getEnquiryDetailList().get(j).setVendId(enquiryHeader.getVendId());
-					enquiryHeaderList.get(i).getEnquiryDetailList().get(j).setEnqDetailDate(DateConvertor.convertToYMD(enquiryHeaderList.get(i).getEnquiryDetailList().get(j).getEnqDetailDate()));
+					enquiryHeaderList.get(i).getEnquiryDetailList().get(j).setEnqDetailDate(DateConvertor
+							.convertToYMD(enquiryHeaderList.get(i).getEnquiryDetailList().get(j).getEnqDetailDate()));
 				}
-				
-				List<EnquiryDetail> enquiryDetailsList = enquiryDetailRepository.saveAll(enquiryHeaderList.get(i).getEnquiryDetailList()); 
+
+				List<EnquiryDetail> enquiryDetailsList = enquiryDetailRepository
+						.saveAll(enquiryHeaderList.get(i).getEnquiryDetailList());
 			}
-			
+
 			errorMessage.setError(false);
 			errorMessage.setMessage("successfully Saved ");
 
@@ -72,7 +71,7 @@ public class EnquiryRestController {
 		return errorMessage;
 
 	}
-	
+
 	@RequestMapping(value = { "/getEnquiryHeaderList" }, method = RequestMethod.GET)
 	public @ResponseBody List<GetEnquiryHeader> getEnquiryHeaderList() {
 
@@ -81,90 +80,107 @@ public class EnquiryRestController {
 		try {
 
 			enquiryHeaderList = getEnquiryHeaderRepository.getEnquiryHeaderList();
-			 
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			 
 
 		}
 		return enquiryHeaderList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getEnquiryHeaderListBetweenDate" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetEnquiryHeader> getEnquiryHeaderListBetweenDate(@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate) {
+	public @ResponseBody List<GetEnquiryHeader> getEnquiryHeaderListBetweenDate(
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 
 		List<GetEnquiryHeader> enquiryHeaderList = new ArrayList<GetEnquiryHeader>();
 
 		try {
 
-			enquiryHeaderList = getEnquiryHeaderRepository.getEnquiryHeaderListBetweenDate(fromDate,toDate);
-			 
+			enquiryHeaderList = getEnquiryHeaderRepository.getEnquiryHeaderListBetweenDate(fromDate, toDate);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			 
 
 		}
 		return enquiryHeaderList;
 
 	}
-	
-	@RequestMapping(value = { "/getEnquiryHeaderAndDetail" }, method = RequestMethod.POST)
-	public @ResponseBody  GetEnquiryHeader  getEnquiryHeaderAndDetail(@RequestParam("enqId") int enqId) {
 
-		 GetEnquiryHeader  enquiryHeader = new  GetEnquiryHeader ();
+	@RequestMapping(value = { "/getEnquiryHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody GetEnquiryHeader getEnquiryHeaderAndDetail(@RequestParam("enqId") int enqId) {
+
+		GetEnquiryHeader enquiryHeader = new GetEnquiryHeader();
 
 		try {
 
-			enquiryHeader = getEnquiryHeaderRepository.getEnquiryHeader(enqId); 
+			enquiryHeader = getEnquiryHeaderRepository.getEnquiryHeader(enqId);
+
 			List<GetEnquiryDetail> enquiryDetailList = getEnquiryDetailRepository.getEnquiryDetail(enqId);
+
 			enquiryHeader.setEnquiryDetailList(enquiryDetailList);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			 
 
 		}
 		return enquiryHeader;
 
 	}
-	
+
 	@RequestMapping(value = { "/deleteEnquiryHeader" }, method = RequestMethod.POST)
-	public @ResponseBody  ErrorMessage  deleteEnquiryHeader(@RequestParam("enqId") int enqId) {
+	public @ResponseBody ErrorMessage deleteEnquiryHeader(@RequestParam("enqId") int enqId) {
 
 		ErrorMessage errorMessage = new ErrorMessage();
 
 		try {
 
-			int update =  enquiryHeaderRepository.delete(enqId);
-			
-			if(update==0)
-			{
+			int update = enquiryHeaderRepository.delete(enqId);
+
+			if (update == 0) {
 				errorMessage.setError(true);
 				errorMessage.setMessage("failed to Delete ");
-			}
-			else
-			{
+			} else {
 				errorMessage.setError(false);
 				errorMessage.setMessage("  Deleted ");
 			}
-			 
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 			errorMessage.setError(true);
 			errorMessage.setMessage("failed to Delete ");
-			 
 
 		}
 		return errorMessage;
+
+	}
+
+	@RequestMapping(value = { "/getEnqHeaderListBetweenDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEnquiryHeader> getEnqHeaderListBetweenDate(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("status") int status) {
+
+		List<GetEnquiryHeader> enquiryHeaderList = new ArrayList<GetEnquiryHeader>();
+
+		try {
+
+			if (status == 2) {
+				enquiryHeaderList = getEnquiryHeaderRepository.getEnquiryHeaderListBetweenDate(fromDate, toDate);
+
+			} else {
+
+				enquiryHeaderList = getEnquiryHeaderRepository.getEnqHeaderListBetweenDate(fromDate, toDate, status);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return enquiryHeaderList;
 
 	}
 
