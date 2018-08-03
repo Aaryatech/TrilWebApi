@@ -47,6 +47,9 @@ public class GetIssueDetail {
 	@Column(name = "status")
 	private int status;
 	
+	@Column(name = "batch_no")
+	private String batchNo;
+	
 	@Column(name = "item_code")
 	private String itemCode;
 
@@ -61,6 +64,9 @@ public class GetIssueDetail {
 	
 	@Column(name = "acc_head_desc")
 	private String accHeadDesc;
+	
+	@Column(name = "mrn_detail_id")
+	private int mrnDetailId;
 
 	public int getIssueDetailId() {
 		return issueDetailId;
@@ -198,14 +204,30 @@ public class GetIssueDetail {
 		this.accHeadDesc = accHeadDesc;
 	}
 
+	public String getBatchNo() {
+		return batchNo;
+	}
+
+	public void setBatchNo(String batchNo) {
+		this.batchNo = batchNo;
+	}
+
+	public int getMrnDetailId() {
+		return mrnDetailId;
+	}
+
+	public void setMrnDetailId(int mrnDetailId) {
+		this.mrnDetailId = mrnDetailId;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIssueDetail [issueDetailId=" + issueDetailId + ", issueId=" + issueId + ", itemGroupId="
 				+ itemGroupId + ", deptId=" + deptId + ", subDeptId=" + subDeptId + ", accHead=" + accHead + ", itemId="
 				+ itemId + ", itemIssueQty=" + itemIssueQty + ", itemRequestQty=" + itemRequestQty + ", itemPendingQty="
-				+ itemPendingQty + ", delStatus=" + delStatus + ", status=" + status + ", itemCode=" + itemCode
-				+ ", grpCode=" + grpCode + ", deptCode=" + deptCode + ", subDeptCode=" + subDeptCode + ", accHeadDesc="
-				+ accHeadDesc + "]";
+				+ itemPendingQty + ", delStatus=" + delStatus + ", status=" + status + ", batchNo=" + batchNo
+				+ ", itemCode=" + itemCode + ", grpCode=" + grpCode + ", deptCode=" + deptCode + ", subDeptCode="
+				+ subDeptCode + ", accHeadDesc=" + accHeadDesc + ", mrnDetailId=" + mrnDetailId + "]";
 	}
 	
 	

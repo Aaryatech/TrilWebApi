@@ -34,6 +34,8 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 		int delteIndentDetail(@Param("delStatus") 
 		int delStatus,@Param("indDId") int indDId);
 
+	List<IndentTrans> findByItemIdAndDelStatus(int itemId, int i);
+
 	//List<IndentTrans> findByIndMId(int indId);
 	
 }

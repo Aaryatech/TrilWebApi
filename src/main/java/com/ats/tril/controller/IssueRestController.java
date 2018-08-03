@@ -16,10 +16,15 @@ import com.ats.tril.model.GetIssueDetail;
 import com.ats.tril.model.GetIssueHeader;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
+import com.ats.tril.model.indent.Indent;
+import com.ats.tril.model.indent.IndentTrans;
+import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.repository.GetIssueDetailRepository;
 import com.ats.tril.repository.GetIssueHeaderRepository;
 import com.ats.tril.repository.IssueDetailRepository;
 import com.ats.tril.repository.IssueHeaderRepository;
+import com.ats.tril.repository.indent.IndentTransRepo;
+import com.ats.tril.repository.mrn.MrnDetailRepo;
 
 @RestController
 public class IssueRestController {
@@ -36,6 +41,9 @@ public class IssueRestController {
 	
 	@Autowired
 	GetIssueDetailRepository getIssueDetailRepository;
+	
+	@Autowired
+	MrnDetailRepo mrnDetailRepo;
 	
 	@RequestMapping(value = { "/saveIssueHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody IssueHeader saveIssueHeaderAndDetail(@RequestBody IssueHeader issueHeader) {
@@ -71,13 +79,13 @@ public class IssueRestController {
 			
 			if(delete==0)
 			{
-				errorMessage.setError(false);
-				errorMessage.setMessage("deleted");
+				errorMessage.setError(true);
+				errorMessage.setMessage("failed ");
 			}
 			else
 			{
-				errorMessage.setError(true);
-				errorMessage.setMessage("failed");
+				errorMessage.setError(false);
+				errorMessage.setMessage("deleted ");
 			}
 			 
 
@@ -131,5 +139,64 @@ public class IssueRestController {
 		return getIssueHeader;
 
 	}
+	
+	@RequestMapping(value = { "/getBatchByItemId" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnDetail> getBatchByItemId(@RequestParam("itemId") int itemId) {
+		 
+		List<MrnDetail> indTransList = new ArrayList<>();
+
+		try {
+ 
+			indTransList = mrnDetailRepo.findByItemIdAndDelStatus(itemId,1); 
+
+		} catch (Exception e) {
+  
+			e.printStackTrace();
+
+		}
+
+		return indTransList;
+
+	}
+	
+	@RequestMapping(value = { "/getMrnDetailListByMrnDetailId" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnDetail> getMrnDetailListByMrnDetailId(@RequestParam("mrnDetailList") List<Integer> mrnDetailList) {
+		 
+		List<MrnDetail> mrnDetails = new ArrayList<>();
+
+		try {
+ 
+			mrnDetails = mrnDetailRepo.getMrnDetailListByMrnDetailId(mrnDetailList); 
+
+		} catch (Exception e) {
+  
+			e.printStackTrace();
+
+		}
+
+		return mrnDetails;
+
+	}
+	
+	@RequestMapping(value = { "/updateMrnDetailList" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnDetail> updateMrnDetailList(@RequestBody List<MrnDetail> mrnDetailList) {
+		 
+		List<MrnDetail> mrnDetails = new ArrayList<>();
+
+		try {
+ 
+			mrnDetails = mrnDetailRepo.saveAll(mrnDetailList); 
+
+		} catch (Exception e) {
+  
+			e.printStackTrace();
+
+		}
+
+		return mrnDetails;
+
+	}
+	
+	
 
 }

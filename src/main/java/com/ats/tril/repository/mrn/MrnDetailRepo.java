@@ -1,5 +1,7 @@
 package com.ats.tril.repository.mrn;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +22,10 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 	@Modifying
 	@Query("UPDATE MrnDetail SET del_status=0 WHERE mrn_detail_id=:mrnDetailId ")
 	int deleteMrnDetail(@Param("mrnDetailId")int mrnDetailId);
+
+	List<MrnDetail> findByItemIdAndDelStatus(int itemId, int i);
+
+	@Query(value="select * from t_mrn_detail where mrn_detail_id in (:mrnDetailList) and del_status=1",nativeQuery=true)
+	List<MrnDetail> getMrnDetailListByMrnDetailId(@Param("mrnDetailList")List<Integer> mrnDetailList);
 
 }
