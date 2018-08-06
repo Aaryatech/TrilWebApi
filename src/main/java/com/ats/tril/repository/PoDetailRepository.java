@@ -27,6 +27,11 @@ public interface PoDetailRepository extends JpaRepository<PoDetail, Integer>{
 	PoDetail findByPoDetailId(int poDId);
 	
 	PoDetail save(PoDetail poDetail);
+
+	@Modifying
+	@Transactional
+	@Query("delete from PoDetail where po_detail_id =:poDetailId") 
+	void delete(@Param("poDetailId") int poDetailId);
 }
 
 

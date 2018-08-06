@@ -17,11 +17,13 @@ import com.ats.tril.model.GetPoDetailList;
 import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.PoHeader;
+import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.repository.GetPoDetailListRepository;
 import com.ats.tril.repository.GetPoHeaderListRepository;
 import com.ats.tril.repository.PoDetailRepository;
 import com.ats.tril.repository.PoHeaderRepository;
 import com.ats.tril.repository.getpodetail.GetPODetailRepo;
+import com.ats.tril.repository.indent.IndentTransRepo;
 
 @RestController
 public class PurchaseOrderRestController {
@@ -40,6 +42,9 @@ public class PurchaseOrderRestController {
 
 	@Autowired
 	GetPoDetailListRepository getPoDetailListRepository;
+	
+	@Autowired
+	IndentTransRepo indentTransRepo;
 
 	@RequestMapping(value = { "/getPODetailList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetPODetail> getPODetails(@RequestParam("poIdList") List<Integer> poIdList) {
@@ -224,6 +229,30 @@ public class PurchaseOrderRestController {
 
 		}
 		return list;
+
+	}
+	
+	@RequestMapping(value = { "/deletePoItem" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateIndendPendingQty(@RequestParam("poDetailId") int poDetailId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+		try {
+
+			 
+			poDetailRepository.delete(poDetailId);
+
+			errorMessage.setError(false);
+			errorMessage.setMessage("update");
+
+		} catch (Exception e) {
+
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed");
+
+			e.printStackTrace();
+
+		}
+		return errorMessage;
 
 	}
 

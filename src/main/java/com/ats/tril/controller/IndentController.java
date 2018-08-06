@@ -312,9 +312,12 @@ public class IndentController {
 			List<IndentTrans> transRes = indentTransRepo.saveAll(intendDetailList);
 
 			for (int i = 0; i < intendDetailList.size(); i++) {
-				if (intendDetailList.get(i).getIndDStatus() == 0 || intendDetailList.get(i).getIndDStatus() == 1) {
-					status = 0;
+				if (intendDetailList.get(i).getIndDStatus() == 1) {
+					status = 1;
 					break;
+				}
+				else if (intendDetailList.get(i).getIndDStatus() == 0) {
+					status = 0; 
 				}
 			}
 			int update = indentRepository.updateStatus(intendDetailList.get(0).getIndMId(), status);
