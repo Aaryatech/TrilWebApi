@@ -46,6 +46,7 @@ public class MrnReportDetail {
 
 	private String itemCode;
 	private String itemDesc;
+	private String itemUom;
 
 	public int getMrnDetailId() {
 		return mrnDetailId;
@@ -199,6 +200,14 @@ public class MrnReportDetail {
 		this.itemDesc = itemDesc;
 	}
 
+	public String getItemUom() {
+		return itemUom;
+	}
+
+	public void setItemUom(String itemUom) {
+		this.itemUom = itemUom;
+	}
+
 	@Override
 	public String toString() {
 		return "MrnReportDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId
@@ -206,7 +215,7 @@ public class MrnReportDetail {
 				+ ", rejectQty=" + rejectQty + ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty="
 				+ issueQty + ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo + ", poDetailId="
 				+ poDetailId + ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", itemCode="
-				+ itemCode + ", itemDesc=" + itemDesc + "]";
+				+ itemCode + ", itemDesc=" + itemDesc + ", itemUom=" + itemUom + "]";
 	}
 
 }

@@ -46,7 +46,7 @@ public class ApproveStatusMrnReportDetail {
 	private String itemCode;
 	private String itemDesc;
 	private int schDays;
-
+	private String itemUom;
 	private String schRemark;
 
 	public int getMrnDetailId() {
@@ -217,6 +217,14 @@ public class ApproveStatusMrnReportDetail {
 		this.schRemark = schRemark;
 	}
 
+	public String getItemUom() {
+		return itemUom;
+	}
+
+	public void setItemUom(String itemUom) {
+		this.itemUom = itemUom;
+	}
+
 	@Override
 	public String toString() {
 		return "ApproveStatusMrnReportDetail [mrnDetailId=" + mrnDetailId + ", mrnId=" + mrnId + ", itemId=" + itemId
@@ -224,7 +232,8 @@ public class ApproveStatusMrnReportDetail {
 				+ ", rejectQty=" + rejectQty + ", rejectRemark=" + rejectRemark + ", batchNo=" + batchNo + ", issueQty="
 				+ issueQty + ", remainingQty=" + remainingQty + ", poId=" + poId + ", poNo=" + poNo + ", poDetailId="
 				+ poDetailId + ", mrnDetailStatus=" + mrnDetailStatus + ", delStatus=" + delStatus + ", itemCode="
-				+ itemCode + ", itemDesc=" + itemDesc + ", schDays=" + schDays + ", schRemark=" + schRemark + "]";
+				+ itemCode + ", itemDesc=" + itemDesc + ", schDays=" + schDays + ", itemUom=" + itemUom + ", schRemark="
+				+ schRemark + "]";
 	}
 
 }

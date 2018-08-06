@@ -92,6 +92,8 @@ public class POReportDetail {
 	@Column(name = "landing_cost")
 	private float landingCost;
 
+	private String itemCode;
+
 	public int getPoDetailId() {
 		return poDetailId;
 	}
@@ -302,6 +304,14 @@ public class POReportDetail {
 		this.landingCost = landingCost;
 	}
 
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
 	@Override
 	public String toString() {
 		return "POReportDetail [poDetailId=" + poDetailId + ", poId=" + poId + ", indId=" + indId + ", vendId=" + vendId
@@ -311,7 +321,7 @@ public class POReportDetail {
 				+ schDate + ", schRemark=" + schRemark + ", status=" + status + ", basicValue=" + basicValue
 				+ ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor=" + otherChargesBefor
 				+ ", taxValue=" + taxValue + ", freightValue=" + freightValue + ", otherChargesAfter="
-				+ otherChargesAfter + ", landingCost=" + landingCost + "]";
+				+ otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode + "]";
 	}
 
 }

@@ -49,6 +49,8 @@ public class IndentReportDetail {
 
 	private int indFyr;
 
+	private String itemCode;
+
 	public int getIndDId() {
 		return indDId;
 	}
@@ -171,13 +173,21 @@ public class IndentReportDetail {
 		this.indFyr = indFyr;
 	}
 
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
 	@Override
 	public String toString() {
 		return "IndentReportDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
 				+ indMDate + ", itemId=" + itemId + ", indQty=" + indQty + ", indItemUom=" + indItemUom
 				+ ", indItemDesc=" + indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd
 				+ ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus
-				+ ", delStatus=" + delStatus + ", indFyr=" + indFyr + "]";
+				+ ", delStatus=" + delStatus + ", indFyr=" + indFyr + ", itemCode=" + itemCode + "]";
 	}
 
 }

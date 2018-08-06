@@ -31,6 +31,7 @@ public class RejectionReportDetail {
 
 	private String itemCode;
 	private String itemDesc;
+	private String itemUom;
 
 	public int getRejDetailId() {
 		return rejDetailId;
@@ -121,12 +122,20 @@ public class RejectionReportDetail {
 		this.itemDesc = itemDesc;
 	}
 
+	public String getItemUom() {
+		return itemUom;
+	}
+
+	public void setItemUom(String itemUom) {
+		this.itemUom = itemUom;
+	}
+
 	@Override
 	public String toString() {
 		return "RejectionReportDetail [rejDetailId=" + rejDetailId + ", rejectionId=" + rejectionId + ", itemId="
 				+ itemId + ", rejectionQty=" + rejectionQty + ", memoQty=" + memoQty + ", mrnNo=" + mrnNo + ", mrnDate="
 				+ mrnDate + ", status=" + status + ", isUsed=" + isUsed + ", itemCode=" + itemCode + ", itemDesc="
-				+ itemDesc + "]";
+				+ itemDesc + ", itemUom=" + itemUom + "]";
 	}
 
 }
