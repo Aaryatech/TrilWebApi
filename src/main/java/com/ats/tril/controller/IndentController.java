@@ -79,6 +79,35 @@ public class IndentController {
 		return res;
 
 	}
+	
+	@RequestMapping(value = { "/deleteIndent" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteIndent(@RequestParam("indId") int indId) { 
+		ErrorMessage res = new ErrorMessage();
+
+		try {
+
+			int delete = indentRepository.delete(indId);
+ 
+		 if(delete!=0) {
+			 res.setError(false);
+			 res.setMessage("delete");
+		 }
+		 else
+		 {
+			 res.setError(true);
+			 res.setMessage(" failed delete");
+		 }
+
+		} catch (Exception e) {
+
+			 
+			e.printStackTrace();
+
+		}
+
+		return res;
+
+	}
 
 	@RequestMapping(value = { "/getIndents" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetIndent> getIndents(@RequestParam("fromDate") String fromDate,
