@@ -1,5 +1,7 @@
 package com.ats.tril.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,25 +22,27 @@ public class DocumentController {
 
 	@Autowired
 	DocumentBeanRepository documentBeanRepository;
-	
+
 	@Autowired
 	SubDocumentRepository subDocumentRepository;
-	
+
 	@RequestMapping(value = { "/getDocumentData" }, method = RequestMethod.POST)
-	public @ResponseBody DocumentBean getDocumentData(@RequestParam("docId") int docId,@RequestParam("date") String date,@RequestParam("catId") int catId) {
+	public @ResponseBody DocumentBean getDocumentData(@RequestParam("docId") int docId,
+			@RequestParam("date") String date, @RequestParam("catId") int catId) {
 
 		DocumentBean documentBean = null;
 		try {
-			
-			documentBean = documentBeanRepository.findByDocIdAndDate(docId,date);
-            
-			if(documentBean!=null) {
-			
-            	SubDocument subDocumentRes=subDocumentRepository.findByMIdAndCatIdAndDelStatus(documentBean.getId(),catId,0);
-			    documentBean.setSubDocument(subDocumentRes);
-            
-            }
-		
+
+			documentBean = documentBeanRepository.findByDocIdAndDate(docId, date);
+
+			if (documentBean != null) {
+
+				SubDocument subDocumentRes = subDocumentRepository.findByMIdAndCatIdAndDelStatus(documentBean.getId(),
+						catId, 0);
+				documentBean.setSubDocument(subDocumentRes);
+
+			}
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -47,6 +51,25 @@ public class DocumentController {
 		return documentBean;
 
 	}
+
+	@RequestMapping(value = { "/getDocumentDataForPO" }, method = RequestMethod.POST)
+	public @ResponseBody DocumentBean getDocumentDataForPO(@RequestParam("date") String date) {
+
+		DocumentBean documentBean = null;
+		try {
+			Date now = new Date();
+
+			documentBean = documentBeanRepository.findByDocIdAndDateForPO(date);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return documentBean;
+
+	}
+
 	@RequestMapping(value = { "/saveSubDoc" }, method = RequestMethod.POST)
 	public @ResponseBody SubDocument updateSubDoc(@RequestBody SubDocument subDocument) {
 
@@ -64,22 +87,25 @@ public class DocumentController {
 		return res;
 
 	}
+
 	@RequestMapping(value = { "/postDocumentData" }, method = RequestMethod.POST)
-	public @ResponseBody DocumentBean postDocumentData(@RequestParam("docId") int docId,@RequestParam("date") String date,@RequestParam("catId") int catId) {
+	public @ResponseBody DocumentBean postDocumentData(@RequestParam("docId") int docId,
+			@RequestParam("date") String date, @RequestParam("catId") int catId) {
 
 		DocumentBean documentBean = null;
 		try {
-			
-			documentBean = documentBeanRepository.findByDocIdAndDate(docId,date);
-            
-			if(documentBean!=null) {
-			
-            	SubDocument subDocumentRes=subDocumentRepository.findByMIdAndCatIdAndDelStatus(documentBean.getId(),catId,0);
-            	subDocumentRepository.save(subDocumentRes);
-            	documentBean.setSubDocument(subDocumentRes);
-            
-            }
-		
+
+			documentBean = documentBeanRepository.findByDocIdAndDate(docId, date);
+
+			if (documentBean != null) {
+
+				SubDocument subDocumentRes = subDocumentRepository.findByMIdAndCatIdAndDelStatus(documentBean.getId(),
+						catId, 0);
+				subDocumentRepository.save(subDocumentRes);
+				documentBean.setSubDocument(subDocumentRes);
+
+			}
+
 		} catch (Exception e) {
 
 			e.printStackTrace();

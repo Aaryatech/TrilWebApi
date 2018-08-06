@@ -79,28 +79,25 @@ public class IndentController {
 		return res;
 
 	}
-	
+
 	@RequestMapping(value = { "/deleteIndent" }, method = RequestMethod.POST)
-	public @ResponseBody ErrorMessage deleteIndent(@RequestParam("indId") int indId) { 
+	public @ResponseBody ErrorMessage deleteIndent(@RequestParam("indId") int indId) {
 		ErrorMessage res = new ErrorMessage();
 
 		try {
 
 			int delete = indentRepository.delete(indId);
- 
-		 if(delete!=0) {
-			 res.setError(false);
-			 res.setMessage("delete");
-		 }
-		 else
-		 {
-			 res.setError(true);
-			 res.setMessage(" failed delete");
-		 }
+
+			if (delete != 0) {
+				res.setError(false);
+				res.setMessage("delete");
+			} else {
+				res.setError(true);
+				res.setMessage(" failed delete");
+			}
 
 		} catch (Exception e) {
 
-			 
 			e.printStackTrace();
 
 		}
@@ -229,9 +226,9 @@ public class IndentController {
 
 		return err;
 	}
-	
-	//sac
-	
+
+	// sac
+
 	@RequestMapping(value = { "/delteIndentDetailItem" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage delteIndentDetailItem(@RequestParam("delStatus") int delStatus,
 			@RequestParam("indDId") int indDId) {
@@ -341,18 +338,43 @@ public class IndentController {
 	public @ResponseBody List<IndentReport> getIndentListReport(
 
 			@RequestParam("catIdList") List<Integer> catIdList, @RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate) {
+			@RequestParam("toDate") String toDate, @RequestParam("indIsmonthly") int indIsmonthly,
+			@RequestParam("indIsdev") int indIsdev) {
 
 		List<IndentReport> indentList = new ArrayList<IndentReport>();
 
 		try {
 
-			if (catIdList.contains(0)) {
+			if (catIdList.contains(0) && indIsmonthly == 2 && indIsdev == 2) {
 				indentList = indentReportRepository.getAllIndentReportList(fromDate, toDate);
+
+			} else if (catIdList.contains(0) && indIsmonthly == 2) {
+				indentList = indentReportRepository.getIndentReportListByIsDev(fromDate, toDate, indIsdev);
+
+			} else if (catIdList.contains(0) && indIsdev == 2) {
+				indentList = indentReportRepository.getIndentReportListByIsMonthly(fromDate, toDate, indIsmonthly);
+
+			}
+
+			else if (indIsmonthly == 2 && indIsdev == 2) {
+				indentList = indentReportRepository.getIndentReportListByCatIdList(catIdList, fromDate, toDate);
+
+			} else if (indIsdev == 2) {
+				indentList = indentReportRepository.getIndentByCatIdListAndindIsmonthly(catIdList, fromDate, toDate,
+						indIsmonthly);
+
+			} else if (indIsmonthly == 2) {
+				indentList = indentReportRepository.getIndentByCatIdListAndindIsDev(catIdList, fromDate, toDate,
+						indIsdev);
+
+			} else if (catIdList.contains(0)) {
+				indentList = indentReportRepository.getIndentReportListByIsMonthlyAndIsDev(fromDate, toDate,
+						indIsmonthly, indIsdev);
 
 			} else {
 
-				indentList = indentReportRepository.getIndentReportList(catIdList, fromDate, toDate);
+				indentList = indentReportRepository.getIndentReportList(catIdList, fromDate, toDate, indIsmonthly,
+						indIsdev);
 			}
 
 		} catch (Exception e) {

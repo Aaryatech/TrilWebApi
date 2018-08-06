@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 import com.ats.tril.model.doc.DocumentBean;
 
 @Repository
-public interface DocumentBeanRepository extends JpaRepository<DocumentBean, Integer>{
+public interface DocumentBeanRepository extends JpaRepository<DocumentBean, Integer> {
 
-	@Query(value="Select * from m_doc where from_date <=:date And to_date >=:date and doc_id=:docId and del_status=0",nativeQuery=true)
-	 DocumentBean findByDocIdAndDate(@Param("docId") int docId,@Param("date") String date);
+	@Query(value = "Select * from m_doc where from_date <=:date And to_date >=:date and doc_id=:docId and del_status=0", nativeQuery = true)
+	DocumentBean findByDocIdAndDate(@Param("docId") int docId, @Param("date") String date);
+
+	@Query(value = "Select * from m_doc where from_date <=:date And to_date >=:date and doc_id=2 and del_status=0", nativeQuery = true)
+	DocumentBean findByDocIdAndDateForPO(@Param("date") String date);
 
 }
