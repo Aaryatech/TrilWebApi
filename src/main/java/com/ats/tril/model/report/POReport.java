@@ -139,6 +139,8 @@ public class POReport {
 	private String dispModeDesc;
 	private String pymtDesc;
 
+	private String vendorGstNo;
+
 	@Transient
 	List<POReportDetail> pOReportDetailList;
 
@@ -503,8 +505,6 @@ public class POReport {
 	public void setPymtDesc(String pymtDesc) {
 		this.pymtDesc = pymtDesc;
 	}
-	
-	
 
 	public List<POReportDetail> getpOReportDetailList() {
 		return pOReportDetailList;
@@ -512,6 +512,14 @@ public class POReport {
 
 	public void setpOReportDetailList(List<POReportDetail> pOReportDetailList) {
 		this.pOReportDetailList = pOReportDetailList;
+	}
+
+	public String getVendorGstNo() {
+		return vendorGstNo;
+	}
+
+	public void setVendorGstNo(String vendorGstNo) {
+		this.vendorGstNo = vendorGstNo;
 	}
 
 	@Override
@@ -530,8 +538,8 @@ public class POReport {
 				+ ", indId=" + indId + ", indNo=" + indNo + ", userId=" + userId + ", delStatus=" + delStatus
 				+ ", approvStatus=" + approvStatus + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName
 				+ ", vendorAdd1=" + vendorAdd1 + ", taxDesc=" + taxDesc + ", deliveryDesc=" + deliveryDesc
-				+ ", dispModeDesc=" + dispModeDesc + ", pymtDesc=" + pymtDesc + ", pOReportDetailList="
-				+ pOReportDetailList + "]";
+				+ ", dispModeDesc=" + dispModeDesc + ", pymtDesc=" + pymtDesc + ", vendorGstNo=" + vendorGstNo
+				+ ", pOReportDetailList=" + pOReportDetailList + "]";
 	}
 
 }

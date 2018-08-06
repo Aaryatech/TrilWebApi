@@ -17,6 +17,9 @@ public class POReportDetail {
 	@Column(name = "po_detail_id")
 	private int poDetailId;
 
+	@Column(name = "ind_m_date")
+	private Date indMDate;
+
 	@Column(name = "po_id")
 	private int poId;
 
@@ -312,16 +315,26 @@ public class POReportDetail {
 		this.itemCode = itemCode;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getIndMDate() {
+		return indMDate;
+	}
+
+	public void setIndMDate(Date indMDate) {
+		this.indMDate = indMDate;
+	}
+
 	@Override
 	public String toString() {
-		return "POReportDetail [poDetailId=" + poDetailId + ", poId=" + poId + ", indId=" + indId + ", vendId=" + vendId
-				+ ", itemId=" + itemId + ", itemDesc=" + itemDesc + ", itemUom=" + itemUom + ", itemQty=" + itemQty
-				+ ", itemRate=" + itemRate + ", mrnQty=" + mrnQty + ", pendingQty=" + pendingQty + ", indedQty="
-				+ indedQty + ", discPer=" + discPer + ", discValue=" + discValue + ", schDays=" + schDays + ", schDate="
-				+ schDate + ", schRemark=" + schRemark + ", status=" + status + ", basicValue=" + basicValue
-				+ ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor=" + otherChargesBefor
-				+ ", taxValue=" + taxValue + ", freightValue=" + freightValue + ", otherChargesAfter="
-				+ otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode + "]";
+		return "POReportDetail [poDetailId=" + poDetailId + ", indMDate=" + indMDate + ", poId=" + poId + ", indId="
+				+ indId + ", vendId=" + vendId + ", itemId=" + itemId + ", itemDesc=" + itemDesc + ", itemUom="
+				+ itemUom + ", itemQty=" + itemQty + ", itemRate=" + itemRate + ", mrnQty=" + mrnQty + ", pendingQty="
+				+ pendingQty + ", indedQty=" + indedQty + ", discPer=" + discPer + ", discValue=" + discValue
+				+ ", schDays=" + schDays + ", schDate=" + schDate + ", schRemark=" + schRemark + ", status=" + status
+				+ ", basicValue=" + basicValue + ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor="
+				+ otherChargesBefor + ", taxValue=" + taxValue + ", freightValue=" + freightValue
+				+ ", otherChargesAfter=" + otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode
+				+ "]";
 	}
 
 }
