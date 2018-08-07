@@ -147,7 +147,7 @@ public class IssueRestController {
 
 		try {
  
-			indTransList = mrnDetailRepo.findByItemIdAndDelStatus(itemId,1); 
+			indTransList = mrnDetailRepo.findByItemIdAndDelStatusAndMrnDetailStatus(itemId,1,1); 
 
 		} catch (Exception e) {
   
