@@ -265,7 +265,7 @@ public class IndentController {
 	}
 
 	@RequestMapping(value = { "/getIntendsByStatus" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetIndentByStatus> getIntendsByStatus(@RequestParam("status") String status) {
+	public @ResponseBody List<GetIndentByStatus> getIntendsByStatus(@RequestParam("status") List<Integer> status) {
 
 		List<GetIndentByStatus> indentList = new ArrayList<GetIndentByStatus>();
 

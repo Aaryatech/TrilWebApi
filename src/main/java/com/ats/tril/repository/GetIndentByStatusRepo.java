@@ -11,6 +11,6 @@ import com.ats.tril.model.indent.GetIndentByStatus;
 public interface GetIndentByStatusRepo extends JpaRepository<GetIndentByStatus, Integer>{
 
 	@Query(value=("SELECT ind_m_id,ind_m_no,ind_m_date,ind_remark,ind_m_status FROM indent WHERE ind_m_status IN (:status) and del_status=1"),nativeQuery=true)
-	List<GetIndentByStatus> getIntendsByStatus(@Param("status") String status);
+	List<GetIndentByStatus> getIntendsByStatus(@Param("status") List<Integer> status);
 
 }
