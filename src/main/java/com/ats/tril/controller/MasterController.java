@@ -1382,7 +1382,7 @@ public class MasterController {
 		try {
 
 			itemList = getItemRepository.itemListByCatId(catId);
-			 
+
 		} catch (Exception e) {
 
 			e.printStackTrace();

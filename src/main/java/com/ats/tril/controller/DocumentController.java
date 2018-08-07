@@ -70,6 +70,24 @@ public class DocumentController {
 
 	}
 
+	@RequestMapping(value = { "/getDocumentDataForMrn" }, method = RequestMethod.POST)
+	public @ResponseBody DocumentBean getDocumentDataForMrn(@RequestParam("date") String date) {
+
+		DocumentBean documentBean = null;
+		try {
+			Date now = new Date();
+
+			documentBean = documentBeanRepository.findByDocIdAndDateForMrn(date);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return documentBean;
+
+	}
+
 	@RequestMapping(value = { "/saveSubDoc" }, method = RequestMethod.POST)
 	public @ResponseBody SubDocument updateSubDoc(@RequestBody SubDocument subDocument) {
 
