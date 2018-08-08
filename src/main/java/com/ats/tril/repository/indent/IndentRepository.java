@@ -31,6 +31,6 @@ public interface IndentRepository extends JpaRepository<Indent, Integer> {
 	@Query(" UPDATE Indent  SET del_status=0 WHERE ind_m_id=:indId ")
 	int delete(@Param("indId") int indId);
 
-	
+	Indent findByIndMId(int indMId);
 
 }

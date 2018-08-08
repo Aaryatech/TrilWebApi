@@ -46,7 +46,57 @@ public class IndentController {
 
 	@Autowired
 	GetIntendDetailRepo getIntendDetailRepo;
+	
+	
+	@RequestMapping(value = { "/saveIndentTras" }, method = RequestMethod.POST)
+	public @ResponseBody List<IndentTrans> saveIndentTras(@RequestBody IndentTrans indDetail) {
 
+		System.err.println("inside web api /getIndents indent");
+
+		List<IndentTrans> indDetailList = new ArrayList<IndentTrans>();
+
+		try {
+			IndentTrans transRes=indentTransRepo.save(indDetail);
+			
+			indDetailList = indentTransRepo.findByIndMIdAndDelStatus(indDetail.getIndMId(),1);
+
+			System.err.println("indDetailList List " + indDetailList.toString());
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndents Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return indDetailList;
+
+	}
+
+	
+	
+	
+	@RequestMapping(value = { "/getIndentByIndId" }, method = RequestMethod.POST)
+	public @ResponseBody Indent getIndentByIndId(@RequestParam("indMId") int indMId) {
+		
+		Indent indResponse = null;
+		
+		
+		try {
+			indResponse=indentRepository.findByIndMId(indMId);
+			
+		}catch (Exception e) {
+			System.err.println("Exception in /getIndentByIndId   " +e.getMessage());
+			e.printStackTrace();
+		}
+		return indResponse;
+		
+		
+		
+		
+		
+	}
+	
 	@RequestMapping(value = { "/saveIndentAndTrans" }, method = RequestMethod.POST)
 	public @ResponseBody Indent saveIndentsHeaderDetail(@RequestBody Indent indent) {
 		System.err.println("inside web api save indent");
@@ -174,7 +224,7 @@ public class IndentController {
 
 		try {
 
-			indDetailList = indentTransRepo.findByIndMId(indMId);
+			indDetailList = indentTransRepo.findByIndMIdAndDelStatus(indMId,1);
 
 			System.err.println("indDetailList List " + indDetailList.toString());
 
