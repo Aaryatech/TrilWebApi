@@ -198,6 +198,32 @@ public class MrnApiController {
 
 	}
 
+	@RequestMapping(value = { "/getMrnHeader" }, method = RequestMethod.POST)
+	public @ResponseBody GetMrnHeader getMrnHeader(@RequestParam("mrnId") int mrnId) {
+
+		GetMrnHeader mrnHeader = new GetMrnHeader();
+
+		try {
+			mrnHeader=getMrnHeaderRepository.findByMrnId(mrnId);
+			if (mrnHeader!=null) {
+				
+			List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository.getMrnDetailList(mrnId, 0);
+
+					mrnHeader.setGetMrnDetailList(getMrnDetailList);
+				
+			}
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndents Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return mrnHeader;
+
+	}
+
 	@RequestMapping(value = { "/saveMrnData" }, method = RequestMethod.POST)
 	public @ResponseBody List<MrnDetail> saveMrnData(@RequestBody List<MrnDetail> getMrnDetailList) {
 		List<MrnDetail> res = new ArrayList<>();
