@@ -21,7 +21,7 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(" UPDATE IndentTrans  SET indQty=:indQty , ind_fyr=:indQty  WHERE indDId=:indDId ")
+	@Query(" UPDATE IndentTrans  SET indQty=:indQty , indFyr=:indQty  WHERE indDId=:indDId ")
 		int updateIndentDetail(@Param("indQty") 
 		int indQty,@Param("indDId") int indDId);
 	
