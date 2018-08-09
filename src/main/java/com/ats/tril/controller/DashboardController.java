@@ -11,15 +11,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.ConsumptionReportData;
+import com.ats.tril.model.GetCurrStockRol;
+import com.ats.tril.model.GetCurrentStock;
+import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetPoHeader;
 import com.ats.tril.model.PoHeader;
 import com.ats.tril.model.indent.DashIndentDetails;
 import com.ats.tril.model.indent.GetIndents;
 import com.ats.tril.repository.ConsumptionReportRepository;
+import com.ats.tril.repository.GetCurrentStockHeaderResRepository;
+import com.ats.tril.repository.GetItemRepository;
 import com.ats.tril.repository.GetPoHeaderRepository;
 import com.ats.tril.repository.PoHeaderRepository;
 import com.ats.tril.repository.indent.GetIndentRepository;
 import com.ats.tril.repository.indent.IndentTransRepository;
+import com.ats.tril.repository.stock.GetCurrentStockHeaderRepository;
 
 @RestController
 public class DashboardController {
@@ -35,6 +41,16 @@ public class DashboardController {
 	
 	@Autowired
 	ConsumptionReportRepository consumptionReportRepository;
+	
+	@Autowired
+	GetItemRepository getItemRepository;
+	
+	@Autowired
+	GetCurrentStockHeaderRepository getCurrentStockHeaderRepository;
+	
+	@Autowired
+	GetCurrentStockHeaderResRepository getCurrentStockHeaderResRepository;
+	
 	
 	@RequestMapping(value = { "/getIndentList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetIndents> getIndentList(@RequestParam("status") List<Integer> status) {
@@ -93,7 +109,6 @@ public class DashboardController {
 
 		try {
 
-			 
 			consumptionReportData = consumptionReportRepository.findByPoTypeAndDate(poType,fromDate,toDate);
 				
 
@@ -104,6 +119,53 @@ public class DashboardController {
 			 
 		}
 		return consumptionReportData;
+
+	}
+	@RequestMapping(value = { "/getItemsLessThanROLForDashB" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetCurrStockRol> getItemsLessThanROLForDashB(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+		
+		List<GetCurrStockRol> getCurrentStock = new ArrayList<GetCurrStockRol>();
+
+		try {
+			
+			List<GetItem>  itemList = getItemRepository.getAllItems();
+
+			getCurrentStock = getCurrentStockHeaderResRepository.getCurrentStockForDash(fromDate,toDate);
+			
+			for(int i = 0 ; i<itemList.size() ; i++)
+			{
+				for(int j = 0 ; j<getCurrentStock.size() ; j++)
+				{ 
+					if(itemList.get(i).getItemId()==getCurrentStock.get(j).getItemId())
+					{
+						getCurrentStock.get(j).setItemName(itemList.get(i).getItemDesc());
+						getCurrentStock.get(j).setCatId(itemList.get(i).getCatId());
+						getCurrentStock.get(j).setItemUom(itemList.get(i).getItemUom());
+						getCurrentStock.get(j).setItemMaxLevel(itemList.get(i).getItemMaxLevel());
+						if(itemList.get(i).getItemRodLevel()<(getCurrentStock.get(j).getOpeningStock()+getCurrentStock.get(j).getApproveQty()-
+									getCurrentStock.get(j).getIssueQty()+getCurrentStock.get(j).getReturnIssueQty()-getCurrentStock.get(j).getDamageQty()-
+									getCurrentStock.get(j).getGatepassQty()+getCurrentStock.get(j).getGatepassReturnQty()))
+							
+						{
+							getCurrentStock.remove(j);
+						}
+						else
+						{
+							getCurrentStock.get(j).setRolLevel(itemList.get(i).getItemRodLevel());
+						}
+						
+						break;
+					} 
+				}
+			}
+ 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getCurrentStock;
 
 	}
 	

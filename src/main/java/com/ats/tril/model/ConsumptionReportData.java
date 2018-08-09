@@ -16,6 +16,17 @@ public class ConsumptionReportData implements Serializable{
 	private float target;
 	
 	private float totalValue;
+	
+	private float basicValue;
+
+	
+	public float getBasicValue() {
+		return basicValue;
+	}
+
+	public void setBasicValue(float basicValue) {
+		this.basicValue = basicValue;
+	}
 
 	public int getCatId() {
 		return catId;
@@ -51,10 +62,9 @@ public class ConsumptionReportData implements Serializable{
 
 	@Override
 	public String toString() {
-		return "ConsumptionReport [catId=" + catId + ", catDesc=" + catDesc + ", target=" + target + ", totalValue="
-				+ totalValue + "]";
+		return "ConsumptionReportData [catId=" + catId + ", catDesc=" + catDesc + ", target=" + target + ", totalValue="
+				+ totalValue + ", basicValue=" + basicValue + "]";
 	}
-	
-	
 
+	
 }

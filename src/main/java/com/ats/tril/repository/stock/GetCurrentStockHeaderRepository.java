@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.ats.tril.model.GetCurrStockRol;
 import com.ats.tril.model.GetCurrentStock;
 
 public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurrentStock, Integer>{
@@ -77,5 +78,6 @@ public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurren
 			"    where\r\n" + 
 			"        m_item.is_used=1 "),nativeQuery=true)
 	List<GetCurrentStock> getCurrentStock(@Param("fromDate")String fromDate,@Param("toDate") String toDate);
+
 
 }
