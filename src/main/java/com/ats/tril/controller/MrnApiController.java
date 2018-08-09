@@ -22,6 +22,7 @@ import com.ats.tril.model.mrn.GetMrnHeaderRej;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
 import com.ats.tril.model.mrn.MrnReport;
+import com.ats.tril.model.mrn.PoItemForMrnEdit;
 import com.ats.tril.model.rejection.RejectionMemo;
 import com.ats.tril.model.rejection.RejectionMemoDetail;
 import com.ats.tril.model.rejection.repo.GetMrnDetailRejRepo;
@@ -34,6 +35,7 @@ import com.ats.tril.repository.mrn.GetMrnHeaderRepository;
 import com.ats.tril.repository.mrn.MrnDetailRepo;
 import com.ats.tril.repository.mrn.MrnHeaderRepository;
 import com.ats.tril.repository.mrn.MrnReportRepo;
+import com.ats.tril.repository.mrn.PoItemForMrnEditRepo;
 import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 
 @RestController
@@ -65,8 +67,48 @@ public class MrnApiController {
 	
 	@Autowired
 	GetItemRepository getItemRepository;
-
 	
+	@Autowired
+	PoItemForMrnEditRepo getPoItemForMrnEditRepo;
+	
+	
+	
+	@RequestMapping(value = { "/getOneMrnHeader" }, method = RequestMethod.POST)
+	public @ResponseBody MrnHeader getMrnHeaderByMrnId(@RequestParam("mrnId") int mrnId) {
+		System.err.println("inside web api save saveMrnHeadAndDetail");
+		MrnHeader res = new MrnHeader();
+
+		try {
+			res=mrnHeaderRepository.findByMrnId(mrnId);
+			
+		}catch (Exception e) {
+		
+			System.err.println("Exce in /getMrnHeader @MrnApi  " +e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	@RequestMapping(value = { "/getPoItemForMrnEdit" }, method = RequestMethod.POST)
+	public @ResponseBody List<PoItemForMrnEdit> getPoItemForMrnEdit(@RequestParam("mrnId") int mrnId) {
+
+		List<PoItemForMrnEdit> poItemMrnEditList = new ArrayList<PoItemForMrnEdit>();
+		try {
+			
+			poItemMrnEditList=getPoItemForMrnEditRepo.getPoItemForMrnEdit(mrnId);
+			
+		}catch (Exception e) {
+			
+			System.err.println("Exce in /getPoItemForMrnEdit @MrnApi  " +e.getMessage());
+			e.printStackTrace();
+		}
+		
+		
+		return poItemMrnEditList;
+
+
+	}
 	@RequestMapping(value = { "/saveMrnHeadAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody MrnHeader saveMrnHeadAndDetail(@RequestBody MrnHeader mrnHeader) {
 		System.err.println("inside web api save saveMrnHeadAndDetail");

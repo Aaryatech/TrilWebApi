@@ -34,6 +34,10 @@ public interface MrnHeaderRepository extends JpaRepository<MrnHeader, Integer>{
 	
 
 	List<MrnHeader> findAllByDelStatus(int i);
+	
+	//9 aug sachin
+	MrnHeader findByMrnId(int mrnId);
+	
 
 
 }
