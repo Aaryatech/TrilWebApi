@@ -13,7 +13,7 @@ public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurren
 
 	@Query(value=("SELECT\r\n" + 
 			"        m_item.item_id,\r\n" + 
-			"        m_item.item_code,\r\n" + 
+			"        CONCAT(m_item.item_code,' ',m_item.item_desc) as item_code,\r\n" + 
 			"        coalesce((Select SUM(t_stock_detail.op_stock_qty)\r\n" + 
 			"        FROM\r\n" + 
 			"            t_stock_detail,\r\n" + 
@@ -81,7 +81,7 @@ public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurren
 
 	@Query(value=("SELECT\r\n" + 
 			"        m_item.item_id,\r\n" + 
-			"        m_item.item_code,\r\n" + 
+			"        CONCAT(m_item.item_code,' ',m_item.item_desc) as item_code,\r\n" + 
 			"        coalesce((Select SUM(t_stock_detail.op_stock_qty)\r\n" + 
 			"        FROM\r\n" + 
 			"            t_stock_detail,\r\n" + 
