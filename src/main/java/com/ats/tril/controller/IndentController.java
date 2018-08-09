@@ -315,13 +315,14 @@ public class IndentController {
 	}
 
 	@RequestMapping(value = { "/getIntendsByStatus" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetIndentByStatus> getIntendsByStatus(@RequestParam("status") List<Integer> status) {
+	public @ResponseBody List<GetIndentByStatus> getIntendsByStatus(@RequestParam("status") List<Integer> status,
+			@RequestParam("poType") int poType) {
 
 		List<GetIndentByStatus> indentList = new ArrayList<GetIndentByStatus>();
 
 		try {
 
-			indentList = getIndentByStatusRepo.getIntendsByStatus(status);
+			indentList = getIndentByStatusRepo.getIntendsByStatus(status,poType);
 
 		} catch (Exception e) {
 
