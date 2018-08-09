@@ -64,51 +64,47 @@ public class MrnApiController {
 	@Autowired
 	PoHeaderRepository poHeaderRepository;
 
-	
 	@Autowired
 	GetItemRepository getItemRepository;
-	
+
 	@Autowired
 	PoItemForMrnEditRepo getPoItemForMrnEditRepo;
-	
-	
-	
+
 	@RequestMapping(value = { "/getOneMrnHeader" }, method = RequestMethod.POST)
 	public @ResponseBody MrnHeader getMrnHeaderByMrnId(@RequestParam("mrnId") int mrnId) {
 		System.err.println("inside web api save saveMrnHeadAndDetail");
 		MrnHeader res = new MrnHeader();
 
 		try {
-			res=mrnHeaderRepository.findByMrnId(mrnId);
-			
-		}catch (Exception e) {
-		
-			System.err.println("Exce in /getMrnHeader @MrnApi  " +e.getMessage());
+			res = mrnHeaderRepository.findByMrnId(mrnId);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in /getMrnHeader @MrnApi  " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return res;
 	}
-	
+
 	@RequestMapping(value = { "/getPoItemForMrnEdit" }, method = RequestMethod.POST)
 	public @ResponseBody List<PoItemForMrnEdit> getPoItemForMrnEdit(@RequestParam("mrnId") int mrnId) {
 
 		List<PoItemForMrnEdit> poItemMrnEditList = new ArrayList<PoItemForMrnEdit>();
 		try {
-			
-			poItemMrnEditList=getPoItemForMrnEditRepo.getPoItemForMrnEdit(mrnId);
-			
-		}catch (Exception e) {
-			
-			System.err.println("Exce in /getPoItemForMrnEdit @MrnApi  " +e.getMessage());
+
+			poItemMrnEditList = getPoItemForMrnEditRepo.getPoItemForMrnEdit(mrnId);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in /getPoItemForMrnEdit @MrnApi  " + e.getMessage());
 			e.printStackTrace();
 		}
-		
-		
+
 		return poItemMrnEditList;
 
-
 	}
+
 	@RequestMapping(value = { "/saveMrnHeadAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody MrnHeader saveMrnHeadAndDetail(@RequestBody MrnHeader mrnHeader) {
 		System.err.println("inside web api save saveMrnHeadAndDetail");
@@ -121,19 +117,19 @@ public class MrnApiController {
 			List<MrnDetail> mrnDetailList = mrnHeader.getMrnDetailList();
 
 			int mrnId = res.getMrnId();
-			String mrnNo=res.getMrnNo();
+			String mrnNo = res.getMrnNo();
 			String batchNo;
 
 			for (int i = 0; i < mrnDetailList.size(); i++) {
 
 				MrnDetail detail = mrnDetailList.get(i);
-				
+
 				GetItem item = getItemRepository.getItemByItemId(detail.getItemId());
-				batchNo=new String();
-				batchNo=mrnNo+"-"+item.getItemCode();
-				
+				batchNo = new String();
+				batchNo = mrnNo + "-" + item.getItemCode();
+
 				detail.setBatchNo(batchNo);
-				
+
 				detail.setMrnId(mrnId);
 				MrnDetail mrnDetailRes = mrnDetailRepo.save(detail);
 
@@ -246,13 +242,13 @@ public class MrnApiController {
 		GetMrnHeader mrnHeader = new GetMrnHeader();
 
 		try {
-			mrnHeader=getMrnHeaderRepository.findByMrnId(mrnId);
-			if (mrnHeader!=null) {
-				
-			List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository.getMrnDetailList(mrnId, 0);
+			mrnHeader = getMrnHeaderRepository.findByMrnId(mrnId);
+			if (mrnHeader != null) {
 
-					mrnHeader.setGetMrnDetailList(getMrnDetailList);
-				
+				List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository.getMrnDetailList(mrnId, 0);
+
+				mrnHeader.setGetMrnDetailList(getMrnDetailList);
+
 			}
 		} catch (Exception e) {
 
@@ -489,6 +485,52 @@ public class MrnApiController {
 		try {
 
 			int delRes = mrnHeaderRepository.deleteMrnHeader(mrnId);
+			List<MrnDetail> mrnDetailList = mrnDetailRepo.findByMrnIdAndDelStatus(mrnId, 0);
+
+			for (int i = 0; i < mrnDetailList.size(); i++) {
+
+				PoDetail poDetail = poDetailRepo.findByPoDetailId(mrnDetailList.get(i).getPoDetailId());
+				//
+
+				int remainingQty = 0;
+
+				remainingQty = poDetail.getPendingQty() + mrnDetailList.get(i).getMrnQty();
+
+				poDetail.setPendingQty(remainingQty);
+				
+				int status = 1;
+
+				if (remainingQty == 0) {
+					System.err.println("Pending qty =0 keeping status=2");
+					status = 2;
+				}
+
+				poDetail.setStatus(status);
+				PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
+
+				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotAndPoId(2,
+						mrnDetailList.get(i).getPoId());
+
+				if (poDetailsList.isEmpty()) {
+
+					System.err.println("Po Detail list is Empty so Update po Header Status for POId "
+							+ mrnDetailList.get(i).getPoId());
+
+					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2,
+							mrnDetailList.get(i).getPoId());
+
+				}
+
+				else {
+
+					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1,
+							mrnDetailList.get(i).getPoId());
+
+				}
+
+				//
+
+			}
 
 			if (delRes > 0) {
 				errMsg.setError(false);
@@ -517,6 +559,56 @@ public class MrnApiController {
 
 			int delRes = mrnDetailRepo.deleteMrnDetail(mrnDetailId);
 
+			
+			MrnDetail mrnDetailRes=mrnDetailRepo.findByMrnDetailIdAndDelStatus(mrnDetailId,0);
+			
+			
+			//
+			
+			//MrnDetail mrnDetailRes = mrnDetailRepo.save(detail);
+
+			PoDetail poDetail = poDetailRepo.findByPoDetailId(mrnDetailRes.getPoDetailId());
+
+			if (mrnDetailRes != null) {
+				int remainingQty = 0;
+					System.err.println("Inside mrn qty before edit is greater than 0");
+					remainingQty = poDetail.getPendingQty()
+							+ mrnDetailRes.getMrnQty();
+
+				poDetail.setPendingQty(remainingQty);
+				int status = 1;
+
+				if (remainingQty == 0) {
+					System.err.println("Pending qty =0 keeping status=2");
+					status = 2;
+				}
+
+				poDetail.setStatus(status);
+				PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
+				// int detailStatusUpdate=poDetailRepo.updateResponse(remainingQty, status,
+				// mrnDetailRes.getPoDetailId());
+
+				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotAndPoId(2, mrnDetailRes.getPoId());
+
+				if (poDetailsList.isEmpty()) {
+
+					System.err.println("Po Detail list is Empty so Update po Header Status for POId "
+							+ mrnDetailRes.getPoId());
+
+					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailRes.getPoId());
+
+				}
+
+				else {
+
+					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailRes.getPoId());
+
+				}
+
+			}
+			
+			//
+			
 			if (delRes > 0) {
 				errMsg.setError(false);
 				errMsg.setMessage("Mrn Detail deleted Successfull");

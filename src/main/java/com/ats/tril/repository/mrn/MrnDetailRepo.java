@@ -28,4 +28,8 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 	@Query(value="select * from t_mrn_detail where mrn_detail_id in (:mrnDetailList) and del_status=1",nativeQuery=true)
 	List<MrnDetail> getMrnDetailListByMrnDetailId(@Param("mrnDetailList")List<Integer> mrnDetailList);
 
+	
+	List<MrnDetail> findByMrnIdAndDelStatus(int mrnId,int delStatus);
+	
+	MrnDetail findByMrnDetailIdAndDelStatus(int mrnDetailId,int delStatus);
 }
