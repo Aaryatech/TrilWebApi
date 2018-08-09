@@ -170,11 +170,21 @@ public class EnquiryRestController {
 			if (status == 2) {
 				enquiryHeaderList = getEnquiryHeaderRepository.getEnquiryHeaderListBetweenDate(fromDate, toDate);
 
-			} else {
+			} else
+          if(fromDate.equals("1") && toDate.equals("1"))
+          {
+				enquiryHeaderList = getEnquiryHeaderRepository.getEnqHeaderListByStatus(status);
+            
+				for(int i=0;i<enquiryHeaderList.size();i++)
+				{
+					List<GetEnquiryDetail> enquiryDetailList = getEnquiryDetailRepository.getEnquiryDetail(enquiryHeaderList.get(i).getEnqId());
+					enquiryHeaderList.get(i).setEnquiryDetailList(enquiryDetailList);
+				}
+          }
+          else {
 
 				enquiryHeaderList = getEnquiryHeaderRepository.getEnqHeaderListBetweenDate(fromDate, toDate, status);
 			}
-
 		} catch (Exception e) {
 
 			e.printStackTrace();

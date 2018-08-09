@@ -25,5 +25,8 @@ public interface GetEnquiryHeaderRepository extends JpaRepository<GetEnquiryHead
 			+ "and h.del_status=1 and h.enq_status=:status and v.vendor_id = h.vend_id order by  enq_date asc"), nativeQuery = true)
 	List<GetEnquiryHeader> getEnqHeaderListBetweenDate(@Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, @Param("status") int status);
+	@Query(value = ("select h.*, v.vendor_name,v.vendor_code from enq_header h, m_vendor v  where  "
+			+ " h.del_status=1 and h.enq_status=:status and v.vendor_id = h.vend_id order by  enq_date asc"), nativeQuery = true)
+	List<GetEnquiryHeader> getEnqHeaderListByStatus(@Param("status") int status);
 
 }
