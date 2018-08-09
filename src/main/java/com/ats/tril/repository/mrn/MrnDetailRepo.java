@@ -29,7 +29,8 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 	List<MrnDetail> getMrnDetailListByMrnDetailId(@Param("mrnDetailList")List<Integer> mrnDetailList);
 
 	
-	List<MrnDetail> findByMrnIdAndDelStatus(int mrnId,int delStatus);
+	List<MrnDetail> findByMrnId(int mrnId);
 	
 	MrnDetail findByMrnDetailIdAndDelStatus(int mrnDetailId,int delStatus);
+	
 }

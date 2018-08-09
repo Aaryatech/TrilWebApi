@@ -485,7 +485,10 @@ public class MrnApiController {
 		try {
 
 			int delRes = mrnHeaderRepository.deleteMrnHeader(mrnId);
-			List<MrnDetail> mrnDetailList = mrnDetailRepo.findByMrnIdAndDelStatus(mrnId, 0);
+			List<MrnDetail> mrnDetailList = mrnDetailRepo.findByMrnId(mrnId);
+			
+			System.err.println("Mrn detail in deleteMrnHeader " +mrnDetailList.toString() );
+			
 
 			for (int i = 0; i < mrnDetailList.size(); i++) {
 
