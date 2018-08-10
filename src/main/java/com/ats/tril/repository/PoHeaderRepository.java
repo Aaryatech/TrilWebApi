@@ -13,7 +13,7 @@ import com.ats.tril.model.PoHeader;
 public interface PoHeaderRepository extends JpaRepository<PoHeader, Integer>{
 
 	
-	List<PoHeader> findByVendIdAndDelStatusAndPoStatusIn(int vendId,int delStatus,List<Integer> statusList);
+	List<PoHeader> findByVendIdAndDelStatusAndPoTypeAndPoStatusIn(int vendId,int delStatus,int poType,List<Integer> statusList);
 
 	List<PoHeader> findByPoTypeAndPoStatusAndDelStatus(int poType, int status, int i);
 	

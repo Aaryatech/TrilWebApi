@@ -71,13 +71,13 @@ public class PurchaseOrderRestController {
 	// Sachin 12-07-2018
 	@RequestMapping(value = { "/getPOHeaderList" }, method = RequestMethod.POST)
 	public @ResponseBody List<PoHeader> getPOHeaderList(@RequestParam("vendId") int vendId,
-			@RequestParam("delStatus") int delStatus, @RequestParam("statusList") List<Integer> statusList) {
+			@RequestParam("delStatus") int delStatus,@RequestParam("poType") int poType, @RequestParam("statusList") List<Integer> statusList) {
 
 		List<PoHeader> poHeaderList = new ArrayList<PoHeader>();
 
 		try {
 
-			poHeaderList = poHeaderRepository.findByVendIdAndDelStatusAndPoStatusIn(vendId, delStatus, statusList);
+			poHeaderList = poHeaderRepository.findByVendIdAndDelStatusAndPoTypeAndPoStatusIn(vendId, delStatus,poType, statusList);
 
 		} catch (Exception e) {
 
