@@ -315,13 +315,21 @@ public class MrnApiController {
 	}
 
 	@RequestMapping(value = { "/getMrnHeaderByDate" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetMrnHeader> getMrnHeaderByDate(@RequestParam("fromDate") String fromDate,
+	public @ResponseBody List<GetMrnHeader> getMrnHeaderByDate(@RequestParam("grnType")int grnType,@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate) {
 
 		List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
 
 		try {
-			mrnHeaderList = getMrnHeaderRepository.getMrnHeaderByDate(fromDate, toDate);
+			
+			if(grnType==-1) {
+				System.err.println("Grn type ==-1 on page load call");
+				
+				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderByDate(fromDate, toDate);
+
+			}else {
+			mrnHeaderList = getMrnHeaderRepository.getMrnHeaderByDate(grnType,fromDate, toDate);
+			}
 			System.err.println("mrn Head List by Date =  " + mrnHeaderList.toString());
 
 		} catch (Exception e) {
