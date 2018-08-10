@@ -199,21 +199,23 @@ public class MrnApiController {
 	@RequestMapping(value = { "/getMrnHeaderList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetMrnHeader> getMrnHeaderList(@RequestParam("venId") List<Integer> venId,
 			@RequestParam("status") List<Integer> status) {
+System.err.println("status= "+status.toString());
 
 		List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
 
 		try {
-			if (venId.contains(0) && !status.contains(0)) {
+			if (venId.contains(0) && !status.contains(-1)) {
 				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderListByStatus(status);
-			} else if (!venId.contains(0) && status.contains(0)) {
-
+				System.err.println("a");
+			} else if (!venId.contains(0) && status.contains(-1)) {
+				System.err.println("b");
 				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderListByVenId(venId);
 
-			} else if (!venId.contains(0) && !status.contains(0)) {
-
+			} else if (!venId.contains(0) && !status.contains(-1)) {
+				System.err.println("c");
 				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderListByVenIdAndStatus(venId, status);
-			} else if (venId.contains(0) && status.contains(0)) {
-
+			} else if (venId.contains(0) && status.contains(-1)) {
+				System.err.println("d");
 				mrnHeaderList = getMrnHeaderRepository.getAllMrnHeaderList();
 			}
 			if (mrnHeaderList.size() > 0) {
