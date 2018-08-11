@@ -199,7 +199,6 @@ public class MrnApiController {
 	@RequestMapping(value = { "/getMrnHeaderList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetMrnHeader> getMrnHeaderList(@RequestParam("venId") List<Integer> venId,
 			@RequestParam("status") List<Integer> status) {
-System.err.println("status= "+status.toString());
 
 		List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
 
