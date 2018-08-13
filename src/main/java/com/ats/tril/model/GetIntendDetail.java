@@ -57,6 +57,9 @@ public class GetIntendDetail {
 	@Column(name = "ind_d_status")
 	private int indDStatus;
 	
+	@Column(name = "del_status")
+	private int delStatus;
+	
 	@Column(name = "ind_fyr")
 	private int	indFyr;
 
@@ -180,13 +183,21 @@ public class GetIntendDetail {
 		this.indFyr = indFyr;
 	}
 
+	public int getDelStatus() {
+		return delStatus;
+	}
+
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIntendDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
 				+ indMDate + ", itemId=" + itemId + ", itemCode=" + itemCode + ", indQty=" + indQty + ", indItemUom="
 				+ indItemUom + ", indItemDesc=" + indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd="
 				+ indItemSchd + ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", indDStatus="
-				+ indDStatus + ", indFyr=" + indFyr + "]";
+				+ indDStatus + ", delStatus=" + delStatus + ", indFyr=" + indFyr + "]";
 	}
 	
 	
