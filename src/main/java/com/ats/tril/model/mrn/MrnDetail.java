@@ -48,7 +48,16 @@ public class MrnDetail {
 	
 	private int delStatus;
 	
-	
+	private int chalanQty;//added on 13 aug
+
+
+	public int getChalanQty() {
+	return chalanQty;
+}
+
+public void setChalanQty(int chalanQty) {
+	this.chalanQty = chalanQty;
+}
 	@Transient
 	private int mrnQtyBeforeEdit;
 	
