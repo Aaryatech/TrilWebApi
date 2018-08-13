@@ -33,7 +33,7 @@ import com.ats.tril.repository.indent.IndentTransRepo;
 
 @RestController
 public class IndentController {
-
+ 
 	@Autowired
 	IndentRepository indentRepository;
 
