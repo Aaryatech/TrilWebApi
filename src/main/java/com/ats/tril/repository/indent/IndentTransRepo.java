@@ -1,5 +1,6 @@
 package com.ats.tril.repository.indent;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,9 +22,9 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(" UPDATE IndentTrans  SET indQty=:indQty , indFyr=:indQty  WHERE indDId=:indDId ")
+	@Query(" UPDATE IndentTrans  SET indQty=:indQty , indFyr=:indQty ,indItemSchd=:schDay , indItemSchddt=:schDate, indRemark=:remark WHERE indDId=:indDId ")
 		int updateIndentDetail(@Param("indQty") 
-		int indQty,@Param("indDId") int indDId);
+		int indQty,@Param("indDId") int indDId,@Param("schDay")int schDay, @Param("schDate")Date schDate,@Param("remark")String remark);
 	
 	
 	@Transactional

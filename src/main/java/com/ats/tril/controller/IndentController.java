@@ -2,6 +2,8 @@ package com.ats.tril.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetIntendDetail;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.GetIndentByStatus;
+import com.ats.tril.model.indent.GetIndentDetail;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.indent.IndentReport;
 import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.repository.GetIndentByStatusRepo;
 import com.ats.tril.repository.GetIntendDetailRepo;
+import com.ats.tril.repository.indent.GetIndentDetailRepo;
 import com.ats.tril.repository.indent.GetIndentRepo;
 import com.ats.tril.repository.indent.IndentReportRepository;
 import com.ats.tril.repository.indent.IndentRepository;
@@ -49,16 +54,21 @@ public class IndentController {
 	
 	
 	@RequestMapping(value = { "/saveIndentTras" }, method = RequestMethod.POST)
-	public @ResponseBody List<IndentTrans> saveIndentTras(@RequestBody IndentTrans indDetail) {
+	public @ResponseBody List<GetIndentDetail> saveIndentTras(@RequestBody IndentTrans indDetail) {
 
 		System.err.println("inside web api /getIndents indent");
 
-		List<IndentTrans> indDetailList = new ArrayList<IndentTrans>();
+		//List<IndentTrans> indDetailList = new ArrayList<IndentTrans>();
+		List<GetIndentDetail> indDetailList = new ArrayList<GetIndentDetail>();
 
 		try {
 			IndentTrans transRes=indentTransRepo.save(indDetail);
 			
-			indDetailList = indentTransRepo.findByIndMIdAndDelStatus(indDetail.getIndMId(),1);
+			//indDetailList = indentTransRepo.findByIndMIdAndDelStatus(indDetail.getIndMId(),1);
+
+				indDetailList = getIndentDetailRepo.getIndentDetail(indDetail.getIndMId());
+
+				System.err.println("indDetailList List " + indDetailList.toString());
 
 			System.err.println("indDetailList List " + indDetailList.toString());
 		} catch (Exception e) {
@@ -239,19 +249,65 @@ public class IndentController {
 		return indDetailList;
 
 	}
+//new bean and service to display item code and uom on edit indent page for indent Items
+	
+	@Autowired
+	GetIndentDetailRepo getIndentDetailRepo;
+	
+	@RequestMapping(value = { "/getIndentDetailByIndentId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIndentDetail> getIndentDetailByIndentId(@RequestParam("indMId") int indMId,
+			@RequestParam("delStatus") int delStatus) {
 
+		System.err.println("inside web api /getIndentDetailByIndMId indent");
+
+		List<GetIndentDetail> indDetailList = new ArrayList<GetIndentDetail>();
+
+		try {
+
+			indDetailList = getIndentDetailRepo.getIndentDetail(indMId);
+
+			System.err.println("indDetailList List " + indDetailList.toString());
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndentDetailByIndentId  Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return indDetailList;
+
+	}
+	
+	
 	// edit Indent Detail for Indent Quantity
 
 	@RequestMapping(value = { "/editIndentDetail" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage editIndentDetail(@RequestParam("indQty") int indQty,
-			@RequestParam("indDId") int indDId) {
+			@RequestParam("indDId") int indDId,@RequestParam("schDay") int schDay,@RequestParam("remark") String remark
+			,@RequestParam("indentId") int indentId) {
 
 		ErrorMessage err = new ErrorMessage();
 		int response = 0;
 
 		try {
 
-			response = indentTransRepo.updateIndentDetail(indQty, indDId);
+			
+			//IndentTrans indDetail=indentTransRepo.getOne(indDId);
+			
+			Indent indResponse=indentRepository.findByIndMId(indentId);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date tempDate =indResponse.getIndMDate();
+			Calendar c = Calendar.getInstance();
+			c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
+			c.add(Calendar.DATE, schDay); // Adding days
+			
+			String schDate = sdf.format(c.getTime());
+			
+			Date scDate=sdf.parse(schDate);
+			System.err.println("Date  " +schDate );
+			response = indentTransRepo.updateIndentDetail(indQty, indDId,schDay,scDate,remark);
 
 			if (response > 0) {
 
