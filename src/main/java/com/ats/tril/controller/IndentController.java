@@ -389,6 +389,25 @@ public class IndentController {
 		return indentList;
 
 	}
+	
+	@RequestMapping(value = { "/getIntendsByStatusWithoutPoType" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIndentByStatus> getIntendsByStatusWithoutPoType(@RequestParam("status") List<Integer> status ) {
+
+		List<GetIndentByStatus> indentList = new ArrayList<GetIndentByStatus>();
+
+		try {
+
+			indentList = getIndentByStatusRepo.getIntendsByStatusWithoutPoType(status);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		return indentList;
+
+	}
 
 	@RequestMapping(value = { "/getIntendsDetailByIntendId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetIntendDetail> getIntendsDetailByIntendId(@RequestParam("indId") int indId) {
