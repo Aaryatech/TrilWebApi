@@ -515,6 +515,9 @@ public class MrnApiController {
 				if (remainingQty == 0) {
 					System.err.println("Pending qty =0 keeping status=2");
 					status = 2;
+				}else  if(remainingQty==poDetail.getItemQty()){
+					
+					status=0;
 				}
 
 				poDetail.setStatus(status);
@@ -593,6 +596,9 @@ public class MrnApiController {
 				if (remainingQty == 0) {
 					System.err.println("Pending qty =0 keeping status=2");
 					status = 2;
+				}else  if(remainingQty==poDetail.getItemQty()){
+					
+					status=0;
 				}
 
 				poDetail.setStatus(status);
