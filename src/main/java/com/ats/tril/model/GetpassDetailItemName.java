@@ -24,6 +24,7 @@ public class GetpassDetailItemName {
 	private int isUsed;
 	private float gpRemQty;
 	private float gpRetQty;
+	private String remark;
 	
 	@Column(name = "cat_id")
 	private int catId;
@@ -136,12 +137,20 @@ public class GetpassDetailItemName {
 		this.grpId = grpId;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassDetailItemName [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId
 				+ ", gpQty=" + gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus="
-				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", catId="
-				+ catId + ", grpId=" + grpId + ", itemCode=" + itemCode + "]";
+				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", remark="
+				+ remark + ", catId=" + catId + ", grpId=" + grpId + ", itemCode=" + itemCode + "]";
 	}
 
 }
