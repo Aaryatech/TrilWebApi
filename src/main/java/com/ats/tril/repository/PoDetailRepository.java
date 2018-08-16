@@ -27,7 +27,19 @@ public interface PoDetailRepository extends JpaRepository<PoDetail, Integer>{
 	PoDetail findByPoDetailId(int poDId);
 	
 	PoDetail save(PoDetail poDetail);
-
+	
+	/*@Transactional
+	@Query("SELECT COALESCE((1),0) as cnt FROM dual WHERE (SELECT COUNT(*) from po_detail WHERE po_detail.status=:status AND po_detail.po_id=:poId)="
+			+ "(SELECT COUNT(*) from po_detail WHERE po_detail.po_id=:poId)") 
+	int  getPodetailFromStatusAndPoId(@Param("poId") int poId,@Param("status") int status);
+	*/
+	
+	
+	List<PoDetail> findAllByStatusAndPoId(int status,int poId);
+	
+	List<PoDetail> findAllByPoId(int poId);
+	
+	
 	@Modifying
 	@Transactional
 	@Query("delete from PoDetail where po_detail_id =:poDetailId") 

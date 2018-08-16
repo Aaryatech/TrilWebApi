@@ -523,23 +523,25 @@ public class MrnApiController {
 				poDetail.setStatus(status);
 				PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
 
-				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotAndPoId(2,
-						mrnDetailList.get(i).getPoId());
+				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotAndPoId(2, mrnDetailList.get(i).getPoId());
 
 				if (poDetailsList.isEmpty()) {
 
 					System.err.println("Po Detail list is Empty so Update po Header Status for POId "
 							+ mrnDetailList.get(i).getPoId());
 
-					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2,
-							mrnDetailList.get(i).getPoId());
+					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailList.get(i).getPoId());
 
 				}
+				
+					List<PoDetail> details=poDetailRepo.findAllByPoId(mrnDetailList.get(i).getPoId());
+					poDetailsList=new ArrayList<PoDetail>();
+					
+					poDetailsList = poDetailRepo.findAllByStatusAndPoId(0, mrnDetailList.get(i).getPoId());
 
-				else {
+				if(details.size()==poDetailsList.size()) {
 
-					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1,
-							mrnDetailList.get(i).getPoId());
+					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailList.get(i).getPoId());
 
 				}
 
@@ -603,9 +605,7 @@ public class MrnApiController {
 
 				poDetail.setStatus(status);
 				PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
-				// int detailStatusUpdate=poDetailRepo.updateResponse(remainingQty, status,
-				// mrnDetailRes.getPoDetailId());
-
+				
 				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotAndPoId(2, mrnDetailRes.getPoId());
 
 				if (poDetailsList.isEmpty()) {
@@ -616,10 +616,15 @@ public class MrnApiController {
 					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailRes.getPoId());
 
 				}
+				
+					List<PoDetail> details=poDetailRepo.findAllByPoId(mrnDetailRes.getPoId());
+					poDetailsList=new ArrayList<PoDetail>();
+					
+					poDetailsList = poDetailRepo.findAllByStatusAndPoId(0, mrnDetailRes.getPoId());
 
-				else {
+				if(details.size()==poDetailsList.size()) {
 
-					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailRes.getPoId());
+					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailRes.getPoId());
 
 				}
 
