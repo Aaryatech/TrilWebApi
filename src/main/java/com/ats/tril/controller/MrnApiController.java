@@ -148,7 +148,7 @@ public class MrnApiController {
 
 						System.err.println("Inside mrn qty before edit is greater than 0");
 						remainingQty = poDetail.getPendingQty()
-								- (detail.getMrnQtyBeforeEdit() - mrnDetailRes.getMrnQty());
+								- (mrnDetailRes.getMrnQty()-detail.getMrnQtyBeforeEdit());
 
 					}
 
