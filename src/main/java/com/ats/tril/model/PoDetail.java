@@ -36,19 +36,19 @@ public class PoDetail {
 	private String itemUom;
 	
 	@Column(name = "item_qty")
-	private int itemQty;
+	private float itemQty;
 	
 	@Column(name = "item_rate")
 	private float itemRate;
 	
 	@Column(name = "mrn_qty")
-	private int mrnQty;
+	private float mrnQty;
 	
 	@Column(name = "pending_qty")
-	private int pendingQty;
+	private float pendingQty;
 	
 	@Column(name = "inded_qty")
-	private int indedQty;
+	private float indedQty;
 	
 	@Column(name = "disc_per")
 	private float discPer;
@@ -148,11 +148,11 @@ public class PoDetail {
 		this.itemUom = itemUom;
 	}
 
-	public int getItemQty() {
+	public float getItemQty() {
 		return itemQty;
 	}
 
-	public void setItemQty(int itemQty) {
+	public void setItemQty(float itemQty) {
 		this.itemQty = itemQty;
 	}
 
@@ -164,27 +164,27 @@ public class PoDetail {
 		this.itemRate = itemRate;
 	}
 
-	public int getMrnQty() {
+	public float getMrnQty() {
 		return mrnQty;
 	}
 
-	public void setMrnQty(int mrnQty) {
+	public void setMrnQty(float mrnQty) {
 		this.mrnQty = mrnQty;
 	}
 
-	public int getPendingQty() {
+	public float getPendingQty() {
 		return pendingQty;
 	}
 
-	public void setPendingQty(int pendingQty) {
+	public void setPendingQty(float pendingQty) {
 		this.pendingQty = pendingQty;
 	}
 
-	public int getIndedQty() {
+	public float getIndedQty() {
 		return indedQty;
 	}
 
-	public void setIndedQty(int indedQty) {
+	public void setIndedQty(float indedQty) {
 		this.indedQty = indedQty;
 	}
 

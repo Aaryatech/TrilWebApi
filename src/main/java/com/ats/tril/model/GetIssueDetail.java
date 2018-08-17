@@ -33,13 +33,13 @@ public class GetIssueDetail {
 	private int itemId;
 	
 	@Column(name = "item_issue_qty")
-	private int itemIssueQty;
+	private float itemIssueQty;
 	
 	@Column(name = "item_request_qty")
-	private int itemRequestQty;
+	private float itemRequestQty;
 	
 	@Column(name = "item_pending_qty")
-	private int itemPendingQty;
+	private float itemPendingQty;
 
 	@Column(name = "del_status")
 	private int delStatus;
@@ -124,27 +124,27 @@ public class GetIssueDetail {
 		this.itemId = itemId;
 	}
 
-	public int getItemIssueQty() {
+	public float getItemIssueQty() {
 		return itemIssueQty;
 	}
 
-	public void setItemIssueQty(int itemIssueQty) {
+	public void setItemIssueQty(float itemIssueQty) {
 		this.itemIssueQty = itemIssueQty;
 	}
 
-	public int getItemRequestQty() {
+	public float getItemRequestQty() {
 		return itemRequestQty;
 	}
 
-	public void setItemRequestQty(int itemRequestQty) {
+	public void setItemRequestQty(float itemRequestQty) {
 		this.itemRequestQty = itemRequestQty;
 	}
 
-	public int getItemPendingQty() {
+	public float getItemPendingQty() {
 		return itemPendingQty;
 	}
 
-	public void setItemPendingQty(int itemPendingQty) {
+	public void setItemPendingQty(float itemPendingQty) {
 		this.itemPendingQty = itemPendingQty;
 	}
 

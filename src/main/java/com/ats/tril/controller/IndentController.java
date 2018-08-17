@@ -284,7 +284,7 @@ public class IndentController {
 	// edit Indent Detail for Indent Quantity
 
 	@RequestMapping(value = { "/editIndentDetail" }, method = RequestMethod.POST)
-	public @ResponseBody ErrorMessage editIndentDetail(@RequestParam("indQty") int indQty,
+	public @ResponseBody ErrorMessage editIndentDetail(@RequestParam("indQty") float indQty,
 			@RequestParam("indDId") int indDId,@RequestParam("schDay") int schDay,@RequestParam("remark") String remark
 			,@RequestParam("indentId") int indentId) {
 

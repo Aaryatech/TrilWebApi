@@ -24,7 +24,7 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 	@Modifying
 	@Query(" UPDATE IndentTrans  SET indQty=:indQty , indFyr=:indQty ,indItemSchd=:schDay , indItemSchddt=:schDate, indRemark=:remark WHERE indDId=:indDId ")
 		int updateIndentDetail(@Param("indQty") 
-		int indQty,@Param("indDId") int indDId,@Param("schDay")int schDay, @Param("schDate")Date schDate,@Param("remark")String remark);
+		float indQty,@Param("indDId") int indDId,@Param("schDay")int schDay, @Param("schDate")Date schDate,@Param("remark")String remark);
 	
 	
 	@Transactional

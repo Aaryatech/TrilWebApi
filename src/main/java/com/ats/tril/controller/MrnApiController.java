@@ -136,7 +136,7 @@ public class MrnApiController {
 				PoDetail poDetail = poDetailRepo.findByPoDetailId(mrnDetailRes.getPoDetailId());
 
 				if (mrnDetailRes != null) {
-					int remainingQty = 0;
+					float remainingQty = 0;
 
 					if (detail.getMrnQtyBeforeEdit() == -1) {
 
@@ -504,7 +504,7 @@ public class MrnApiController {
 				PoDetail poDetail = poDetailRepo.findByPoDetailId(mrnDetailList.get(i).getPoDetailId());
 				//
 
-				int remainingQty = 0;
+				float remainingQty = 0;
 
 				remainingQty = poDetail.getPendingQty() + mrnDetailList.get(i).getMrnQty();
 
@@ -587,7 +587,7 @@ public class MrnApiController {
 			PoDetail poDetail = poDetailRepo.findByPoDetailId(mrnDetailRes.getPoDetailId());
 
 			if (mrnDetailRes != null) {
-				int remainingQty = 0;
+				float remainingQty = 0;
 					System.err.println("Inside mrn qty before edit is greater than 0");
 					remainingQty = poDetail.getPendingQty()
 							+ mrnDetailRes.getMrnQty();

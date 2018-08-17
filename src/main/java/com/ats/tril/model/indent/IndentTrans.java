@@ -29,7 +29,7 @@ public class IndentTrans {
 	
 	private int itemId;
 	
-	private int indQty;
+	private float indQty;
 	
 	private String indItemUom;
 	
@@ -47,7 +47,7 @@ public class IndentTrans {
 	
 	private int delStatus;
 	
-	private int	indFyr;
+	private float	indFyr;
 
 	public int getIndDId() {
 		return indDId;
@@ -69,7 +69,7 @@ public class IndentTrans {
 		return itemId;
 	}
 
-	public int getIndQty() {
+	public float getIndQty() {
 		return indQty;
 	}
 
@@ -101,7 +101,7 @@ public class IndentTrans {
 		return indDStatus;
 	}
 
-	public int getIndFyr() {
+	public float getIndFyr() {
 		return indFyr;
 	}
 
@@ -125,7 +125,7 @@ public class IndentTrans {
 		this.itemId = itemId;
 	}
 
-	public void setIndQty(int indQty) {
+	public void setIndQty(float indQty) {
 		this.indQty = indQty;
 	}
 
@@ -157,7 +157,7 @@ public class IndentTrans {
 		this.indDStatus = indDStatus;
 	}
 
-	public void setIndFyr(int indFyr) {
+	public void setIndFyr(float indFyr) {
 		this.indFyr = indFyr;
 	}
 

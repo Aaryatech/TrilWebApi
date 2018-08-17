@@ -34,7 +34,7 @@ public class GetIntendDetail {
 	private String itemCode;
 	
 	@Column(name = "ind_qty")
-	private int indQty;
+	private float indQty;
 	
 	@Column(name = "ind_item_uom")
 	private String indItemUom;
@@ -61,7 +61,7 @@ public class GetIntendDetail {
 	private int delStatus;
 	
 	@Column(name = "ind_fyr")
-	private int	indFyr;
+	private float	indFyr;
 
 	public int getIndDId() {
 		return indDId;
@@ -111,11 +111,11 @@ public class GetIntendDetail {
 		this.itemCode = itemCode;
 	}
 
-	public int getIndQty() {
+	public float getIndQty() {
 		return indQty;
 	}
 
-	public void setIndQty(int indQty) {
+	public void setIndQty(float indQty) {
 		this.indQty = indQty;
 	}
 
@@ -175,11 +175,11 @@ public class GetIntendDetail {
 		this.indDStatus = indDStatus;
 	}
 
-	public int getIndFyr() {
+	public float getIndFyr() {
 		return indFyr;
 	}
 
-	public void setIndFyr(int indFyr) {
+	public void setIndFyr(float indFyr) {
 		this.indFyr = indFyr;
 	}
 

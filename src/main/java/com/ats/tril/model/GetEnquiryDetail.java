@@ -41,7 +41,7 @@ public class GetEnquiryDetail {
 	private String itemCode;
 	
 	@Column(name = "enq_qty")
-	private int enqQty;
+	private float enqQty;
 	
 	@Column(name = "enq_uom")
 	private String enqUom;
@@ -114,11 +114,11 @@ public class GetEnquiryDetail {
 		this.itemId = itemId;
 	}
 
-	public int getEnqQty() {
+	public float getEnqQty() {
 		return enqQty;
 	}
 
-	public void setEnqQty(int enqQty) {
+	public void setEnqQty(float enqQty) {
 		this.enqQty = enqQty;
 	}
 
