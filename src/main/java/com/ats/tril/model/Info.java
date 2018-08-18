@@ -1,26 +1,29 @@
 package com.ats.tril.model;
 
-public class ErrorMessage {
-
-	private boolean error;
+public class Info {
 	private String message;
-	
+       
+	private boolean isError;
+
 	public String getMessage() {
 		return message;
 	}
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
 	public boolean isError() {
-		return error;
+		return isError;
 	}
-	public void setError(boolean error) {
-		this.error = error;
+
+	public void setError(boolean isError) {
+		this.isError = isError;
 	}
+
 	@Override
 	public String toString() {
-		return "info [error=" + error + ", message=" + message + "]";
+		return "Info [message=" + message + ", isError=" + isError + "]";
 	}
-	
 	
 }
