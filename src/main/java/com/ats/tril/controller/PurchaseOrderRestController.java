@@ -42,7 +42,7 @@ public class PurchaseOrderRestController {
 
 	@Autowired
 	GetPoDetailListRepository getPoDetailListRepository;
-	
+
 	@Autowired
 	IndentTransRepo indentTransRepo;
 
@@ -71,13 +71,15 @@ public class PurchaseOrderRestController {
 	// Sachin 12-07-2018
 	@RequestMapping(value = { "/getPOHeaderList" }, method = RequestMethod.POST)
 	public @ResponseBody List<PoHeader> getPOHeaderList(@RequestParam("vendId") int vendId,
-			@RequestParam("delStatus") int delStatus,@RequestParam("poType") int poType, @RequestParam("statusList") List<Integer> statusList) {
+			@RequestParam("delStatus") int delStatus, @RequestParam("poType") int poType,
+			@RequestParam("statusList") List<Integer> statusList) {
 
 		List<PoHeader> poHeaderList = new ArrayList<PoHeader>();
 
 		try {
 
-			poHeaderList = poHeaderRepository.findByVendIdAndDelStatusAndPoTypeAndPoStatusIn(vendId, delStatus,poType, statusList);
+			poHeaderList = poHeaderRepository.findByVendIdAndDelStatusAndPoTypeAndPoStatusIn(vendId, delStatus, poType,
+					statusList);
 
 		} catch (Exception e) {
 
@@ -191,28 +193,28 @@ public class PurchaseOrderRestController {
 		List<GetPoHeaderList> list = new ArrayList<GetPoHeaderList>();
 
 		try {
-			if (vendorIdList.contains(0) && poTypeList.contains(0) && poStatus.contains(0)) {
+			if (vendorIdList.contains(0) && poTypeList.contains(0) && poStatus.contains(-1)) {
 
 				list = getPoHeaderListRepository.getPoHeaderListBetweenDate(fromDate, toDate);
-			} else if (vendorIdList.contains(0) && poTypeList.contains(0) && !poStatus.contains(0)) {
+			} else if (vendorIdList.contains(0) && poTypeList.contains(0) && !poStatus.contains(-1)) {
 
 				list = getPoHeaderListRepository.getPoHeaderByStatus(fromDate, toDate, poStatus);
-			} else if (vendorIdList.contains(0) && !poTypeList.contains(0) && !poStatus.contains(0)) {
+			} else if (vendorIdList.contains(0) && !poTypeList.contains(0) && !poStatus.contains(-1)) {
 
 				list = getPoHeaderListRepository.getPoHeaderByStatusAndPoTypeList(fromDate, toDate, poStatus,
 						poTypeList);
-			} else if (!vendorIdList.contains(0) && poTypeList.contains(0) && !poStatus.contains(0)) {
+			} else if (!vendorIdList.contains(0) && poTypeList.contains(0) && !poStatus.contains(-1)) {
 
 				list = getPoHeaderListRepository.getPoHeaderByVendorAndPoType(fromDate, toDate, vendorIdList,
 						poTypeList);
 			}
 
-			else if (!vendorIdList.contains(0) && poTypeList.contains(0) && poStatus.contains(0)) {
+			else if (!vendorIdList.contains(0) && poTypeList.contains(0) && poStatus.contains(-1)) {
 
 				list = getPoHeaderListRepository.getPoHeaderByVendor(fromDate, toDate, vendorIdList);
 			}
 
-			else if (!vendorIdList.contains(0) && !poTypeList.contains(0) && poStatus.contains(0)) {
+			else if (!vendorIdList.contains(0) && !poTypeList.contains(0) && poStatus.contains(-1)) {
 
 				list = getPoHeaderListRepository.getPoHeaderByVendorAndPoTypeList(fromDate, toDate, vendorIdList,
 						poTypeList);
@@ -231,14 +233,13 @@ public class PurchaseOrderRestController {
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = { "/deletePoItem" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage updateIndendPendingQty(@RequestParam("poDetailId") int poDetailId) {
 
 		ErrorMessage errorMessage = new ErrorMessage();
 		try {
 
-			 
 			poDetailRepository.delete(poDetailId);
 
 			errorMessage.setError(false);
