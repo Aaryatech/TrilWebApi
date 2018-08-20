@@ -32,7 +32,7 @@ public class DashIndentDetails implements Serializable{
 	
 	private String itemCode;
 	
-	private int indQty;
+	private float indQty;
 	
 	private String indItemUom;
 	
@@ -49,7 +49,7 @@ public class DashIndentDetails implements Serializable{
 	@Column(name = "ind_d_status")
 	private int indDStatus;
 	
-	private int	indFyr;
+	private float	indFyr;
 
 	public int getIndDId() {
 		return indDId;
@@ -99,11 +99,11 @@ public class DashIndentDetails implements Serializable{
 		this.itemCode = itemCode;
 	}
 
-	public int getIndQty() {
+	public float getIndQty() {
 		return indQty;
 	}
 
-	public void setIndQty(int indQty) {
+	public void setIndQty(float indQty) {
 		this.indQty = indQty;
 	}
 
@@ -163,11 +163,11 @@ public class DashIndentDetails implements Serializable{
 		this.indDStatus = indDStatus;
 	}
 
-	public int getIndFyr() {
+	public float getIndFyr() {
 		return indFyr;
 	}
 
-	public void setIndFyr(int indFyr) {
+	public void setIndFyr(float indFyr) {
 		this.indFyr = indFyr;
 	}
 
