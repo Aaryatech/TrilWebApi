@@ -24,6 +24,7 @@ public class IndentReport {
 	private String indMNo;
 
 	@Column(name = "ind_m_date")
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	private Date indMDate;
 
 	@Column(name = "ind_m_type")
@@ -64,7 +65,6 @@ public class IndentReport {
 		this.indMNo = indMNo;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getIndMDate() {
 		return indMDate;
 	}
