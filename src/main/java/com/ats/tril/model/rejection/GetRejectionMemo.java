@@ -17,9 +17,7 @@ public class GetRejectionMemo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "rej_detail_id")
-	private int rejDetailId; 
-	
+	@Column(name = "rejection_id") 
 	private int rejectionId;
 
 	private int rejectionNo;

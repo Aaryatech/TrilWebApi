@@ -23,7 +23,7 @@ public class Damage {
 	private int itemId;
 
 	@Column(name = "qty")
-	private int qty;
+	private float qty;
 
 	@Column(name = "value")
 	private float value;
@@ -58,11 +58,11 @@ public class Damage {
 		this.itemId = itemId;
 	}
 
-	public int getQty() {
+	public float getQty() {
 		return qty;
 	}
 
-	public void setQty(int qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 
