@@ -441,6 +441,27 @@ public class GetPassController {
 		return getpassHeader;
 
 	}
+	
+	@RequestMapping(value = { "/getGetpassItemHeaderAndDetailWithItemNameForNonReturnable" }, method = RequestMethod.POST)
+	public @ResponseBody GetpassHeaderItemName getGetpassItemHeaderAndDetailWithItemNameForNonReturnable(
+			@RequestParam("gpId") int gpId) {
+
+		GetpassHeaderItemName getpassHeader = new GetpassHeaderItemName();
+
+		try {
+
+			getpassHeader = getpassHeaderItemNameRepo.getAllHeaderItemByGpId(gpId);
+			List<GetpassDetailItemName> getpassDetailList = getpassDetailItemNameRepo.getAllDetailedItemByGpId(gpId);
+			getpassHeader.setGetpassDetailItemNameList(getpassDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassHeader;
+
+	}
 
 	@RequestMapping(value = { "/saveGatePassDetailList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetpassDetail> saveGatePassDetail(@RequestBody List<GetpassDetail> getpassDetailList) {
