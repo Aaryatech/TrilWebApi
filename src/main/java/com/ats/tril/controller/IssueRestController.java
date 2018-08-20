@@ -141,13 +141,14 @@ public class IssueRestController {
 	}
 	
 	@RequestMapping(value = { "/getBatchByItemId" }, method = RequestMethod.POST)
-	public @ResponseBody List<MrnDetail> getBatchByItemId(@RequestParam("itemId") int itemId) {
+	public @ResponseBody List<MrnDetail> getBatchByItemId(@RequestParam("itemId") int itemId,
+			@RequestParam("date") String date) {
 		 
 		List<MrnDetail> indTransList = new ArrayList<>();
 
 		try {
  
-			indTransList = mrnDetailRepo.findByItemIdAndDelStatusAndMrnDetailStatus(itemId,1,1); 
+			indTransList = mrnDetailRepo.findByItemIdAndDelStatusAndMrnDetailStatus(itemId,date); 
 
 		} catch (Exception e) {
   

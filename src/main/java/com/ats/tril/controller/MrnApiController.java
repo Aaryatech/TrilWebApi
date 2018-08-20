@@ -291,6 +291,8 @@ public class MrnApiController {
 				mrnDetail.setRejectRemark(getMrnDetailList.get(i).getRejectRemark());
 				mrnDetail.setRemainingQty(getMrnDetailList.get(i).getRemainingQty());
 				mrnDetail.setMrnDetailStatus(1);
+				mrnDetail.setPoDetailId(getMrnDetailList.get(i).getPoDetailId());
+				mrnDetail.setChalanQty(getMrnDetailList.get(i).getChalanQty());
 				mrnDetail.setMrnId(getMrnDetailList.get(i).getMrnId());
 				MrnDetail transRes = mrnDetailRepo.save(mrnDetail);
 				flag = true;
