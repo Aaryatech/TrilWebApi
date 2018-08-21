@@ -31,9 +31,27 @@ public class GetIssueHeader {
 
 	@Column(name = "delete_status")
 	private int deleteStatus;
+	
+	@Column(name = "dept_id")
+	private int deptId;
+	
+	@Column(name = "sub_dept_id")
+	private int subDeptId;
+	
+	@Column(name = "acc_head")
+	private int accHead;
 
 	@Column(name = "status")
 	private int status;
+	
+	@Column(name = "dept_code")
+	private String deptCode;
+	
+	@Column(name = "sub_dept_code")
+	private String subDeptCode;
+	
+	@Column(name = "acc_head_desc")
+	private String accHeadDesc;
 	
 	@Transient
 	List<GetIssueDetail> issueDetailList;
@@ -94,11 +112,61 @@ public class GetIssueHeader {
 		this.issueDetailList = issueDetailList;
 	}
 
+	public int getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
+
+	public int getSubDeptId() {
+		return subDeptId;
+	}
+
+	public void setSubDeptId(int subDeptId) {
+		this.subDeptId = subDeptId;
+	}
+
+	public int getAccHead() {
+		return accHead;
+	}
+
+	public void setAccHead(int accHead) {
+		this.accHead = accHead;
+	}
+
+	public String getDeptCode() {
+		return deptCode;
+	}
+
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
+	}
+
+	public String getSubDeptCode() {
+		return subDeptCode;
+	}
+
+	public void setSubDeptCode(String subDeptCode) {
+		this.subDeptCode = subDeptCode;
+	}
+
+	public String getAccHeadDesc() {
+		return accHeadDesc;
+	}
+
+	public void setAccHeadDesc(String accHeadDesc) {
+		this.accHeadDesc = accHeadDesc;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIssueHeader [issueId=" + issueId + ", issueNo=" + issueNo + ", itemCategory=" + itemCategory
-				+ ", issueDate=" + issueDate + ", deleteStatus=" + deleteStatus + ", status=" + status
-				+ ", issueDetailList=" + issueDetailList + "]";
+				+ ", issueDate=" + issueDate + ", deleteStatus=" + deleteStatus + ", deptId=" + deptId + ", subDeptId="
+				+ subDeptId + ", accHead=" + accHead + ", status=" + status + ", deptCode=" + deptCode
+				+ ", subDeptCode=" + subDeptCode + ", accHeadDesc=" + accHeadDesc + ", issueDetailList="
+				+ issueDetailList + "]";
 	}
 
 	 
