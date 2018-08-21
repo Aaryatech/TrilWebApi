@@ -26,6 +26,28 @@ public class DocumentController {
 	@Autowired
 	SubDocumentRepository subDocumentRepository;
 
+	
+	//sachin 21 aug 2018
+	@RequestMapping(value = { "/getDocumentInfo" }, method = RequestMethod.POST)
+	public @ResponseBody DocumentBean getDocumentInfo(@RequestParam("docId") int docId,
+			@RequestParam("date") String date) {
+
+		DocumentBean documentBean = null;
+		try {
+
+			documentBean = documentBeanRepository.findByDocIdAndDate(docId, date);
+
+			
+		}catch (Exception e) {
+			
+			System.err.println("Exception in getting /getDocumentInfo " +e.getMessage());
+			
+			e.printStackTrace();
+			
+		}
+		return documentBean;
+	}
+	
 	@RequestMapping(value = { "/getDocumentData" }, method = RequestMethod.POST)
 	public @ResponseBody DocumentBean getDocumentData(@RequestParam("docId") int docId,
 			@RequestParam("date") String date, @RequestParam("catId") int catId) {
