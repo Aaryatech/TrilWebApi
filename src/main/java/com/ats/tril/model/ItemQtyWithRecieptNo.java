@@ -21,7 +21,7 @@ public class ItemQtyWithRecieptNo {
 	private String receptNo;
 	
 	@Column(name = "qty")
-	private int qty;
+	private float qty;
 
 	public int getId() {
 		return id;
@@ -47,11 +47,11 @@ public class ItemQtyWithRecieptNo {
 		this.receptNo = receptNo;
 	}
 
-	public int getQty() {
+	public float getQty() {
 		return qty;
 	}
 
-	public void setQty(int qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 

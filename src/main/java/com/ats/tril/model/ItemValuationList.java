@@ -8,7 +8,7 @@ public class ItemValuationList {
 	private String typeName;
 	private int type;
 	private String receptNo; 
-	private int qty;
+	private float qty;
 	public String getDate() {
 		return date;
 	}
@@ -33,10 +33,10 @@ public class ItemValuationList {
 	public void setReceptNo(String receptNo) {
 		this.receptNo = receptNo;
 	}
-	public int getQty() {
+	public float getQty() {
 		return qty;
 	}
-	public void setQty(int qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 	@Override
