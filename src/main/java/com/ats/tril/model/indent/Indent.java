@@ -46,6 +46,15 @@ public class Indent {
 
 	private int deptId;
 	private int subDeptId;
+	
+	
+	//new field 21 aug
+	@Column(name = "ind_apr1_date")
+	private Date indApr1Date;
+	
+	@Column(name = "ind_apr2_date")
+	private Date indApr2Date;
+
 
 	public int getDeptId() {
 		return deptId;
@@ -154,12 +163,41 @@ public class Indent {
 		this.indentTrans = indentTrans;
 	}
 
+	
+	
+	
+	
+	public int getIndIsdev() {
+		return indIsdev;
+	}
+
+	public Date getIndApr1Date() {
+		return indApr1Date;
+	}
+
+	public Date getIndApr2Date() {
+		return indApr2Date;
+	}
+
+	public void setIndIsdev(int indIsdev) {
+		this.indIsdev = indIsdev;
+	}
+
+	public void setIndApr1Date(Date indApr1Date) {
+		this.indApr1Date = indApr1Date;
+	}
+
+	public void setIndApr2Date(Date indApr2Date) {
+		this.indApr2Date = indApr2Date;
+	}
+
 	@Override
 	public String toString() {
 		return "Indent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType=" + indMType
 				+ ", catId=" + catId + ", achdId=" + achdId + ", indIsdev=" + indIsdev + ", indRemark=" + indRemark
 				+ ", indIsmonthly=" + indIsmonthly + ", indMStatus=" + indMStatus + ", indFyr=" + indFyr + ", deptId="
-				+ deptId + ", subDeptId=" + subDeptId + ", indentTrans=" + indentTrans + "]";
+				+ deptId + ", subDeptId=" + subDeptId + ", indApr1Date=" + indApr1Date + ", indApr2Date=" + indApr2Date
+				+ ", indentTrans=" + indentTrans + "]";
 	}
 
 }

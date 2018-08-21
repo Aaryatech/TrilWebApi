@@ -48,6 +48,14 @@ public class IndentTrans {
 	private int delStatus;
 	
 	private float	indFyr;
+	
+	//indentTrans new Field
+	
+	@Column(name = "ind_apr1_date")
+	private Date indApr1Date;
+	
+	@Column(name = "ind_apr2_date")
+	private Date indApr2Date;
 
 	public int getIndDId() {
 		return indDId;
@@ -169,13 +177,31 @@ public class IndentTrans {
 		this.delStatus = delStatus;
 	}
 
+	
+	
+	public Date getIndApr1Date() {
+		return indApr1Date;
+	}
+
+	public Date getIndApr2Date() {
+		return indApr2Date;
+	}
+
+	public void setIndApr1Date(Date indApr1Date) {
+		this.indApr1Date = indApr1Date;
+	}
+
+	public void setIndApr2Date(Date indApr2Date) {
+		this.indApr2Date = indApr2Date;
+	}
+
 	@Override
 	public String toString() {
 		return "IndentTrans [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate
 				+ ", itemId=" + itemId + ", indQty=" + indQty + ", indItemUom=" + indItemUom + ", indItemDesc="
 				+ indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd + ", indItemSchddt="
 				+ indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus + ", delStatus=" + delStatus
-				+ ", indFyr=" + indFyr + "]";
+				+ ", indFyr=" + indFyr + ", indApr1Date=" + indApr1Date + ", indApr2Date=" + indApr2Date + "]";
 	}
 	
 	

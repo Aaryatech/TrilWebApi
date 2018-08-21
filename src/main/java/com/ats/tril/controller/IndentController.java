@@ -30,10 +30,11 @@ import com.ats.tril.repository.indent.GetIndentRepo;
 import com.ats.tril.repository.indent.IndentReportRepository;
 import com.ats.tril.repository.indent.IndentRepository;
 import com.ats.tril.repository.indent.IndentTransRepo;
+import com.sun.org.apache.bcel.internal.util.SyntheticRepository;
 
 @RestController
 public class IndentController {
- 
+
 	@Autowired
 	IndentRepository indentRepository;
 
@@ -51,24 +52,88 @@ public class IndentController {
 
 	@Autowired
 	GetIntendDetailRepo getIntendDetailRepo;
-	
-	
+
+	@RequestMapping(value = { "/approveIndent" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage approveIndent(@RequestParam("indDStatus") int indDStatus,
+			@RequestParam("indDetailIdList") List<Integer> indDetailIdList, @RequestParam("indentId") int indentId) {
+
+		ErrorMessage res = new ErrorMessage();
+
+		try {
+			
+			Date aprDate = new Date();
+
+			System.err.println("Apr Date " + aprDate);
+		
+			int aprRes = 0;
+			
+			if (indDStatus == 7) {
+				System.err.println("Indent Detail Update apr 1 Date");
+				
+				aprRes = indentTransRepo.approve1Indent(indDStatus, indDetailIdList, indentId, aprDate);
+				
+			} else if (indDStatus == 0) {
+				System.err.println("Indent Detail Update apr 2 Date");
+				
+				aprRes = indentTransRepo.approve2Indent(indDStatus, indDetailIdList, indentId, aprDate);
+			}
+			System.err.println("Approve response For Indent  Details res  " + aprRes);
+			
+			if (aprRes != 0) {
+				
+				res.setError(false);
+				res.setMessage("detail updated Successfully");
+
+				// to update unselected indent set status =9 ie there default;
+			
+				int otherIndUpdate = indentTransRepo.approveIndentUnSelected(9, indDetailIdList, indentId);
+				
+				System.err.println("Other iNdent updated : default 9 setted response " + otherIndUpdate);
+				int updateIndHeader=0;
+				if (indDStatus == 0) {
+					System.err.println("detail status =0 so update header with 0 ");
+					 updateIndHeader = indentRepository.updateIndApr2(indentId, 0, aprDate);
+					// int updateIndHeader=indentRepository.updateStatus(indentId, 0);
+				} else if (indDStatus == 7) {
+					System.err.println("detail status =7 so update header with 7 ");
+					updateIndHeader = indentRepository.updateIndApr1(indentId, 7, aprDate);
+					// int updateIndHeader=indentRepository.updateStatus(indentId, 7);
+				}
+				
+				System.err.println("Indent Header Update for Approval response :   "+updateIndHeader );
+
+			} else {
+				res.setError(true);
+				res.setMessage(" failed to approve indent");
+			}
+
+		} catch (Exception e) {
+			System.err.println("Exce in Approving Indent " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return res;
+
+	}
+
 	@RequestMapping(value = { "/saveIndentTras" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetIndentDetail> saveIndentTras(@RequestBody IndentTrans indDetail) {
 
 		System.err.println("inside web api /getIndents indent");
 
-		//List<IndentTrans> indDetailList = new ArrayList<IndentTrans>();
+		// List<IndentTrans> indDetailList = new ArrayList<IndentTrans>();
 		List<GetIndentDetail> indDetailList = new ArrayList<GetIndentDetail>();
 
 		try {
-			IndentTrans transRes=indentTransRepo.save(indDetail);
-			
-			//indDetailList = indentTransRepo.findByIndMIdAndDelStatus(indDetail.getIndMId(),1);
+			IndentTrans transRes = indentTransRepo.save(indDetail);
 
-				indDetailList = getIndentDetailRepo.getIndentDetail(indDetail.getIndMId());
+			// indDetailList =
+			// indentTransRepo.findByIndMIdAndDelStatus(indDetail.getIndMId(),1);
 
-				System.err.println("indDetailList List " + indDetailList.toString());
+			indDetailList = getIndentDetailRepo.getIndentDetail(indDetail.getIndMId());
+
+			System.err.println("indDetailList List " + indDetailList.toString());
 
 			System.err.println("indDetailList List " + indDetailList.toString());
 		} catch (Exception e) {
@@ -83,30 +148,22 @@ public class IndentController {
 
 	}
 
-	
-	
-	
 	@RequestMapping(value = { "/getIndentByIndId" }, method = RequestMethod.POST)
 	public @ResponseBody Indent getIndentByIndId(@RequestParam("indMId") int indMId) {
-		
+
 		Indent indResponse = null;
-		
-		
+
 		try {
-			indResponse=indentRepository.findByIndMId(indMId);
-			
-		}catch (Exception e) {
-			System.err.println("Exception in /getIndentByIndId   " +e.getMessage());
+			indResponse = indentRepository.findByIndMId(indMId);
+
+		} catch (Exception e) {
+			System.err.println("Exception in /getIndentByIndId   " + e.getMessage());
 			e.printStackTrace();
 		}
 		return indResponse;
-		
-		
-		
-		
-		
+
 	}
-	
+
 	@RequestMapping(value = { "/saveIndentAndTrans" }, method = RequestMethod.POST)
 	public @ResponseBody Indent saveIndentsHeaderDetail(@RequestBody Indent indent) {
 		System.err.println("inside web api save indent");
@@ -191,6 +248,31 @@ public class IndentController {
 
 	}
 
+	@RequestMapping(value = { "/getIndentsForApproval" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIndent> getIndentsForApproval(@RequestParam("toDate") String toDate,
+			@RequestParam("status") List<String> status) {
+
+		System.err.println("inside web api /getIndentsForApproval indent");
+
+		List<GetIndent> indentList = new ArrayList<GetIndent>();
+
+		try {
+
+			indentList = getIndentRepo.getIndentsForApproval(toDate, status);
+
+			System.err.println(" getIndentsForApproval indent List " + indentList.toString());
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndentsForApproval  Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return indentList;
+
+	}
+
 	@RequestMapping(value = { "/editIndentHeader" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage editIndentHeader(@RequestParam("achdId") int achdId,
 			@RequestParam("deptId") int deptId, @RequestParam("subDeptId") int subDeptId,
@@ -234,7 +316,7 @@ public class IndentController {
 
 		try {
 
-			indDetailList = indentTransRepo.findByIndMIdAndDelStatus(indMId,1);
+			indDetailList = indentTransRepo.findByIndMIdAndDelStatus(indMId, 1);
 
 			System.err.println("indDetailList List " + indDetailList.toString());
 
@@ -249,11 +331,12 @@ public class IndentController {
 		return indDetailList;
 
 	}
-//new bean and service to display item code and uom on edit indent page for indent Items
-	
+	// new bean and service to display item code and uom on edit indent page for
+	// indent Items
+
 	@Autowired
 	GetIndentDetailRepo getIndentDetailRepo;
-	
+
 	@RequestMapping(value = { "/getIndentDetailByIndentId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetIndentDetail> getIndentDetailByIndentId(@RequestParam("indMId") int indMId,
 			@RequestParam("delStatus") int delStatus) {
@@ -279,35 +362,33 @@ public class IndentController {
 		return indDetailList;
 
 	}
-	
-	
+
 	// edit Indent Detail for Indent Quantity
 
 	@RequestMapping(value = { "/editIndentDetail" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage editIndentDetail(@RequestParam("indQty") float indQty,
-			@RequestParam("indDId") int indDId,@RequestParam("schDay") int schDay,@RequestParam("remark") String remark
-			,@RequestParam("indentId") int indentId) {
+			@RequestParam("indDId") int indDId, @RequestParam("schDay") int schDay,
+			@RequestParam("remark") String remark, @RequestParam("indentId") int indentId) {
 
 		ErrorMessage err = new ErrorMessage();
 		int response = 0;
 
 		try {
 
-			
-			//IndentTrans indDetail=indentTransRepo.getOne(indDId);
-			
-			Indent indResponse=indentRepository.findByIndMId(indentId);
+			// IndentTrans indDetail=indentTransRepo.getOne(indDId);
+
+			Indent indResponse = indentRepository.findByIndMId(indentId);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date tempDate =indResponse.getIndMDate();
+			Date tempDate = indResponse.getIndMDate();
 			Calendar c = Calendar.getInstance();
 			c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
 			c.add(Calendar.DATE, schDay); // Adding days
-			
+
 			String schDate = sdf.format(c.getTime());
-			
-			Date scDate=sdf.parse(schDate);
-			System.err.println("Date  " +schDate );
-			response = indentTransRepo.updateIndentDetail(indQty, indDId,schDay,scDate,remark);
+
+			Date scDate = sdf.parse(schDate);
+			System.err.println("Date  " + schDate);
+			response = indentTransRepo.updateIndentDetail(indQty, indDId, schDay, scDate, remark);
 
 			if (response > 0) {
 
@@ -378,7 +459,7 @@ public class IndentController {
 
 		try {
 
-			indentList = getIndentByStatusRepo.getIntendsByStatus(status,poType);
+			indentList = getIndentByStatusRepo.getIntendsByStatus(status, poType);
 
 		} catch (Exception e) {
 
@@ -389,9 +470,10 @@ public class IndentController {
 		return indentList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getIntendsByStatusWithoutPoType" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetIndentByStatus> getIntendsByStatusWithoutPoType(@RequestParam("status") List<Integer> status ) {
+	public @ResponseBody List<GetIndentByStatus> getIntendsByStatusWithoutPoType(
+			@RequestParam("status") List<Integer> status) {
 
 		List<GetIndentByStatus> indentList = new ArrayList<GetIndentByStatus>();
 
@@ -441,9 +523,8 @@ public class IndentController {
 				if (intendDetailList.get(i).getIndDStatus() == 1) {
 					status = 1;
 					break;
-				}
-				else if (intendDetailList.get(i).getIndDStatus() == 0) {
-					status = 0; 
+				} else if (intendDetailList.get(i).getIndDStatus() == 0) {
+					status = 0;
 				}
 			}
 			int update = indentRepository.updateStatus(intendDetailList.get(0).getIndMId(), status);

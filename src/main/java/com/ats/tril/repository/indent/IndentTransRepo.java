@@ -37,5 +37,27 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 	List<IndentTrans> findByItemIdAndDelStatus(int itemId, int i);
 
 	//List<IndentTrans> findByIndMId(int indId);
+	//apr 1 if dStatus==7
+	@Transactional
+	@Modifying
+	@Query(" UPDATE IndentTrans  SET indDStatus=:indDStatus,ind_apr1_date=:apr1Date WHERE indDId IN (:indDetailIdList) AND indMId=:indentId ")
+	int approve1Indent(@Param("indDStatus") int indDStatus,@Param("indDetailIdList") List<Integer> indDetailIdList,
+			@Param("indentId") int indentId,@Param("apr1Date") Date apr1Date);
+	
+	
+	//apr 2 if dStatus==0
+		@Transactional
+		@Modifying
+		@Query(" UPDATE IndentTrans  SET indDStatus=:indDStatus,ind_apr2_date=:apr2Date WHERE indDId IN (:indDetailIdList) AND indMId=:indentId ")
+		int approve2Indent(@Param("indDStatus") int indDStatus,@Param("indDetailIdList") List<Integer> indDetailIdList,
+				@Param("indentId") int indentId,@Param("apr2Date") Date apr2Date);
+		
+	
+	
+	@Transactional
+	@Modifying
+	@Query(" UPDATE IndentTrans  SET indDStatus=:indDStatus WHERE indDId NOT IN (:indDetailIdList)  AND indMId=:indentId ")
+	int approveIndentUnSelected(@Param("indDStatus") int indDStatus,@Param("indDetailIdList") List<Integer> indDetailIdList,
+			@Param("indentId") int indentId);
 	
 }
