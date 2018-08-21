@@ -30,6 +30,9 @@ public class GetCurrStockRol {
 	@Transient
 	private float itemMaxLevel;
 	
+	@Transient
+	private float itemMinLevel;
+	
 	@Column(name = "opening_stock")
 	private float openingStock;
 
@@ -166,13 +169,21 @@ public class GetCurrStockRol {
 		this.rolLevel = rolLevel;
 	}
 
+	public float getItemMinLevel() {
+		return itemMinLevel;
+	}
+
+	public void setItemMinLevel(float itemMinLevel) {
+		this.itemMinLevel = itemMinLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "GetCurrStockRol [itemId=" + itemId + ", itemCode=" + itemCode + ", itemName=" + itemName + ", itemUom="
-				+ itemUom + ", catId=" + catId + ", itemMaxLevel=" + itemMaxLevel + ", openingStock=" + openingStock
-				+ ", approveQty=" + approveQty + ", issueQty=" + issueQty + ", returnIssueQty=" + returnIssueQty
-				+ ", damageQty=" + damageQty + ", gatepassQty=" + gatepassQty + ", gatepassReturnQty="
-				+ gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
+				+ itemUom + ", catId=" + catId + ", itemMaxLevel=" + itemMaxLevel + ", itemMinLevel=" + itemMinLevel
+				+ ", openingStock=" + openingStock + ", approveQty=" + approveQty + ", issueQty=" + issueQty
+				+ ", returnIssueQty=" + returnIssueQty + ", damageQty=" + damageQty + ", gatepassQty=" + gatepassQty
+				+ ", gatepassReturnQty=" + gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
 	}
 	
 	

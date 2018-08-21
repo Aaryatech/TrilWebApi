@@ -143,16 +143,18 @@ public class DashboardController {
 						getCurrentStock.get(j).setCatId(itemList.get(i).getCatId());
 						getCurrentStock.get(j).setItemUom(itemList.get(i).getItemUom());
 						getCurrentStock.get(j).setItemMaxLevel(itemList.get(i).getItemMaxLevel());
-						if(itemList.get(i).getItemRodLevel()<(getCurrentStock.get(j).getOpeningStock()+getCurrentStock.get(j).getApproveQty()-
+						getCurrentStock.get(j).setItemMinLevel(itemList.get(i).getItemMinLevel());
+						if(itemList.get(i).getItemRodLevel()>(getCurrentStock.get(j).getOpeningStock()+getCurrentStock.get(j).getApproveQty()-
 									getCurrentStock.get(j).getIssueQty()+getCurrentStock.get(j).getReturnIssueQty()-getCurrentStock.get(j).getDamageQty()-
-									getCurrentStock.get(j).getGatepassQty()+getCurrentStock.get(j).getGatepassReturnQty()))
+									getCurrentStock.get(j).getGatepassQty()+getCurrentStock.get(j).getGatepassReturnQty()) && itemList.get(i).getItemRodLevel()>0)
 							
 						{
-							getCurrentStock.remove(j);
+							getCurrentStock.get(j).setRolLevel(itemList.get(i).getItemRodLevel()); 
 						}
 						else
 						{
-							getCurrentStock.get(j).setRolLevel(itemList.get(i).getItemRodLevel());
+							
+							getCurrentStock.remove(j);
 						}
 						
 						break;
