@@ -17,10 +17,11 @@ public interface IndentRepository extends JpaRepository<Indent, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query(" UPDATE Indent  SET achdId=:achdId,deptId=:deptId,subDeptId=:subDeptId,indIsdev=:indIsdev,indIsmonthly=:indIsmonthly "
+	@Query(" UPDATE Indent  SET achdId=:achdId,deptId=:deptId,subDeptId=:subDeptId,indIsdev=:indIsdev,indRemark=:indRemark,indIsmonthly=:indIsmonthly "
 			+ " WHERE indMId=:indMId ")
 	int updateIndentHeader(@Param("achdId") int achdId, @Param("deptId") int deptId, @Param("subDeptId") int subDeptId,
-			@Param("indIsdev") int indIsdev, @Param("indIsmonthly") int indIsmonthly, @Param("indMId") int indMId);
+			@Param("indIsdev") int indIsdev, @Param("indIsmonthly") int indIsmonthly, @Param("indMId") int indMId,
+			@Param("indRemark") String indRemark);
 
 	@Transactional
 	@Modifying

@@ -277,14 +277,14 @@ public class IndentController {
 	public @ResponseBody ErrorMessage editIndentHeader(@RequestParam("achdId") int achdId,
 			@RequestParam("deptId") int deptId, @RequestParam("subDeptId") int subDeptId,
 			@RequestParam("indIsdev") int indIsdev, @RequestParam("indIsmonthly") int indIsmonthly,
-			@RequestParam("indMId") int indMId) {
+			@RequestParam("indMId") int indMId,@RequestParam("indRemark") String indRemark) {
 
 		ErrorMessage err = new ErrorMessage();
 		int response = 0;
 
 		try {
 
-			response = indentRepository.updateIndentHeader(achdId, deptId, subDeptId, indIsdev, indIsmonthly, indMId);
+			response = indentRepository.updateIndentHeader(achdId, deptId, subDeptId, indIsdev, indIsmonthly, indMId,indRemark);
 
 			if (response > 0) {
 				err.setError(false);

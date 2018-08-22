@@ -23,6 +23,8 @@ public class GetIndent {
 	@Column(name = "ind_m_type")
 	private int indMType;
 	
+	private String indRemark;
+	
 	private String indIsdev;
 	
 	private int indIsmonthly;
@@ -150,12 +152,20 @@ public class GetIndent {
 		this.achdId = achdId;
 	}
 
+	public String getIndRemark() {
+		return indRemark;
+	}
+
+	public void setIndRemark(String indRemark) {
+		this.indRemark = indRemark;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIndent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType="
-				+ indMType + ", indIsdev=" + indIsdev + ", indIsmonthly=" + indIsmonthly + ", catDesc=" + catDesc
-				+ ", achdId=" + achdId + ", accHeadDesc=" + accHeadDesc + ", catId=" + catId + ", indMStatus="
-				+ indMStatus + ", deptId=" + deptId + ", subDeptId=" + subDeptId + "]";
+				+ indMType + ", indRemark=" + indRemark + ", indIsdev=" + indIsdev + ", indIsmonthly=" + indIsmonthly
+				+ ", catDesc=" + catDesc + ", achdId=" + achdId + ", accHeadDesc=" + accHeadDesc + ", catId=" + catId
+				+ ", indMStatus=" + indMStatus + ", deptId=" + deptId + ", subDeptId=" + subDeptId + "]";
 	}
 
 	
