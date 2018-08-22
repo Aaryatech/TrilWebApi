@@ -518,16 +518,41 @@ public class IndentController {
 
 			int status = 2;
 			List<IndentTrans> transRes = indentTransRepo.saveAll(intendDetailList);
+ 
+			List<IndentTrans> checkStsNot2 = indentTransRepo.findByIndDStatusNotAndIndMIdAndDelStatus(2,intendDetailList.get(0).getIndMId(),1);
+			
+			if (checkStsNot2.isEmpty()) {
 
-			for (int i = 0; i < intendDetailList.size(); i++) {
-				if (intendDetailList.get(i).getIndDStatus() == 1) {
-					status = 1;
-					break;
-				} else if (intendDetailList.get(i).getIndDStatus() == 0) {
-					status = 0;
+				int update = indentRepository.updateStatus(intendDetailList.get(0).getIndMId(), 2);
+
+			}else {
+				
+				for (int i = 0; i < checkStsNot2.size(); i++) {
+					if (checkStsNot2.get(i).getIndDStatus() == 1) {
+						status = 1;
+						break;
+					} else if (checkStsNot2.get(i).getIndDStatus() == 0) {
+						status = 0;
+					}
 				}
+				
+				if(status==0) {
+					List<IndentTrans> checkSts2 = indentTransRepo.findByIndDStatusAndIndMIdAndDelStatus(2,intendDetailList.get(0).getIndMId(),1);
+					
+					if (checkSts2.isEmpty()) {
+						int update = indentRepository.updateStatus(intendDetailList.get(0).getIndMId(), 0);
+					}
+					else {
+						int update = indentRepository.updateStatus(intendDetailList.get(0).getIndMId(), 1);
+					}
+				}
+				else {
+					int update = indentRepository.updateStatus(intendDetailList.get(0).getIndMId(), 1);
+				}
+				
+				
 			}
-			int update = indentRepository.updateStatus(intendDetailList.get(0).getIndMId(), status);
+			
 
 			errorMessage.setError(false);
 			errorMessage.setMessage("update");

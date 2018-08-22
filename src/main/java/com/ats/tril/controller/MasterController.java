@@ -31,6 +31,7 @@ import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.State;
 import com.ats.tril.model.SubDept;
 import com.ats.tril.model.TaxForm;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.repository.AccountHeadRepository;
@@ -51,6 +52,7 @@ import com.ats.tril.repository.PaymentTermsRepository;
 import com.ats.tril.repository.StateRepository;
 import com.ats.tril.repository.SubDeptRepository;
 import com.ats.tril.repository.TaxFormRepository;
+import com.ats.tril.repository.TypeRepository;
 import com.ats.tril.repository.UomRepository;
 import com.ats.tril.repository.VendorRepository;
 
@@ -116,6 +118,27 @@ public class MasterController {
 
 	@Autowired
 	DocTypeRepository docTypeRepository;
+	
+	@Autowired
+	TypeRepository typeRepository;
+	
+	@RequestMapping(value = { "/getAlltype" }, method = RequestMethod.GET)
+	public @ResponseBody List<Type> getAlltype() {
+
+		List<Type> typeList = new ArrayList<Type>();
+
+		try {
+
+			typeList = typeRepository.findAllByDelStatus(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return typeList;
+
+	}
 
 	// -------------------Dept------------------------
 

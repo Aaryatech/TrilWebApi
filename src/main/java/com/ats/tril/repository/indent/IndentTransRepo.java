@@ -59,5 +59,9 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 	@Query(" UPDATE IndentTrans  SET indDStatus=:indDStatus WHERE indDId NOT IN (:indDetailIdList)  AND indMId=:indentId ")
 	int approveIndentUnSelected(@Param("indDStatus") int indDStatus,@Param("indDetailIdList") List<Integer> indDetailIdList,
 			@Param("indentId") int indentId);
+
+	List<IndentTrans> findByIndDStatusNotAndIndMIdAndDelStatus(int i, int indMId, int j);
+
+	List<IndentTrans> findByIndDStatusAndIndMIdAndDelStatus(int i, int indMId, int j);
 	
 }

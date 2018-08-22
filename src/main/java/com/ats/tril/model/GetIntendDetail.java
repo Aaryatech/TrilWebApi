@@ -62,6 +62,12 @@ public class GetIntendDetail {
 	
 	@Column(name = "ind_fyr")
 	private float	indFyr;
+	
+	@Column(name = "ind_apr1_date")
+	private String indApr1Date;
+	
+	@Column(name = "ind_apr2_date")
+	private String indApr2Date;
 
 	public int getIndDId() {
 		return indDId;
@@ -191,13 +197,30 @@ public class GetIntendDetail {
 		this.delStatus = delStatus;
 	}
 
+	public String getIndApr1Date() {
+		return indApr1Date;
+	}
+
+	public void setIndApr1Date(String indApr1Date) {
+		this.indApr1Date = indApr1Date;
+	}
+
+	public String getIndApr2Date() {
+		return indApr2Date;
+	}
+
+	public void setIndApr2Date(String indApr2Date) {
+		this.indApr2Date = indApr2Date;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIntendDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
 				+ indMDate + ", itemId=" + itemId + ", itemCode=" + itemCode + ", indQty=" + indQty + ", indItemUom="
 				+ indItemUom + ", indItemDesc=" + indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd="
 				+ indItemSchd + ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", indDStatus="
-				+ indDStatus + ", delStatus=" + delStatus + ", indFyr=" + indFyr + "]";
+				+ indDStatus + ", delStatus=" + delStatus + ", indFyr=" + indFyr + ", indApr1Date=" + indApr1Date
+				+ ", indApr2Date=" + indApr2Date + "]";
 	}
 	
 	
