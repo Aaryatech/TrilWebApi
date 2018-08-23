@@ -1574,5 +1574,66 @@ public class MasterController {
 		return errorMessage;
 
 	}
+	
+	@RequestMapping(value = { "/getNextItemCode" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage getNextItemCode(@RequestParam("str") String str) {
+
+		Item item = new Item();
+		ErrorMessage errorMessage = new ErrorMessage();
+		try {
+			item = itemRepository.getNextItemCode(str);
+			
+			if(item!=null)
+			{
+				String code = item.getItemCode();
+				String alpha = new String();
+				String zero = new String();
+				int codeNo = 0;
+				
+				for(int i = 0 ; i<code.length() ; i++)
+				{
+					char ch = code.charAt(i);
+					if(Character.isDigit(ch)){
+						codeNo = Integer.parseInt(code.substring(i, code.length()))+1; 
+						break;
+					}
+					else {
+						alpha = alpha+ch;
+					}
+				}
+				
+				for(int i = 0 ; i< (6-(alpha.length()+String.valueOf(codeNo).length())) ; i++)
+				{
+					zero=zero+"0";
+				}
+				
+				code=alpha+zero+String.valueOf(codeNo);
+				System.out.println("new VedorCode    " + code); 
+				errorMessage.setError(false);
+				errorMessage.setMessage(code); 
+			}
+			else
+			{
+				errorMessage.setError(true);
+				String alpha = str;
+				String zero = new String();
+				String code; 
+				
+				for(int i = 0 ; i< (5-alpha.length()) ; i++)
+				{
+					zero=zero+"0";
+				}
+				code=alpha+zero+"1";
+				errorMessage.setMessage(code); 
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return errorMessage;
+
+	}
 
 }

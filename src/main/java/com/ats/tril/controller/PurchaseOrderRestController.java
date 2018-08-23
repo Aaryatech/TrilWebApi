@@ -1,6 +1,7 @@
 package com.ats.tril.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetPODetail;
 import com.ats.tril.model.GetPoDetailList;
 import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.PoDetail;
 import com.ats.tril.model.PoHeader;
+import com.ats.tril.model.getqueryitems.GetPoQueryItem;
 import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.repository.GetPoDetailListRepository;
 import com.ats.tril.repository.GetPoHeaderListRepository;
@@ -24,6 +27,7 @@ import com.ats.tril.repository.PoDetailRepository;
 import com.ats.tril.repository.PoHeaderRepository;
 import com.ats.tril.repository.getpodetail.GetPODetailRepo;
 import com.ats.tril.repository.indent.IndentTransRepo;
+import com.ats.tril.repository.queryitems.GetPoQueryItemRepo;
 
 @RestController
 public class PurchaseOrderRestController {
@@ -45,6 +49,9 @@ public class PurchaseOrderRestController {
 
 	@Autowired
 	IndentTransRepo indentTransRepo;
+	
+	@Autowired
+	GetPoQueryItemRepo getPoQueryItemRepo;
 
 	@RequestMapping(value = { "/getPODetailList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetPODetail> getPODetails(@RequestParam("poIdList") List<Integer> poIdList) {
@@ -254,6 +261,26 @@ public class PurchaseOrderRestController {
 
 		}
 		return errorMessage;
+
+	}
+	
+	@RequestMapping(value = { "/getPreviousRecordOfPoItem" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPoQueryItem> getPreviousRecordOfPoItem(@RequestParam("itemId") int itemId) {
+ 
+		List<GetPoQueryItem> getPreviousRecordOfPoItem = new ArrayList<GetPoQueryItem>();
+
+		try {
+ 
+			getPreviousRecordOfPoItem = getPoQueryItemRepo.getPreviousRecordOfPoItem(itemId);
+
+			System.err.println(" getPoQueryItem  List " + getPreviousRecordOfPoItem.toString());
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+
+		}
+
+		return getPreviousRecordOfPoItem;
 
 	}
 

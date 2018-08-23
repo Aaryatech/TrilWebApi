@@ -21,4 +21,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	List<Item> findAllByIsUsed(int i);
 
+	@Query(value=("select *  from m_item where item_code = ( select max(item_code) from m_item where item_code LIKE :str% )"),nativeQuery=true)
+	Item getNextItemCode(@Param("str") String str);
+
 }
