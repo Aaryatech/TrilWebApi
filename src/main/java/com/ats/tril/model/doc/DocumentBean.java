@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="m_doc")
 public class DocumentBean implements Serializable{
@@ -104,6 +106,7 @@ public class DocumentBean implements Serializable{
 	public void setFyYear(String fyYear) {
 		this.fyYear = fyYear;
 	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "yyyy-MM-dd")
 
 	public Date getFromDate() {
 		return fromDate;

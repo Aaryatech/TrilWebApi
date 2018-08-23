@@ -16,9 +16,9 @@ public interface GetIndentQueryItemRepo extends JpaRepository<GetIndentQueryItem
 			+ "m_sub_dept.sub_dept_desc,m_category.cat_desc " + 
 			" FROM indtrans,indent,m_item,m_dept,m_sub_dept,m_category " + 
 			" WHERE indent.ind_m_date >=:fromDate  " + 
-			" AND indent.ind_m_id=indtrans.ind_m_id AND indtrans.item_id=m_item.item_id AND  " + 
+			" AND indent.ind_m_id=indtrans.ind_m_id AND indtrans.item_id=m_item.item_id AND indtrans.item_id=:itemId AND  " + 
 			" indent.dept_id=m_dept.dept_id AND indent.sub_dept_id=m_sub_dept.sub_dept_id AND  " + 
 			" indent.cat_id=m_category.cat_id AND indtrans.del_status=1 AND indent.del_status=1 ", nativeQuery = true)
-	List<GetIndentQueryItem> getIndentQueryItem(@Param("fromDate") Date fromDate);
+	List<GetIndentQueryItem> getIndentQueryItem(@Param("fromDate") Date fromDate,@Param("itemId") int itemId);
 	
 }

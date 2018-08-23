@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class GetIndentQueryItem {
 
@@ -44,6 +46,8 @@ public class GetIndentQueryItem {
 	public String getIndMNo() {
 		return indMNo;
 	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
 	public Date getIndMDate() {
 		return indMDate;
 	}
