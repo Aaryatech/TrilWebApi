@@ -30,7 +30,7 @@ public interface GetCurrentStockHeaderResRepository extends JpaRepository<GetCur
 			"            t_mrn_detail,\r\n" + 
 			"            t_mrn_header\r\n" + 
 			"        where\r\n" + 
-			"            t_mrn_header.bill_date between :fromDate and :toDate\r\n" + 
+			"            t_mrn_header.mrn_date between :fromDate and :toDate\r\n" + 
 			"            AND t_mrn_header.mrn_id=t_mrn_detail.mrn_id\r\n" + 
 			"            AND m_item.item_id=t_mrn_detail.item_id \r\n" + 
 			"            and t_mrn_header.del_status=1\r\n" + 
