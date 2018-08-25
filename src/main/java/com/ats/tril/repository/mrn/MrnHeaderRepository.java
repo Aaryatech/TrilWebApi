@@ -37,6 +37,10 @@ public interface MrnHeaderRepository extends JpaRepository<MrnHeader, Integer>{
 	
 	//9 aug sachin
 	MrnHeader findByMrnId(int mrnId);
+
+	@Query(value=("select mh.* from t_mrn_detail md,t_mrn_header mh where md.mrn_id = mh.mrn_id and reject_qty>0 and mh.vendor_id=:vendId and "
+			+ "mh.del_status=1 and md.del_status=1 and mh.mrn_id Not In(select mrn_id from t_rejection_memo where is_used=1) group by mh.mrn_id"),nativeQuery=true)
+	List<MrnHeader> getMrnListByVendorIdForRejectionMemo(@Param("vendId")int vendId);
 	
 
 

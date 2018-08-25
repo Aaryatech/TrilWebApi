@@ -446,6 +446,27 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
+	
+	@RequestMapping(value = { "/getMrnListByVendorIdForRejectionMemo" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnHeader> getMrnListByVendorIdForRejectionMemo(@RequestParam("vendId") int vendId) {
+
+		List<MrnHeader> mrnHeaderList = new ArrayList<MrnHeader>();
+
+		try {
+
+			mrnHeaderList = mrnHeaderRepository.getMrnListByVendorIdForRejectionMemo(vendId);
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndents Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return mrnHeaderList;
+
+	}
 
 	// Neha
 	@RequestMapping(value = { "/getMrnHeaderDetail" }, method = RequestMethod.POST)
@@ -456,26 +477,15 @@ public class MrnApiController {
 		try {
 
 			mrnHeaderList = getMrnHeaderRejRepo.getMrnHeaderByList(status);
-			List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(status);
+			//List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(status);
 
 			for (int i = 0; i < mrnHeaderList.size(); i++) {
-
-				List<GetMrnDetailRej> detailsList = new ArrayList<>();
-
+ 
 				int mrnId = mrnHeaderList.get(i).getMrnId();
+				
+				List<GetMrnDetailRej> getMrnDetailList = getMrnDetailRejRepo.getMrnDetailByList(mrnId);
 
-				for (int j = 0; j < getMrnDetailList.size(); j++) {
-
-					int detailMRNId = getMrnDetailList.get(j).getMrnId();
-
-					if (detailMRNId == mrnId) {
-
-						detailsList.add(getMrnDetailList.get(j));
-					}
-
-				}
-
-				mrnHeaderList.get(i).setGetMrnDetailRejList(detailsList);
+				mrnHeaderList.get(i).setGetMrnDetailRejList(getMrnDetailList);
 
 			}
 

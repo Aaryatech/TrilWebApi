@@ -10,6 +10,6 @@ import com.ats.tril.model.mrn.GetMrnDetailRej;
 
 public interface GetMrnDetailRejRepo extends JpaRepository<GetMrnDetailRej, Integer> {
 
-	@Query(value = "SELECT m.*,i.item_desc as item_name ,i.item_code FROM t_mrn_detail m,m_item i WHERE  m.item_id=i.item_id AND m.mrn_id IN(:status) AND m.del_status=1", nativeQuery = true)
-	List<GetMrnDetailRej> getMrnDetailByList(@Param("status") List<Integer> status);
+	@Query(value = "SELECT m.*,i.item_desc as item_name ,i.item_code FROM t_mrn_detail m,m_item i WHERE  m.item_id=i.item_id AND m.mrn_id =:status  AND m.del_status=1 and m.reject_qty>0", nativeQuery = true)
+	List<GetMrnDetailRej> getMrnDetailByList(@Param("status") int status);
 }

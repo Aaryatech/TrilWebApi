@@ -19,7 +19,7 @@ public class RejectionMemo {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int rejectionId;
 
-	private int rejectionNo;
+	private String rejectionNo;
 
 	private int vendorId;
 	private int mrnId;
@@ -43,11 +43,11 @@ public class RejectionMemo {
 		this.rejectionId = rejectionId;
 	}
 
-	public int getRejectionNo() {
+	public String getRejectionNo() {
 		return rejectionNo;
 	}
 
-	public void setRejectionNo(int rejectionNo) {
+	public void setRejectionNo(String rejectionNo) {
 		this.rejectionNo = rejectionNo;
 	}
 
