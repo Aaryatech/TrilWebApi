@@ -8,5 +8,7 @@ import com.ats.tril.model.doc.SubDocument;
 public interface SubDocumentRepository extends JpaRepository<SubDocument, Integer>{
 
 	SubDocument findByMIdAndCatIdAndDelStatus(int id, int catId, int i);
+	
+	SubDocument findByMIdAndCatIdAndDelStatusAndDocId(int id, int catId, int i, int typeId);
 
 }

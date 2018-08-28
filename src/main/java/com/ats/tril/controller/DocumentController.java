@@ -50,7 +50,7 @@ public class DocumentController {
 	
 	@RequestMapping(value = { "/getDocumentData" }, method = RequestMethod.POST)
 	public @ResponseBody DocumentBean getDocumentData(@RequestParam("docId") int docId,
-			@RequestParam("date") String date, @RequestParam("catId") int catId) {
+			@RequestParam("date") String date, @RequestParam("catId") int catId, @RequestParam("typeId") int typeId) {
 
 		DocumentBean documentBean = null;
 		try {
@@ -59,8 +59,8 @@ public class DocumentController {
 
 			if (documentBean != null) {
 
-				SubDocument subDocumentRes = subDocumentRepository.findByMIdAndCatIdAndDelStatus(documentBean.getId(),
-						catId, 0);
+				SubDocument subDocumentRes = subDocumentRepository.findByMIdAndCatIdAndDelStatusAndDocId(documentBean.getId(),
+						catId, 0,typeId);
 				documentBean.setSubDocument(subDocumentRes);
 
 			}
