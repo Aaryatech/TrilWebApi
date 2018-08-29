@@ -19,10 +19,10 @@ public class GetpassReturn {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int returnId;
-	private int returnNo;
+	private String returnNo;
 
 	private int gpId;
-	private int gpNo;
+	private String gpNo;
 	private int vendorId;
 
 	private String gpReturnDate;
@@ -42,11 +42,11 @@ public class GetpassReturn {
 		this.returnId = returnId;
 	}
 
-	public int getReturnNo() {
+	public String getReturnNo() {
 		return returnNo;
 	}
 
-	public void setReturnNo(int returnNo) {
+	public void setReturnNo(String returnNo) {
 		this.returnNo = returnNo;
 	}
 
@@ -58,11 +58,11 @@ public class GetpassReturn {
 		this.gpId = gpId;
 	}
 
-	public int getGpNo() {
+	public String getGpNo() {
 		return gpNo;
 	}
 
-	public void setGpNo(int gpNo) {
+	public void setGpNo(String gpNo) {
 		this.gpNo = gpNo;
 	}
 

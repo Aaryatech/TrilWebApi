@@ -16,7 +16,7 @@ public class GatepassReport {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int gpDetailId;
 	private int gpId;
-	private int gpNo;
+	private String gpNo;
 	private int gpVendor;
 	private Date gpDate;
 	private Date gpReturnDate;
@@ -51,11 +51,11 @@ public class GatepassReport {
 		this.gpId = gpId;
 	}
 
-	public int getGpNo() {
+	public String getGpNo() {
 		return gpNo;
 	}
 
-	public void setGpNo(int gpNo) {
+	public void setGpNo(String gpNo) {
 		this.gpNo = gpNo;
 	}
 

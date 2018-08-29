@@ -21,13 +21,13 @@ public class GetPassReturnHeader {
 	private int returnId;
 	
 	@Column(name = "return_no")
-	private int returnNo;
+	private String returnNo;
 	
 	@Column(name = "gp_id")
 	private int gpId;
 	
 	@Column(name = "gp_no")
-	private int gpNo;
+	private String gpNo;
 	
 	@Column(name = "vendor_id")
 	private int vendorId;
@@ -61,11 +61,11 @@ public class GetPassReturnHeader {
 		this.returnId = returnId;
 	}
 
-	public int getReturnNo() {
+	public String getReturnNo() {
 		return returnNo;
 	}
 
-	public void setReturnNo(int returnNo) {
+	public void setReturnNo(String returnNo) {
 		this.returnNo = returnNo;
 	}
 
@@ -77,11 +77,11 @@ public class GetPassReturnHeader {
 		this.gpId = gpId;
 	}
 
-	public int getGpNo() {
+	public String getGpNo() {
 		return gpNo;
 	}
 
-	public void setGpNo(int gpNo) {
+	public void setGpNo(String gpNo) {
 		this.gpNo = gpNo;
 	}
 

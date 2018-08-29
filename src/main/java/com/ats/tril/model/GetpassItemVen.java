@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class GetpassItemVen {
 	@Id
 	private int gpId;
-	private int gpNo;
+	private String gpNo;
 	private int gpVendor;
 	private String vendorName;
 	private int gpType;
@@ -34,11 +34,11 @@ public class GetpassItemVen {
 		this.gpId = gpId;
 	}
 
-	public int getGpNo() {
+	public String getGpNo() {
 		return gpNo;
 	}
 
-	public void setGpNo(int gpNo) {
+	public void setGpNo(String gpNo) {
 		this.gpNo = gpNo;
 	}
 
