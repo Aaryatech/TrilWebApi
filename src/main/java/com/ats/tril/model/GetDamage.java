@@ -41,6 +41,9 @@ public class GetDamage {
 	
 	@Column(name = "item_desc")
 	private String itemDesc;
+	
+	@Column(name = "damage_no")
+	private String damageNo;
 
 	public int getDamageId() {
 		return damageId;
@@ -115,11 +118,19 @@ public class GetDamage {
 		this.itemDesc = itemDesc;
 	}
 
+	public String getDamageNo() {
+		return damageNo;
+	}
+
+	public void setDamageNo(String damageNo) {
+		this.damageNo = damageNo;
+	}
+
 	@Override
 	public String toString() {
 		return "GetDamage [damageId=" + damageId + ", date=" + date + ", itemId=" + itemId + ", qty=" + qty + ", value="
 				+ value + ", reason=" + reason + ", delStatus=" + delStatus + ", itemCode=" + itemCode + ", itemDesc="
-				+ itemDesc + "]";
+				+ itemDesc + ", damageNo=" + damageNo + "]";
 	}
 	
 	

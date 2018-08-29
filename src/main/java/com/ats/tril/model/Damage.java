@@ -33,6 +33,9 @@ public class Damage {
 	
 	@Column(name = "del_status")
 	private int delStatus;
+	
+	@Column(name = "damage_no")
+	private String damageNo;
 
 	public int getDamageId() {
 		return damageId;
@@ -90,10 +93,18 @@ public class Damage {
 		this.delStatus = delStatus;
 	}
 
+	public String getDamageNo() {
+		return damageNo;
+	}
+
+	public void setDamageNo(String damageNo) {
+		this.damageNo = damageNo;
+	}
+
 	@Override
 	public String toString() {
 		return "Damage [damageId=" + damageId + ", date=" + date + ", itemId=" + itemId + ", qty=" + qty + ", value="
-				+ value + ", reason=" + reason + ", delStatus=" + delStatus + "]";
+				+ value + ", reason=" + reason + ", delStatus=" + delStatus + ", damageNo=" + damageNo + "]";
 	}
 	
 	
