@@ -262,6 +262,32 @@ public class MrnApiController {
 		return mrnHeader;
 
 	}
+	
+	@RequestMapping(value = { "/getMrnHeaderForApprove" }, method = RequestMethod.POST)
+	public @ResponseBody GetMrnHeader getMrnHeaderForApprove(@RequestParam("mrnId") int mrnId) {
+
+		GetMrnHeader mrnHeader = new GetMrnHeader();
+
+		try {
+			mrnHeader = getMrnHeaderRepository.findByMrnId(mrnId);
+			if (mrnHeader != null) {
+
+				List<GetMrnDetail> getMrnDetailList = getMrnDetailRepository.getMrnDetailListForApprove(mrnId);
+
+				mrnHeader.setGetMrnDetailList(getMrnDetailList);
+
+			}
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndents Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return mrnHeader;
+
+	}
 
 	@RequestMapping(value = { "/saveMrnData" }, method = RequestMethod.POST)
 	public @ResponseBody List<MrnDetail> saveMrnData(@RequestBody List<MrnDetail> getMrnDetailList) {
@@ -660,6 +686,36 @@ public class MrnApiController {
 		}
 
 		return errMsg;
+	}
+	
+	@RequestMapping(value = { "/updateStatusWhileMrnApprov" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateStatusWhileMrnApprov(@RequestParam("mrnId") int mrnId,
+			@RequestParam("mrnDetalId") List<Integer> mrnDetalId,@RequestParam("status") int status) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+
+			int update = mrnHeaderRepository.updateStatusWhileApprov(mrnId,status); 
+			
+			/*for(int i=0 ; i<poDetalId.size() : i++)
+			{
+				
+			}*/
+			int updateDetail = mrnDetailRepo.updateStatusWhileApprov(mrnDetalId,status);
+			
+			errorMessage.setError(false);
+			errorMessage.setMessage("approved");
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed");
+
+		}
+		return errorMessage;
+
 	}
 
 }
