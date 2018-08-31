@@ -170,6 +170,24 @@ public class PurchaseOrderRestController {
 		return list;
 
 	}
+	
+	@RequestMapping(value = { "/getPoHeaderListForApprove" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetPoHeaderList> getPoHeaderListForApprove(@RequestParam("status") List<Integer> status) {
+
+		List<GetPoHeaderList> list = new ArrayList<GetPoHeaderList>();
+
+		try {
+
+			list = getPoHeaderListRepository.getPoHeaderListForApprove(status);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/getPoHeaderAndDetailByHeaderId" }, method = RequestMethod.POST)
 	public @ResponseBody GetPoHeaderList getPoHeaderAndDetailByHeaderId(@RequestParam("poId") int poId) {
@@ -281,6 +299,36 @@ public class PurchaseOrderRestController {
 		}
 
 		return getPreviousRecordOfPoItem;
+
+	}
+	
+	@RequestMapping(value = { "/updateStatusWhileApprov" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateStatusWhileApprov(@RequestParam("poId") int poId,
+			@RequestParam("poDetalId") List<Integer> poDetalId,@RequestParam("status") int status) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+
+			int update = poHeaderRepository.updateStatusWhileApprov(poId,status); 
+			
+			/*for(int i=0 ; i<poDetalId.size() : i++)
+			{
+				
+			}*/
+			int updateDetail = poDetailRepository.updateStatusWhileApprov(poDetalId,status);
+			
+			errorMessage.setError(false);
+			errorMessage.setMessage("approved");
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed");
+
+		}
+		return errorMessage;
 
 	}
 

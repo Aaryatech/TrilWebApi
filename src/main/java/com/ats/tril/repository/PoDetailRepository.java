@@ -44,6 +44,11 @@ public interface PoDetailRepository extends JpaRepository<PoDetail, Integer>{
 	@Transactional
 	@Query("delete from PoDetail where po_detail_id =:poDetailId") 
 	void delete(@Param("poDetailId") int poDetailId);
+
+	@Modifying
+	@Transactional
+	@Query(" UPDATE PoDetail  SET status=:status   WHERE po_detail_id in (:poDetalId)")
+	int updateStatusWhileApprov(@Param("poDetalId") List<Integer> poDetalId,@Param("status") int status);
 }
 
 

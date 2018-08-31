@@ -27,6 +27,11 @@ public interface PoHeaderRepository extends JpaRepository<PoHeader, Integer>{
 	@Modifying
 	@Query("UPDATE PoHeader SET del_status=0  WHERE po_id=:poId") 
 	int delete(@Param("poId") int poId);
+
+	@Transactional
+	@Modifying
+	@Query(" UPDATE PoHeader  SET poStatus=:status   WHERE poId=:poId ")
+	int updateStatusWhileApprov(@Param("poId")int poId,@Param("status") int status);
 	
 }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
