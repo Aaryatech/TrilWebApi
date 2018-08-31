@@ -25,4 +25,9 @@ public interface GetpassHeaderRepo extends JpaRepository<GetpassHeader, Integer>
 	@Modifying
 	@Query("UPDATE GetpassHeader SET gp_status=3  WHERE gp_id=:gpId")
 	int updateGetpassHeaderStatus(@Param("gpId") int gpId);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE GetpassHeader SET gpStatus=:status  WHERE gp_id=:gpId")
+	int updateStatusWhileApprov(@Param("gpId")int gpId,@Param("status") int status);
 }

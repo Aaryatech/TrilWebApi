@@ -28,5 +28,8 @@ public interface GetpassItemVenRepo extends JpaRepository<GetpassItemVen, Intege
 
 	@Query(value = "SELECT h.*,v.vendor_name FROM t_gatepass_header h,m_vendor v WHERE gp_type=1 AND h.gp_vendor=v.vendor_id  AND h.is_used=1", nativeQuery = true)
 	List<GetpassItemVen> getpassAllList();
+	
+	@Query(value = "SELECT h.*,v.vendor_name FROM t_gatepass_header h,m_vendor v WHERE h.gp_status IN (:status) AND h.gp_vendor=v.vendor_id  AND h.is_used=1", nativeQuery = true)
+	 List<GetpassItemVen> getGetpassItemHeaderApprove(@Param("status")List<Integer> status);
 
 }

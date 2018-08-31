@@ -70,7 +70,7 @@ public class GetPassController {
 
 	@Autowired
 	GetpassHeaderRepo getpassHeaderRepo;
-
+	
 	@Autowired
 	GetpassDetailRepo getpassDetailRepo;
 
@@ -675,6 +675,53 @@ public class GetPassController {
 
 		}
 		return gatepassReportList;
+
+	}
+	
+	@RequestMapping(value = { "/getGetpassItemHeaderAndDetailForApprove" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetpassItemVen> getGetpassItemHeaderAndDetailForApprove(@RequestParam("status") List<Integer> status) {
+
+		List<GetpassItemVen> getpassHeader = new ArrayList<GetpassItemVen>();
+
+		try {
+
+			getpassHeader = getpassItemVenRepo.getGetpassItemHeaderApprove(status);
+			/*List<GetpassDetailItemName> getpassDetailList = getpassDetailItemNameRepo.getAllItemByGpId(gpId);
+			getpassHeader.setGetpassDetailItemNameList(getpassDetailList);*/
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getpassHeader;
+
+	}
+	
+	@RequestMapping(value = { "/updateStatusWhileGatepassApprov" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateStatusWhileMrnApprov(@RequestParam("gpId") int gpId,
+			@RequestParam("gpDetailId") List<Integer> gpDetailId,@RequestParam("status") int status) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			 
+			int update = getpassHeaderRepo.updateStatusWhileApprov(gpId,status); 
+			
+			 
+			int updateDetail = getpassDetailRepo.updateStatusWhileApprov(gpDetailId,status);
+			
+			errorMessage.setError(false);
+			errorMessage.setMessage("approved");
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed");
+
+		}
+		return errorMessage;
 
 	}
 }

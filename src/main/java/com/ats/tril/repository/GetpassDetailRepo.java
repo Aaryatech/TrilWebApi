@@ -19,4 +19,9 @@ public interface GetpassDetailRepo extends JpaRepository<GetpassDetail, Integer>
 			+ "", nativeQuery = true)
 	int getpassDetailCount(@Param("gpId") int gpId);
 
+	@Transactional
+	@Modifying
+	@Query("UPDATE GetpassDetail SET gpStatus=:status  WHERE gpDetailId IN (:gpDetailId)")
+	int updateStatusWhileApprov(@Param("gpDetailId")List<Integer> gpDetailId,@Param("status") int status);
+
 }
