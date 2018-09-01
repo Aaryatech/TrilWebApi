@@ -19,28 +19,28 @@ public class GetCurrentStock {
 	private String itemCode;
 
 	@Column(name = "opening_stock")
-	private int openingStock;
+	private float openingStock;
 
 	@Column(name = "approve_qty")
-	private int approveQty;
+	private float approveQty;
 
 	@Column(name = "issue_qty")
-	private int issueQty;
+	private float issueQty;
 	
 	@Column(name = "return_issue_qty")
-	private int returnIssueQty;
+	private float returnIssueQty;
 	
 	@Column(name = "damage_qty")
-	private int damageQty;
+	private float damageQty;
 	
 	@Column(name = "gatepass_qty")
-	private int gatepassQty;
+	private float gatepassQty;
 	
 	@Column(name = "gatepass_return_qty")
-	private int gatepassReturnQty;
+	private float gatepassReturnQty;
 	
 	@Transient
-	private int rolLevel;
+	private float rolLevel;
 	
 	public int getItemId() {
 		return itemId;
@@ -58,67 +58,67 @@ public class GetCurrentStock {
 		this.itemCode = itemCode;
 	}
 
-	public int getOpeningStock() {
+	public float getOpeningStock() {
 		return openingStock;
 	}
 
-	public void setOpeningStock(int openingStock) {
+	public void setOpeningStock(float openingStock) {
 		this.openingStock = openingStock;
 	}
 
-	public int getApproveQty() {
+	public float getApproveQty() {
 		return approveQty;
 	}
 
-	public void setApproveQty(int approveQty) {
+	public void setApproveQty(float approveQty) {
 		this.approveQty = approveQty;
 	}
 
-	public int getIssueQty() {
+	public float getIssueQty() {
 		return issueQty;
 	}
 
-	public void setIssueQty(int issueQty) {
+	public void setIssueQty(float issueQty) {
 		this.issueQty = issueQty;
 	}
 
-	public int getReturnIssueQty() {
+	public float getReturnIssueQty() {
 		return returnIssueQty;
 	}
 
-	public void setReturnIssueQty(int returnIssueQty) {
+	public void setReturnIssueQty(float returnIssueQty) {
 		this.returnIssueQty = returnIssueQty;
 	}
 
-	public int getDamageQty() {
+	public float getDamageQty() {
 		return damageQty;
 	}
 
-	public void setDamageQty(int damageQty) {
+	public void setDamageQty(float damageQty) {
 		this.damageQty = damageQty;
 	}
 
-	public int getGatepassQty() {
+	public float getGatepassQty() {
 		return gatepassQty;
 	}
 
-	public void setGatepassQty(int gatepassQty) {
+	public void setGatepassQty(float gatepassQty) {
 		this.gatepassQty = gatepassQty;
 	}
 
-	public int getGatepassReturnQty() {
+	public float getGatepassReturnQty() {
 		return gatepassReturnQty;
 	}
 
-	public void setGatepassReturnQty(int gatepassReturnQty) {
+	public void setGatepassReturnQty(float gatepassReturnQty) {
 		this.gatepassReturnQty = gatepassReturnQty;
 	}
 
-	public int getRolLevel() {
+	public float getRolLevel() {
 		return rolLevel;
 	}
 
-	public void setRolLevel(int rolLevel) {
+	public void setRolLevel(float rolLevel) {
 		this.rolLevel = rolLevel;
 	}
 
