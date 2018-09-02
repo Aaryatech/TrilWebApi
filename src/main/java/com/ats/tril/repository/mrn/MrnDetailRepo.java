@@ -33,8 +33,9 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 			"        and md.del_status=1\n" + 
 			"        and md.mrn_detail_status=4\n" + 
 			"        and mh.mrn_date<=:date\n" + 
-			"        and mh.mrn_id=md.mrn_id",nativeQuery=true)
-	List<MrnDetail> findByItemIdAndDelStatusAndMrnDetailStatus(@Param("itemId")int itemId, @Param("date")String date);
+			"        and mh.mrn_id=md.mrn_id and mh.mrn_type=:type",nativeQuery=true)
+	List<MrnDetail> findByItemIdAndDelStatusAndMrnDetailStatus(@Param("itemId")int itemId,@Param("type")int type,
+			@Param("date")String date);
 
 	@Query(value="select * from t_mrn_detail where mrn_detail_id in (:mrnDetailList) and del_status=1",nativeQuery=true)
 	List<MrnDetail> getMrnDetailListByMrnDetailId(@Param("mrnDetailList")List<Integer> mrnDetailList);
