@@ -198,6 +198,55 @@ public class IssueRestController {
 
 	}
 	
+	@RequestMapping(value = { "/getIssueHeaderByStatus" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIssueHeader> getIssueHeaderByStatus(@RequestParam("status")  List<String> status) {
+
+		List<GetIssueHeader> list = new ArrayList<GetIssueHeader>();
+
+		try {
+
+			list = getIssueHeaderRepository.getIssueHeaderByStatus(status); 
+			 
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+		}
+		return list;
+
+	}
+	
+	
+	@RequestMapping(value = { "/updateStatusWhileIssueApprov" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateStatusWhileMrnApprov(@RequestParam("issueId") int issueId,
+			@RequestParam("issueDetalId") List<Integer> issueDetalId,@RequestParam("status") int status) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+
+			int update = issueHeaderRepository.updateStatusWhileApprov(issueId,status); 
+			
+			/*for(int i=0 ; i<poDetalId.size() : i++)
+			{
+				
+			}*/
+			int updateDetail = issueDetailRepository.updateStatusWhileApprov(issueDetalId,status);
+			
+			errorMessage.setError(false);
+			errorMessage.setMessage("approved");
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed");
+
+		}
+		return errorMessage;
+
+	}
 	
 
 }

@@ -28,6 +28,7 @@ import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.ItemList;
 import com.ats.tril.model.ItemSubGroup;
 import com.ats.tril.model.PaymentTerms;
+import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.State;
 import com.ats.tril.model.SubDept;
 import com.ats.tril.model.TaxForm;
@@ -49,6 +50,7 @@ import com.ats.tril.repository.ItemGroupRepository;
 import com.ats.tril.repository.ItemRepository;
 import com.ats.tril.repository.ItemSubGroupRepository;
 import com.ats.tril.repository.PaymentTermsRepository;
+import com.ats.tril.repository.SettingValueRepository;
 import com.ats.tril.repository.StateRepository;
 import com.ats.tril.repository.SubDeptRepository;
 import com.ats.tril.repository.TaxFormRepository;
@@ -121,6 +123,28 @@ public class MasterController {
 	
 	@Autowired
 	TypeRepository typeRepository;
+	
+	@Autowired
+	SettingValueRepository settingValueRepository;
+
+	
+	@RequestMapping(value = { "/getSettingValue" }, method = RequestMethod.POST)
+	public @ResponseBody  SettingValue  getSettingValue(@RequestParam("name") int name) {
+
+		SettingValue settingValue = new SettingValue();
+
+		try {
+
+			settingValue = settingValueRepository.findAllByName(name);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return settingValue;
+
+	}
 	
 	@RequestMapping(value = { "/getAlltype" }, method = RequestMethod.GET)
 	public @ResponseBody List<Type> getAlltype() {

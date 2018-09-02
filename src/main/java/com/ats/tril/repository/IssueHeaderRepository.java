@@ -19,4 +19,9 @@ public interface IssueHeaderRepository extends JpaRepository<IssueHeader, Intege
 
 	List<IssueHeader> findByDeleteStatus(int i);
 
+	@Transactional
+	@Modifying
+	@Query("UPDATE IssueHeader SET status=:status WHERE issue_id=:issueId")
+	int updateStatusWhileApprov(@Param("issueId") int issueId, @Param("status") int status);
+
 }
