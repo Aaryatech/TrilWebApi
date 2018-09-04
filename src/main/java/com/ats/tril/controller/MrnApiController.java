@@ -717,5 +717,30 @@ public class MrnApiController {
 		return errorMessage;
 
 	}
+	
+	@RequestMapping(value = { "/getDeptAndSubDeptFromIndentByPoId" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateStatusWhileMrnApprov(@RequestParam("poId") int poId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+
+			String deptId = mrnHeaderRepository.getDeptId(poId); 
+			 
+			String suDeptId = mrnHeaderRepository.getSubDept(poId); 
+			
+			errorMessage.setError(false);
+			errorMessage.setMessage(deptId+","+suDeptId);
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed");
+
+		}
+		return errorMessage;
+
+	}
 
 }

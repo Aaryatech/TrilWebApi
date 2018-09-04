@@ -46,6 +46,12 @@ public interface MrnHeaderRepository extends JpaRepository<MrnHeader, Integer>{
 	@Modifying
 	@Query("UPDATE MrnHeader SET mrn_status=:status  WHERE mrn_id=:mrnId ")
 	int updateStatusWhileApprov(@Param("mrnId") int mrnId,@Param("status") int status);
+
+	@Query(value=("select i.dept_id from indent i,po_header po where po.po_id=:poId and po.ind_id=i.ind_m_id"),nativeQuery=true) 
+	String getDeptId(@Param("poId") int poId);
+
+	@Query(value=("select i.sub_dept_id from indent i,po_header po where po.po_id=:poId and po.ind_id=i.ind_m_id"),nativeQuery=true) 
+	String getSubDept(@Param("poId") int poId);
 	
 
 

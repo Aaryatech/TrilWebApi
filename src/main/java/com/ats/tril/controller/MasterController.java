@@ -129,7 +129,7 @@ public class MasterController {
 
 	
 	@RequestMapping(value = { "/getSettingValue" }, method = RequestMethod.POST)
-	public @ResponseBody  SettingValue  getSettingValue(@RequestParam("name") int name) {
+	public @ResponseBody  SettingValue  getSettingValue(@RequestParam("name") String name) {
 
 		SettingValue settingValue = new SettingValue();
 
