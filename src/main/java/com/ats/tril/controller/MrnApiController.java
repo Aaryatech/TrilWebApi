@@ -727,10 +727,12 @@ public class MrnApiController {
 
 			String deptId = mrnHeaderRepository.getDeptId(poId); 
 			 
-			String suDeptId = mrnHeaderRepository.getSubDept(poId); 
+			String suDeptId = mrnHeaderRepository.getSubDept(poId);
+			
+			String accHead = mrnHeaderRepository.getAccHead(poId);
 			
 			errorMessage.setError(false);
-			errorMessage.setMessage(deptId+","+suDeptId);
+			errorMessage.setMessage(deptId+","+suDeptId+","+accHead);
 			 
 		} catch (Exception e) {
 
