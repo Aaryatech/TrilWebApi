@@ -82,20 +82,20 @@ public class ValueationRestController {
 					    	 finalList.add(itemValuationList);
 					     }
 					     
-					     List<ItemQtyWithRecieptNo> getGatePassDataByDate = new ArrayList<>(); 
-					     getGatePassDataByDate = itemQtyWithRecieptNoRepository.getGatePassDataByDate(DateConvertor.convertToYMD(ds),itemId); 
-					     for(int j = 0 ; j< getGatePassDataByDate.size() ; j++)
+					     List<ItemQtyWithRecieptNo> getDamageDataByDate = new ArrayList<>(); 
+					     getDamageDataByDate = itemQtyWithRecieptNoRepository.getDamageDataByDate(DateConvertor.convertToYMD(ds),itemId); 
+					     for(int j = 0 ; j< getDamageDataByDate.size() ; j++)
 					     {
 					    	 ItemValuationList itemValuationList = new ItemValuationList();
 					    	 itemValuationList.setDate(ds);
-					    	 itemValuationList.setTypeName("GATEPASS QTY");
-					    	 itemValuationList.setReceptNo(getGatePassDataByDate.get(j).getReceptNo());
-					    	 itemValuationList.setQty(getGatePassDataByDate.get(j).getQty());
+					    	 itemValuationList.setTypeName("DAMAGE QTY");
+					    	 itemValuationList.setReceptNo(getDamageDataByDate.get(j).getReceptNo());
+					    	 itemValuationList.setQty(getDamageDataByDate.get(j).getQty());
 					    	 itemValuationList.setType(0);
 					    	 finalList.add(itemValuationList);
 					     }
 					     
-					     List<ItemQtyWithRecieptNo> getReturnGatePassDataByDate = new ArrayList<>(); 
+					     /*List<ItemQtyWithRecieptNo> getReturnGatePassDataByDate = new ArrayList<>(); 
 					     getReturnGatePassDataByDate = itemQtyWithRecieptNoRepository.getReturnGatePassDataByDate(DateConvertor.convertToYMD(ds),itemId); 
 					     for(int j = 0 ; j< getReturnGatePassDataByDate.size() ; j++)
 					     {
@@ -106,7 +106,7 @@ public class ValueationRestController {
 					    	 itemValuationList.setQty(getReturnGatePassDataByDate.get(j).getQty());
 					    	 itemValuationList.setType(1);
 					    	 finalList.add(itemValuationList);
-					     }
+					     }*/
 
 					 }
 					 

@@ -12,7 +12,7 @@ public interface GetCurrentStockHeaderResRepository extends JpaRepository<GetCur
 
 
 	
-	@Query(value=("SELECT\r\n" + 
+	/*@Query(value=("SELECT\r\n" + 
 			"        m_item.item_id,\r\n" + 
 			"        m_item.item_code,\r\n" + 
 			"        coalesce((Select SUM(t_stock_detail.op_stock_qty)\r\n" + 
@@ -77,6 +77,51 @@ public interface GetCurrentStockHeaderResRepository extends JpaRepository<GetCur
 			"    FROM\r\n" + 
 			"        m_item\r\n" + 
 			"    where\r\n" + 
+			"        m_item.is_used=1 "),nativeQuery=true)*/
+	 
+	@Query(value=("SELECT\n" + 
+			"        m_item.item_id,\n" + 
+			"        m_item.item_code, coalesce((Select\n" + 
+			"            SUM(t_stock_detail.op_stock_qty)          \n" + 
+			"        FROM\n" + 
+			"            t_stock_detail,\n" + 
+			"            t_stock_header          \n" + 
+			"        where\n" + 
+			"            t_stock_header.date=:fromDate              \n" + 
+			"            AND t_stock_header.stock_header_id=t_stock_detail.stock_header_id              \n" + 
+			"            AND m_item.item_id=t_stock_detail.item_id),\n" + 
+			"        0) AS opening_stock,\n" + 
+			"         coalesce((Select\n" + 
+			"            SUM(t_mrn_detail.approve_qty)          \n" + 
+			"        FROM\n" + 
+			"            t_mrn_detail,\n" + 
+			"            t_mrn_header          \n" + 
+			"        where\n" + 
+			"            t_mrn_header.mrn_date between :fromDate and :toDate              \n" + 
+			"            AND t_mrn_header.mrn_id=t_mrn_detail.mrn_id              \n" + 
+			"            AND m_item.item_id=t_mrn_detail.item_id               \n" + 
+			"            and t_mrn_header.del_status=1              \n" + 
+			"            and t_mrn_detail.del_status=1),\n" + 
+			"        0) AS approve_qty, \n" + 
+			"        coalesce((Select\n" + 
+			"            SUM(item_issue_detail.item_issue_qty)          \n" + 
+			"        FROM\n" + 
+			"            item_issue_header,\n" + 
+			"            item_issue_detail          \n" + 
+			"        WHERE\n" + 
+			"            item_issue_header.issue_date between :fromDate and :toDate               \n" + 
+			"            AND item_issue_header.issue_id=item_issue_detail.issue_id              \n" + 
+			"            AND m_item.item_id=item_issue_detail.item_id              \n" + 
+			"            and item_issue_header.delete_status=1              \n" + 
+			"            and item_issue_detail.del_status=1),\n" + 
+			"        0) AS issue_qty, \n" + 
+			"        coalesce(0) AS gatepass_qty,\n" + 
+			"        coalesce(0) AS gatepass_return_qty,coalesce(0) AS return_issue_qty,"
+			+ "coalesce((Select  SUM(t_damage.qty) FROM t_damage  WHERE t_damage.date between :fromDate and :toDate and t_damage.del_status=1 AND m_item.item_id=t_damage.item_id),0) AS damage_qty FROM\n" + 
+			"        m_item      \n" + 
+			"    where\n" + 
 			"        m_item.is_used=1 "),nativeQuery=true)
 	List<GetCurrStockRol> getCurrentStockForDash(@Param("fromDate")String fromDate,@Param("toDate") String toDate);
+	
+	 
 }

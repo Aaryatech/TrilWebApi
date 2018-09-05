@@ -12,9 +12,9 @@ public interface ItemQtyWithRecieptNoRepository extends JpaRepository<ItemQtyWit
 
 	
 	@Query(value="Select t_mrn_detail.mrn_detail_id as id,t_mrn_header.bill_date as date,t_mrn_header.mrn_no as recept_no,"
-			+ "t_mrn_detail.approve_qty as qty FROM t_mrn_detail, t_mrn_header where t_mrn_header.bill_date =:date "
+			+ "t_mrn_detail.approve_qty as qty FROM t_mrn_detail, t_mrn_header where t_mrn_header.mrn_date =:date "
 			+ "AND t_mrn_header.mrn_id=t_mrn_detail.mrn_id AND t_mrn_detail.item_id=:itemId and t_mrn_header.del_status=1 "
-			+ "and t_mrn_detail.del_status=1 and t_mrn_detail.mrn_detail_status=1",nativeQuery=true)
+			+ "and t_mrn_detail.del_status=1 and t_mrn_detail.mrn_detail_status>0",nativeQuery=true)
 	List<ItemQtyWithRecieptNo> getMrnDataByDate(@Param("date") String date,@Param("itemId") int itemId);
 
 	@Query(value="Select item_issue_detail.issue_detail_id as id, item_issue_header.issue_date as date, "
@@ -35,5 +35,18 @@ public interface ItemQtyWithRecieptNoRepository extends JpaRepository<ItemQtyWit
 			+ "t_getpass_return.return_id=t_getpass_return_detail.return_id AND t_getpass_return_detail.gp_item_id=:itemId "
 			+ "and t_getpass_return.is_used=1 and t_getpass_return_detail.is_used=1 ",nativeQuery=true)
 	List<ItemQtyWithRecieptNo> getReturnGatePassDataByDate(@Param("date") String date,@Param("itemId") int itemId);
+	
+	@Query(value="Select\r\n" + 
+			"        t_damage.damage_id as id,\r\n" + 
+			"        t_damage.date as date,\r\n" + 
+			"        t_damage.damage_no as recept_no,\r\n" + 
+			"        t_damage.qty as qty \r\n" + 
+			"    FROM\r\n" + 
+			"        t_damage \r\n" + 
+			"    where\r\n" + 
+			"        t_damage.date =:date\r\n" + 
+			"        AND t_damage.item_id=:itemId\r\n" + 
+			"        and t_damage.del_status=1  ",nativeQuery=true)
+	List<ItemQtyWithRecieptNo> getDamageDataByDate(@Param("date") String date,@Param("itemId") int itemId);
 
 }
