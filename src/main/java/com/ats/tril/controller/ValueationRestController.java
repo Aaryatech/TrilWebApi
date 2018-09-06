@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.IssueAndMrnGroupWise;
+import com.ats.tril.model.IssueAndMrnItemWise;
 import com.ats.tril.model.ItemQtyWithRecieptNo;
 import com.ats.tril.model.ItemValuationList;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
+import com.ats.tril.repository.IssueAndMrnItemWiseRepository;
 import com.ats.tril.repository.ItemQtyWithRecieptNoRepository;
 import com.ats.tril.repository.StockValuationCategoryWiseRepository; 
 
@@ -33,6 +35,9 @@ public class ValueationRestController {
 	
 	@Autowired
 	IssueAndMrnGroupWiseRepository issueAndMrnGroupWiseRepository;
+	
+	@Autowired
+	IssueAndMrnItemWiseRepository issueAndMrnItemWiseRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -209,6 +214,38 @@ public class ValueationRestController {
 					  }
 					  else{
 						  finalList = issueAndMrnGroupWiseRepository.issueAndMrnGroupWisReportByCatId(fromDate,toDate,catId);  
+					  }
+					   
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
+
+	}
+	
+	@RequestMapping(value = { "/issueAndMrnItemWiseReportByGroupId" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueAndMrnItemWise> issueAndMrnItemWiseReportByGroupId(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("groupId") int groupId) {
+		
+		 List<IssueAndMrnItemWise> finalList = new  ArrayList<IssueAndMrnItemWise>();
+
+		try {
+			   
+					  if(typeId!=0 && isDev!=-1){
+						  finalList = issueAndMrnItemWiseRepository.issueAndMrnItemWiseReportByGroupIdWithTypeIdAndIsDev(fromDate,toDate,typeId,isDev,groupId); 
+					  }
+					  else if(typeId!=0 && isDev==-1) {
+						  finalList = issueAndMrnItemWiseRepository.issueAndMrnGroupWisReportByGroupWithAllDevelopment(fromDate,toDate,typeId,groupId); 
+					  }
+					  else if(typeId==0 && isDev!=-1){
+						  finalList = issueAndMrnItemWiseRepository.issueAndMrnGroupWisReportByCatIdWithAllType(fromDate,toDate,isDev,groupId); 
+					  }
+					  else{
+						  finalList = issueAndMrnItemWiseRepository.issueAndMrnGroupWisReportByCatId(fromDate,toDate,groupId);  
 					  }
 					   
 			 
