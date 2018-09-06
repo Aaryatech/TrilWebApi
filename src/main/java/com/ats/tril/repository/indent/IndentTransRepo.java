@@ -60,7 +60,7 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 	int approveIndentUnSelected(@Param("indDStatus") int indDStatus,@Param("indDetailIdList") List<Integer> indDetailIdList,
 			@Param("indentId") int indentId);
 
-	List<IndentTrans> findByIndDStatusNotAndIndMIdAndDelStatus(int i, int indMId, int j);
+	List<IndentTrans> findByIndDStatusNotInAndIndMIdAndDelStatus(List<Integer> i, int indMId, int j);
 
 	List<IndentTrans> findByIndDStatusAndIndMIdAndDelStatus(int i, int indMId, int j);
 	

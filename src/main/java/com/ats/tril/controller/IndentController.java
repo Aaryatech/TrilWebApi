@@ -518,8 +518,13 @@ public class IndentController {
 
 			int status = 2;
 			List<IndentTrans> transRes = indentTransRepo.saveAll(intendDetailList);
- 
-			List<IndentTrans> checkStsNot2 = indentTransRepo.findByIndDStatusNotAndIndMIdAndDelStatus(2,intendDetailList.get(0).getIndMId(),1);
+			
+			List<Integer> sts = new ArrayList<>();
+			sts.add(2);
+			sts.add(7);
+			sts.add(9);
+			
+			List<IndentTrans> checkStsNot2 = indentTransRepo.findByIndDStatusNotInAndIndMIdAndDelStatus(sts,intendDetailList.get(0).getIndMId(),1);
 			
 			if (checkStsNot2.isEmpty()) {
 
