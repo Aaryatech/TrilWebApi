@@ -15,14 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ItemQtyWithRecieptNo;
-import com.ats.tril.model.ItemValuationList; 
-import com.ats.tril.repository.ItemQtyWithRecieptNoRepository; 
+import com.ats.tril.model.ItemValuationList;
+import com.ats.tril.model.StockValuationCategoryWise;
+import com.ats.tril.repository.ItemQtyWithRecieptNoRepository;
+import com.ats.tril.repository.StockValuationCategoryWiseRepository; 
 
 @RestController
 public class ValueationRestController {
 	
 	@Autowired
 	ItemQtyWithRecieptNoRepository itemQtyWithRecieptNoRepository;
+	
+	@Autowired
+	StockValuationCategoryWiseRepository stockValuationCategoryWiseRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -113,6 +118,30 @@ public class ValueationRestController {
 					 System.out.println("finalList   "  + finalList);
  
 				 
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
+
+	}
+	
+	@RequestMapping(value = { "/stockValueationReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<StockValuationCategoryWise> stockValueationReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId) {
+		
+		 List<StockValuationCategoryWise> finalList = new  ArrayList<StockValuationCategoryWise>();
+
+		try {
+			  
+					  if(typeId==0) {
+						  finalList = stockValuationCategoryWiseRepository.stockValueationReport(fromDate,toDate);  
+					  }
+					  else {
+						  finalList = stockValuationCategoryWiseRepository.stockValueationReport(fromDate,toDate,typeId); 
+					  }
 			 
 		} catch (Exception e) {
 

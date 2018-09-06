@@ -183,5 +183,29 @@ public class StockRestController {
 		return getCurrentStock;
 
 	}
+	
+	@RequestMapping(value = { "/getStockBetweenDateWithCatIdAndTypeId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetCurrentStock> getStockBetweenDateWithCatIdAndTypeId(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("catId") int catId,@RequestParam("typeId") int typeId) {
+		
+		List<GetCurrentStock> getCurrentStock = new ArrayList<GetCurrentStock>();
+
+		try {
+
+			if(typeId==0) {
+			 getCurrentStock = getCurrentStockHeaderRepository.getStockBetweenDateWithCatId(fromDate,toDate,catId);
+			}
+			else {
+			 getCurrentStock = getCurrentStockHeaderRepository.getStockBetweenDateWithCatId(fromDate,toDate,catId,typeId);
+			}
+ 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getCurrentStock;
+
+	}
 
 }
