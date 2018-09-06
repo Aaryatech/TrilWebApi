@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.common.DateConvertor;
+import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.ItemQtyWithRecieptNo;
 import com.ats.tril.model.ItemValuationList;
 import com.ats.tril.model.StockValuationCategoryWise;
+import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
 import com.ats.tril.repository.ItemQtyWithRecieptNoRepository;
 import com.ats.tril.repository.StockValuationCategoryWiseRepository; 
 
@@ -28,6 +30,9 @@ public class ValueationRestController {
 	
 	@Autowired
 	StockValuationCategoryWiseRepository stockValuationCategoryWiseRepository;
+	
+	@Autowired
+	IssueAndMrnGroupWiseRepository issueAndMrnGroupWiseRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -142,6 +147,70 @@ public class ValueationRestController {
 					  else {
 						  finalList = stockValuationCategoryWiseRepository.stockValueationReport(fromDate,toDate,typeId); 
 					  }
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
+
+	}
+	
+	@RequestMapping(value = { "/issueAndMrnCatWiseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<StockValuationCategoryWise> issueAndMrnCatWiseReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev) {
+		
+		 List<StockValuationCategoryWise> finalList = new  ArrayList<StockValuationCategoryWise>();
+
+		try {
+			  
+					  
+					  if(typeId!=0 && isDev!=-1){
+						  finalList = stockValuationCategoryWiseRepository.issueAndMrnCatWiseReport(fromDate,toDate,typeId,isDev); 
+					  }
+					  else if(typeId!=0 && isDev==-1) {
+						  finalList = stockValuationCategoryWiseRepository.issueAndMrnCatWiseReport(fromDate,toDate,typeId); 
+					  }
+					  else if(typeId==0 && isDev!=-1){
+						  finalList = stockValuationCategoryWiseRepository.issueAndMrnCatWiseReportWithIsDev(fromDate,toDate,isDev); 
+					  }
+					  else{
+						  finalList = stockValuationCategoryWiseRepository.issueAndMrnCatWiseReport(fromDate,toDate);  
+					  }
+					   
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
+
+	}
+	
+	@RequestMapping(value = { "/issueAndMrnGroupWisReportByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueAndMrnGroupWise> issueAndMrnGroupWisReportByCatId(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("catId") int catId) {
+		
+		 List<IssueAndMrnGroupWise> finalList = new  ArrayList<IssueAndMrnGroupWise>();
+
+		try {
+			   
+					  if(typeId!=0 && isDev!=-1){
+						  finalList = issueAndMrnGroupWiseRepository.issueAndMrnGroupWisReportByCatId(fromDate,toDate,typeId,isDev,catId); 
+					  }
+					  else if(typeId!=0 && isDev==-1) {
+						  finalList = issueAndMrnGroupWiseRepository.issueAndMrnGroupWisReportByCatIdWithAllDevelopment(fromDate,toDate,typeId,catId); 
+					  }
+					  else if(typeId==0 && isDev!=-1){
+						  finalList = issueAndMrnGroupWiseRepository.issueAndMrnGroupWisReportByCatIdWithAllType(fromDate,toDate,isDev,catId); 
+					  }
+					  else{
+						  finalList = issueAndMrnGroupWiseRepository.issueAndMrnGroupWisReportByCatId(fromDate,toDate,catId);  
+					  }
+					   
 			 
 		} catch (Exception e) {
 
