@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
+import com.ats.tril.model.IssueDeptWise;
 import com.ats.tril.model.ItemQtyWithRecieptNo;
 import com.ats.tril.model.ItemValuationList;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
 import com.ats.tril.repository.IssueAndMrnItemWiseRepository;
+import com.ats.tril.repository.IssueDeptWiseRepository;
 import com.ats.tril.repository.ItemQtyWithRecieptNoRepository;
 import com.ats.tril.repository.StockValuationCategoryWiseRepository; 
 
@@ -38,6 +40,9 @@ public class ValueationRestController {
 	
 	@Autowired
 	IssueAndMrnItemWiseRepository issueAndMrnItemWiseRepository;
+	
+	@Autowired
+	IssueDeptWiseRepository issueDeptWiseRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -246,6 +251,117 @@ public class ValueationRestController {
 					  }
 					  else{
 						  finalList = issueAndMrnItemWiseRepository.issueAndMrnGroupWisReportByCatId(fromDate,toDate,groupId);  
+					  }
+					   
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
+
+	}
+	
+	@RequestMapping(value = { "/issueDepartmentWiseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueDeptWise> issueDepartmentWiseReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("deptId") int deptId) {
+		
+		 List<IssueDeptWise> finalList = new  ArrayList<IssueDeptWise>();
+
+		try {
+			   
+					  if(typeId!=0 && isDev!=-1 && deptId!=0){
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndIsDevAndDept(fromDate,toDate,typeId,isDev,deptId); 
+					  }
+					  else if(typeId!=0 && isDev==-1 && deptId!=0) {
+						  
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndDeptId(fromDate,toDate,typeId,deptId); 
+					  }
+					  else if(typeId!=0 && isDev!=-1 && deptId==0) {
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndIsDev(fromDate,toDate,typeId,isDev); 
+					  }
+					  else if(typeId!=0 && isDev==-1 && deptId==0) {
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeId(fromDate,toDate,typeId); 
+					  }
+					  else if(typeId==0 && isDev!=-1 && deptId==0) {
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithIsDev(fromDate,toDate,isDev);  
+					  }
+					  else if(typeId==0 && isDev!=-1 && deptId!=0) {
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithIsDevAndDeptId(fromDate,toDate,isDev,deptId);  
+					  }
+					  else if(typeId==0 && isDev==-1 && deptId!=0) {
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithDeptId(fromDate,toDate,deptId);  
+					  }
+					  else {
+						  finalList = issueDeptWiseRepository.issueDeptWiseReport(fromDate,toDate);  
+					  }
+					   
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
+
+	}
+	
+	@RequestMapping(value = { "/issueSubDepartmentWiseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueDeptWise> issueSubDepartmentWiseReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("deptId") int deptId) {
+		
+		 List<IssueDeptWise> finalList = new  ArrayList<IssueDeptWise>();
+
+		try {
+			   
+					  if(typeId!=0 && isDev!=-1){
+						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithTypeIdAndIsDev(fromDate,toDate,typeId,isDev,deptId); 
+					  }
+					  else if(typeId!=0 && isDev==-1) {
+						  
+						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithTypeId(fromDate,toDate,typeId,deptId); 
+					  }
+					  else if(typeId==0 && isDev!=-1 ) {
+						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithIsDev(fromDate,toDate,isDev,deptId); 
+					  } 
+					  else {
+						  finalList = issueDeptWiseRepository.issueSubDeptWiseReport(fromDate,toDate,deptId);  
+					  }
+					   
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
+
+	}
+	
+	@RequestMapping(value = { "/issueItemWiseReportBySubDept" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueDeptWise> issueItemWiseReportBySubDept(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("subDept") int subDept) {
+		
+		 List<IssueDeptWise> finalList = new  ArrayList<IssueDeptWise>();
+
+		try {
+			   
+					  if(typeId!=0 && isDev!=-1){
+						  finalList = issueDeptWiseRepository.issueItemWiseReportWithTypeIdAndIsDevBySubDept(fromDate,toDate,typeId,isDev,subDept); 
+					  }
+					  else if(typeId!=0 && isDev==-1) {
+						  
+						  finalList = issueDeptWiseRepository.issueItemWiseReportWithTypeId(fromDate,toDate,typeId,subDept); 
+					  }
+					  else if(typeId==0 && isDev!=-1 ) {
+						  finalList = issueDeptWiseRepository.issueItemWiseWiseReportWithIsDev(fromDate,toDate,isDev,subDept); 
+					  } 
+					  else {
+						  finalList = issueDeptWiseRepository.issueItemWiseReportBySubDept(fromDate,toDate,subDept);  
 					  }
 					   
 			 
