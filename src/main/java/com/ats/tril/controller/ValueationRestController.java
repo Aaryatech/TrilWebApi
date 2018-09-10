@@ -21,6 +21,7 @@ import com.ats.tril.model.IssueDeptWise;
 import com.ats.tril.model.IssueMonthWiseList;
 import com.ats.tril.model.ItemQtyWithRecieptNo;
 import com.ats.tril.model.ItemValuationList;
+import com.ats.tril.model.MonthSubDeptWiseIssueReport;
 import com.ats.tril.model.MonthWiseIssueReport;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.doc.SubDocument;
@@ -28,6 +29,7 @@ import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
 import com.ats.tril.repository.IssueAndMrnItemWiseRepository;
 import com.ats.tril.repository.IssueDeptWiseRepository;
 import com.ats.tril.repository.ItemQtyWithRecieptNoRepository;
+import com.ats.tril.repository.MonthSubDeptWiseIssueRepository;
 import com.ats.tril.repository.MonthWiseIssueRepository;
 import com.ats.tril.repository.StockValuationCategoryWiseRepository;
 import com.ats.tril.repository.doc.DocumentBeanRepository; 
@@ -55,6 +57,9 @@ public class ValueationRestController {
 	
 	@Autowired
 	MonthWiseIssueRepository monthWiseIssueRepository;
+	
+	@Autowired
+	MonthSubDeptWiseIssueRepository monthSubDeptWiseIssueRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -465,5 +470,169 @@ public class ValueationRestController {
 		return monthWiseList;
 
 	}
+	
+	@RequestMapping(value = { "/issueMonthSubDeptWiseReportByDeptId" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueMonthWiseList> issueMonthSubDeptWiseReportByDeptId(@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("deptId") int deptId) {
+		
+		
+		List<IssueMonthWiseList> monthWiseList = new ArrayList<>();
+		
+
+		try {
+			   
+			String firstDate = documentBeanRepository.getFirstDate();
+			System.out.println("firstDate " + firstDate);
+			 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	            Date d = sdf.parse(firstDate);
+	            Calendar cal = Calendar.getInstance();
+	            cal.setTime(d);
+	            int month = cal.get(Calendar.MONTH);  
+	            int yer = cal.get(Calendar.YEAR);
+	            
+	            cal.add(Calendar.MONTH, 1);  
+	            cal.set(Calendar.DAY_OF_MONTH, 1);  
+	            cal.add(Calendar.DATE, -1);
+	            int dd = cal.get(Calendar.DATE); 
+	            firstDate=yer+"-"+(month+1)+"-"+"01";
+	            String lastDate=yer+"-"+(month+1)+"-"+dd;
+	            
+	            /*System.out.println("First Date of month  " + firstDate);
+	            System.out.println("Last Date of month  " + lastDate);*/
+	            int index=0;
+	            for(int i=0 ; i<12 ; i++) {
+	            	IssueMonthWiseList issueMonth  = new IssueMonthWiseList();
+	            	 List<MonthSubDeptWiseIssueReport> finalList = new  ArrayList<MonthSubDeptWiseIssueReport>();
+	            	 
+	            	if(typeId!=0 && isDev!=-1){
+						  finalList = monthSubDeptWiseIssueRepository.issueMonthWiseReportWithTypeIdAndIsDevByDeptId(firstDate,lastDate,typeId,isDev,index,deptId); 
+					  }
+					  else if(typeId!=0 && isDev==-1) {
+						  
+						  finalList = monthSubDeptWiseIssueRepository.issueMonthWiseReportWithTypeIdByDeptId(firstDate,lastDate,typeId,index,deptId); 
+					  }
+					  else if(typeId==0 && isDev!=-1 ) {
+						  finalList = monthSubDeptWiseIssueRepository.issueMonthWiseWiseReportWithIsDevByDeptId(firstDate,lastDate,isDev,index,deptId); 
+					  } 
+					  else {
+						  finalList = monthSubDeptWiseIssueRepository.issueMonthWiseReportByDeptId(firstDate,lastDate,index,deptId);  
+					  }
+	            	index=finalList.get(finalList.size()-1).getSr();
+	            	issueMonth.setMonthSubDeptList(finalList); 
+	            	monthWiseList.add(issueMonth);
+	            	System.out.println(finalList);
+	            	finalList = new  ArrayList<MonthSubDeptWiseIssueReport>();
+	            	Date da = sdf.parse(firstDate);
+		            Calendar cala = Calendar.getInstance();
+		            cala.setTime(da);
+		            cala.add(Calendar.MONTH, 1);
+		            cala.set(Calendar.DATE, cala.getActualMinimum(Calendar.DAY_OF_MONTH)); 
+		            int montha = cala.get(Calendar.MONTH);  
+		            int yere = cala.get(Calendar.YEAR);
+		            
+		            cala.add(Calendar.MONTH, 1);  
+		            cala.set(Calendar.DAY_OF_MONTH, 1);  
+		            cala.add(Calendar.DATE, -1);
+		            int dda = cala.get(Calendar.DATE);
+		            firstDate=yere+"-"+(montha+1)+"-"+"01";
+		             lastDate=yere+"-"+(montha+1)+"-"+dda;
+		           /* System.out.println("First Date of month  " + firstDate);
+		            System.out.println("Last Date of month  " + lastDate);
+		            
+		            */
+	            }
+			
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return monthWiseList;
+
+	}
+	
+	@RequestMapping(value = { "/issueMonthItemWiseReportBySubDeptId" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueMonthWiseList> issueMonthItemWiseReportBySubDeptId(@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("subDeptId") int subDeptId) {
+		
+		
+		List<IssueMonthWiseList> monthWiseList = new ArrayList<>();
+		
+
+		try {
+			   
+			String firstDate = documentBeanRepository.getFirstDate();
+			System.out.println("firstDate " + firstDate);
+			 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	            Date d = sdf.parse(firstDate);
+	            Calendar cal = Calendar.getInstance();
+	            cal.setTime(d);
+	            int month = cal.get(Calendar.MONTH);  
+	            int yer = cal.get(Calendar.YEAR);
+	            
+	            cal.add(Calendar.MONTH, 1);  
+	            cal.set(Calendar.DAY_OF_MONTH, 1);  
+	            cal.add(Calendar.DATE, -1);
+	            int dd = cal.get(Calendar.DATE); 
+	            firstDate=yer+"-"+(month+1)+"-"+"01";
+	            String lastDate=yer+"-"+(month+1)+"-"+dd;
+	            
+	            /*System.out.println("First Date of month  " + firstDate);
+	            System.out.println("Last Date of month  " + lastDate);*/
+	            int index=0;
+	            for(int i=0 ; i<12 ; i++) {
+	            	IssueMonthWiseList issueMonth  = new IssueMonthWiseList();
+	            	 List<MonthSubDeptWiseIssueReport> finalList = new  ArrayList<MonthSubDeptWiseIssueReport>();
+	            	 
+	            	if(typeId!=0 && isDev!=-1){
+						  finalList = monthSubDeptWiseIssueRepository.issueMonthItemWiseReportWithTypeIdAndIsDevBySubDeptId(firstDate,lastDate,typeId,isDev,index,subDeptId); 
+					  }
+					  else if(typeId!=0 && isDev==-1) {
+						  
+						  finalList = monthSubDeptWiseIssueRepository.issueMonthItemWiseReportWithTypeIdBySubDeptId(firstDate,lastDate,typeId,index,subDeptId); 
+					  }
+					  else if(typeId==0 && isDev!=-1 ) {
+						  finalList = monthSubDeptWiseIssueRepository.issueMonthItemWiseReportWithIsDevBySubDeptId(firstDate,lastDate,isDev,index,subDeptId); 
+					  } 
+					  else {
+						  finalList = monthSubDeptWiseIssueRepository.issueMonthItemWiseReportBySubDeptId(firstDate,lastDate,index,subDeptId);  
+					  }
+	            	index=finalList.get(finalList.size()-1).getSr();
+	            	issueMonth.setMonthSubDeptList(finalList); 
+	            	monthWiseList.add(issueMonth);
+	            	System.out.println(finalList);
+	            	finalList = new  ArrayList<MonthSubDeptWiseIssueReport>();
+	            	Date da = sdf.parse(firstDate);
+		            Calendar cala = Calendar.getInstance();
+		            cala.setTime(da);
+		            cala.add(Calendar.MONTH, 1);
+		            cala.set(Calendar.DATE, cala.getActualMinimum(Calendar.DAY_OF_MONTH)); 
+		            int montha = cala.get(Calendar.MONTH);  
+		            int yere = cala.get(Calendar.YEAR);
+		            
+		            cala.add(Calendar.MONTH, 1);  
+		            cala.set(Calendar.DAY_OF_MONTH, 1);  
+		            cala.add(Calendar.DATE, -1);
+		            int dda = cala.get(Calendar.DATE);
+		            firstDate=yere+"-"+(montha+1)+"-"+"01";
+		             lastDate=yere+"-"+(montha+1)+"-"+dda;
+		           /* System.out.println("First Date of month  " + firstDate);
+		            System.out.println("Last Date of month  " + lastDate);
+		            
+		            */
+	            }
+			
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return monthWiseList;
+
+	}
+	
+	
 
 }
