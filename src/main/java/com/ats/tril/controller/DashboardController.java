@@ -102,7 +102,7 @@ public class DashboardController {
 		return poHeaderList;
 
 	}
-	@RequestMapping(value = { "/getConsumptionData" }, method = RequestMethod.POST)
+	/*@RequestMapping(value = { "/getConsumptionData" }, method = RequestMethod.POST)
 	public @ResponseBody List<ConsumptionReportData> getConsumptionData(@RequestParam("poType") int poType,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
 
 		List<ConsumptionReportData> consumptionReportData = new ArrayList<ConsumptionReportData>();
@@ -120,7 +120,7 @@ public class DashboardController {
 		}
 		return consumptionReportData;
 
-	}
+	}*/
 	@RequestMapping(value = { "/getItemsLessThanROLForDashB" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetCurrStockRol> getItemsLessThanROLForDashB(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate) {

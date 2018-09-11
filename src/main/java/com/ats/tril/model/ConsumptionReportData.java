@@ -9,23 +9,22 @@ import javax.persistence.Id;
 public class ConsumptionReportData implements Serializable{
 	
 	@Id
+	private int sr;
+	
 	private int catId;
 	
 	private String catDesc;
 	
-	private float target;
+	private float monthlyValue;
 	
-	private float totalValue;
-	
-	private float basicValue;
+	private float ytd;
 
-	
-	public float getBasicValue() {
-		return basicValue;
+	public int getSr() {
+		return sr;
 	}
 
-	public void setBasicValue(float basicValue) {
-		this.basicValue = basicValue;
+	public void setSr(int sr) {
+		this.sr = sr;
 	}
 
 	public int getCatId() {
@@ -44,27 +43,28 @@ public class ConsumptionReportData implements Serializable{
 		this.catDesc = catDesc;
 	}
 
-	public float getTarget() {
-		return target;
+	public float getMonthlyValue() {
+		return monthlyValue;
 	}
 
-	public void setTarget(float target) {
-		this.target = target;
+	public void setMonthlyValue(float monthlyValue) {
+		this.monthlyValue = monthlyValue;
 	}
 
-	public float getTotalValue() {
-		return totalValue;
+	public float getYtd() {
+		return ytd;
 	}
 
-	public void setTotalValue(float totalValue) {
-		this.totalValue = totalValue;
+	public void setYtd(float ytd) {
+		this.ytd = ytd;
 	}
 
 	@Override
 	public String toString() {
-		return "ConsumptionReportData [catId=" + catId + ", catDesc=" + catDesc + ", target=" + target + ", totalValue="
-				+ totalValue + ", basicValue=" + basicValue + "]";
-	}
+		return "ConsumptionReportData [sr=" + sr + ", catId=" + catId + ", catDesc=" + catDesc + ", monthlyValue="
+				+ monthlyValue + ", ytd=" + ytd + "]";
+	} 
 
+	 
 	
 }

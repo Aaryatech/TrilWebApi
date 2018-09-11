@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.common.DateConvertor;
+import com.ats.tril.model.ConsumptionReportData;
+import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
 import com.ats.tril.model.IssueDeptWise;
@@ -24,7 +26,9 @@ import com.ats.tril.model.ItemValuationList;
 import com.ats.tril.model.MonthSubDeptWiseIssueReport;
 import com.ats.tril.model.MonthWiseIssueReport;
 import com.ats.tril.model.StockValuationCategoryWise;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.SubDocument;
+import com.ats.tril.repository.ConsumptionReportRepository;
 import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
 import com.ats.tril.repository.IssueAndMrnItemWiseRepository;
 import com.ats.tril.repository.IssueDeptWiseRepository;
@@ -32,6 +36,7 @@ import com.ats.tril.repository.ItemQtyWithRecieptNoRepository;
 import com.ats.tril.repository.MonthSubDeptWiseIssueRepository;
 import com.ats.tril.repository.MonthWiseIssueRepository;
 import com.ats.tril.repository.StockValuationCategoryWiseRepository;
+import com.ats.tril.repository.TypeRepository;
 import com.ats.tril.repository.doc.DocumentBeanRepository; 
 
 @RestController
@@ -60,6 +65,12 @@ public class ValueationRestController {
 	
 	@Autowired
 	MonthSubDeptWiseIssueRepository monthSubDeptWiseIssueRepository;
+	
+	@Autowired
+	ConsumptionReportRepository consumptionReportRepository;
+	
+	@Autowired
+	TypeRepository typeRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -632,6 +643,70 @@ public class ValueationRestController {
 		return monthWiseList;
 
 	}
+	
+	 @RequestMapping(value = { "/getConsumptionMrnData" }, method = RequestMethod.POST)
+	public @ResponseBody List<ConsumptionReportWithCatId> getConsumptionData(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+
+		 List<ConsumptionReportWithCatId> list = new ArrayList<ConsumptionReportWithCatId>();
+		try {
+			String firstDate = documentBeanRepository.getFirstDate();
+			List<Type> typeList = typeRepository.findAllByDelStatus(1);
+			
+			int index=0;
+
+			for(int i = 0 ; i<typeList.size() ;i++) {
+				ConsumptionReportWithCatId consumptionReportWithCatId = new ConsumptionReportWithCatId();
+				List<ConsumptionReportData> consumptionReportData = consumptionReportRepository.findByPoTypeAndDate(typeList.get(i).getTypeId(),firstDate,fromDate,toDate,index);
+				consumptionReportWithCatId.setTypeId(typeList.get(i).getTypeId());
+				consumptionReportWithCatId.setTypeName(typeList.get(i).getTypeName());
+				consumptionReportWithCatId.setConsumptionReportList(consumptionReportData);
+				index=consumptionReportData.get(consumptionReportData.size()-1).getSr();
+				list.add(consumptionReportWithCatId);
+			}
+			
+				System.out.println(list);
+
+		} catch (Exception e) {
+			
+
+			e.printStackTrace();
+			 
+		}
+		return list;
+
+	} 
+	 
+	 @RequestMapping(value = { "/getConsumptionIssueData" }, method = RequestMethod.POST)
+		public @ResponseBody List<ConsumptionReportWithCatId> getConsumptionIssueData(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+
+			 List<ConsumptionReportWithCatId> list = new ArrayList<ConsumptionReportWithCatId>();
+			try {
+				String firstDate = documentBeanRepository.getFirstDate();
+				List<Type> typeList = typeRepository.findAllByDelStatus(1);
+				
+				int index=0;
+
+				for(int i = 0 ; i<typeList.size() ;i++) {
+					ConsumptionReportWithCatId consumptionReportWithCatId = new ConsumptionReportWithCatId();
+					List<ConsumptionReportData> consumptionReportData = consumptionReportRepository.findByPoTypeAndDateIssueDate(typeList.get(i).getTypeId(),firstDate,fromDate,toDate,index);
+					consumptionReportWithCatId.setTypeId(typeList.get(i).getTypeId());
+					consumptionReportWithCatId.setTypeName(typeList.get(i).getTypeName());
+					consumptionReportWithCatId.setConsumptionReportList(consumptionReportData);
+					index=consumptionReportData.get(consumptionReportData.size()-1).getSr();
+					list.add(consumptionReportWithCatId);
+				}
+				
+					System.out.println(list);
+
+			} catch (Exception e) {
+				
+
+				e.printStackTrace();
+				 
+			}
+			return list;
+
+		} 
 	
 	
 
