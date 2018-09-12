@@ -30,7 +30,7 @@ public interface ConsumptionReportRepository extends JpaRepository<ConsumptionRe
 			"            and t_mrn_header.del_status=1                             \n" + 
 			"            and t_mrn_detail.del_status=1                             \n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \n" + 
-			"            and m_item.cat_id=m_category.cat_id and t_mrn_header.mrn_type=:poType),\n" + 
+			"            and m_item.cat_id=m_category.cat_id and t_mrn_header.mrn_type=:poType AND t_mrn_detail.mrn_detail_status = 4),\n" + 
 			"        0) AS monthly_value,\n" + 
 			"        coalesce((Select\n" + 
 			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \n" + 
@@ -46,7 +46,7 @@ public interface ConsumptionReportRepository extends JpaRepository<ConsumptionRe
 			"            and t_mrn_header.del_status=1                             \n" + 
 			"            and t_mrn_detail.del_status=1                             \n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id               \n" + 
-			"            and m_item.cat_id=m_category.cat_id and t_mrn_header.mrn_type=:poType),\n" + 
+			"            and m_item.cat_id=m_category.cat_id and t_mrn_header.mrn_type=:poType AND t_mrn_detail.mrn_detail_status = 4),\n" + 
 			"        0) AS ytd \n" + 
 			"    FROM\n" + 
 			"        m_category,(SELECT @a\\:=:index) AS a             \n" + 
@@ -75,7 +75,7 @@ public interface ConsumptionReportRepository extends JpaRepository<ConsumptionRe
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id \n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id \n" + 
 			"            and m_item.cat_id=m_category.cat_id \n" + 
-			"            and item_issue_header.item_category=:poType),\n" + 
+			"            and item_issue_header.item_category=:poType AND item_issue_detail.status = 2),\n" + 
 			"        0) AS monthly_value,\n" + 
 			"        coalesce((Select\n" + 
 			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate) \n" + 
@@ -94,7 +94,7 @@ public interface ConsumptionReportRepository extends JpaRepository<ConsumptionRe
 			"            and item_issue_detail.mrn_detail_id=t_mrn_detail.mrn_detail_id \n" + 
 			"            and po_detail.po_detail_id=t_mrn_detail.po_detail_id \n" + 
 			"            and m_item.cat_id=m_category.cat_id \n" + 
-			"            and item_issue_header.item_category=:poType),\n" + 
+			"            and item_issue_header.item_category=:poType AND item_issue_detail.status = 2),\n" + 
 			"        0) AS ytd \n" + 
 			"    FROM\n" + 
 			"        m_category,(SELECT @a\\:=:index) AS a \n" + 
