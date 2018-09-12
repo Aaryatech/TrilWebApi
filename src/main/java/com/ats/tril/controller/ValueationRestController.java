@@ -23,8 +23,12 @@ import com.ats.tril.model.IssueDeptWise;
 import com.ats.tril.model.IssueMonthWiseList;
 import com.ats.tril.model.ItemQtyWithRecieptNo;
 import com.ats.tril.model.ItemValuationList;
+import com.ats.tril.model.MonthCategoryWiseMrnReport;
+import com.ats.tril.model.MonthItemWiseMrnReport;
+import com.ats.tril.model.MonthItemWiseMrnReportRepository;
 import com.ats.tril.model.MonthSubDeptWiseIssueReport;
 import com.ats.tril.model.MonthWiseIssueReport;
+import com.ats.tril.model.MrnMonthWiseList;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.SubDocument;
@@ -33,6 +37,7 @@ import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
 import com.ats.tril.repository.IssueAndMrnItemWiseRepository;
 import com.ats.tril.repository.IssueDeptWiseRepository;
 import com.ats.tril.repository.ItemQtyWithRecieptNoRepository;
+import com.ats.tril.repository.MonthCategoryWiseMrnReportRepository;
 import com.ats.tril.repository.MonthSubDeptWiseIssueRepository;
 import com.ats.tril.repository.MonthWiseIssueRepository;
 import com.ats.tril.repository.StockValuationCategoryWiseRepository;
@@ -71,6 +76,12 @@ public class ValueationRestController {
 	
 	@Autowired
 	TypeRepository typeRepository;
+	
+	@Autowired
+	MonthCategoryWiseMrnReportRepository monthCategoryWiseMrnReportRepository;
+	
+	@Autowired
+	MonthItemWiseMrnReportRepository monthItemWiseMrnReportRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -707,6 +718,214 @@ public class ValueationRestController {
 			return list;
 
 		} 
+	 
+	 
+	 @RequestMapping(value = { "/mrnMonthCategoryWiseReport" }, method = RequestMethod.POST)
+		public @ResponseBody List<MrnMonthWiseList> mrnMonthCategoryWiseReport(@RequestParam("typeId") int typeId,@RequestParam("isDev") List<Integer> isDev,
+				@RequestParam("deptId") int deptId,@RequestParam("subDeptId") int subDeptId) {
+			
+			
+			List<MrnMonthWiseList> monthWiseList = new ArrayList<MrnMonthWiseList>();
+			
+
+			try {
+				   
+				String firstDate = documentBeanRepository.getFirstDate();
+				System.out.println("firstDate " + firstDate);
+				 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		            Date d = sdf.parse(firstDate);
+		            Calendar cal = Calendar.getInstance();
+		            cal.setTime(d);
+		            int month = cal.get(Calendar.MONTH);  
+		            int yer = cal.get(Calendar.YEAR);
+		            
+		            cal.add(Calendar.MONTH, 1);  
+		            cal.set(Calendar.DAY_OF_MONTH, 1);  
+		            cal.add(Calendar.DATE, -1);
+		            int dd = cal.get(Calendar.DATE); 
+		            firstDate=yer+"-"+(month+1)+"-"+"01";
+		            String lastDate=yer+"-"+(month+1)+"-"+dd;
+		            
+		            /*System.out.println("First Date of month  " + firstDate);
+		            System.out.println("Last Date of month  " + lastDate);*/
+		            int index=0;
+		            for(int i=0 ; i<12 ; i++) {
+		            	MrnMonthWiseList mrnMonth  = new MrnMonthWiseList();
+		            	 List<MonthCategoryWiseMrnReport> finalList = new  ArrayList<MonthCategoryWiseMrnReport>();
+		            	 
+		            	if(typeId!=0 && deptId!=0){
+		            		
+		            		if(subDeptId!=0) {
+		            			finalList = monthCategoryWiseMrnReportRepository.MrnMonthcategoryReportWithTypeIdAndDeptIdAndSubDeptId(firstDate,lastDate,typeId,isDev,deptId,subDeptId,index);
+								
+		            		}
+		            		else {
+		            			finalList = monthCategoryWiseMrnReportRepository.MrnMonthcategoryReportWithTypeIdAndDeptId(firstDate,lastDate,typeId,isDev,deptId,index);
+								  
+		            		}
+							   
+						  }
+		            	else if(typeId==0 && deptId!=0 ) {
+							  
+							  if(subDeptId!=0) {
+								  
+								  finalList = monthCategoryWiseMrnReportRepository.MrnMonthcategoryReportWithDeptIdAndSubDeptId(firstDate,lastDate,isDev,deptId,subDeptId,index);
+									
+			            			
+			            		}
+			            		else {
+			            			finalList = monthCategoryWiseMrnReportRepository.MrnMonthcategoryReportWithDeptId(firstDate,lastDate,isDev,deptId,index);
+									
+			            		}
+							   
+						  } 
+						  else if(typeId!=0 && deptId==0) { 
+							  
+							  finalList = monthCategoryWiseMrnReportRepository.MrnMonthcategoryReportWithTypeId(firstDate,lastDate,typeId,isDev,index);
+							  
+						  }
+						  
+						  else {
+							  finalList = monthCategoryWiseMrnReportRepository.MrnMonthcategoryReport(firstDate,lastDate,isDev,index); 
+						  }
+		            	index=finalList.get(finalList.size()-1).getSr();
+		            	mrnMonth.setMonthList(finalList); 
+		            	monthWiseList.add(mrnMonth);
+		            	System.out.println(finalList);
+		            	finalList = new  ArrayList<MonthCategoryWiseMrnReport>();
+		            	Date da = sdf.parse(firstDate);
+			            Calendar cala = Calendar.getInstance();
+			            cala.setTime(da);
+			            cala.add(Calendar.MONTH, 1);
+			            cala.set(Calendar.DATE, cala.getActualMinimum(Calendar.DAY_OF_MONTH)); 
+			            int montha = cala.get(Calendar.MONTH);  
+			            int yere = cala.get(Calendar.YEAR);
+			            
+			            cala.add(Calendar.MONTH, 1);  
+			            cala.set(Calendar.DAY_OF_MONTH, 1);  
+			            cala.add(Calendar.DATE, -1);
+			            int dda = cala.get(Calendar.DATE);
+			            firstDate=yere+"-"+(montha+1)+"-"+"01";
+			             lastDate=yere+"-"+(montha+1)+"-"+dda;
+			           /* System.out.println("First Date of month  " + firstDate);
+			            System.out.println("Last Date of month  " + lastDate);
+			            
+			            */
+		            }
+				
+				 
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+			return monthWiseList;
+
+		}
+	 
+	 
+	 @RequestMapping(value = { "/mrnMonthItemWiseReport" }, method = RequestMethod.POST)
+		public @ResponseBody List<MrnMonthWiseList> mrnMonthItemWiseReport(@RequestParam("typeId") int typeId,@RequestParam("isDev") List<Integer> isDev,
+				@RequestParam("catId") int catId,@RequestParam("deptId") int deptId,@RequestParam("subDeptId") int subDeptId) {
+			
+			
+			List<MrnMonthWiseList> monthWiseList = new ArrayList<MrnMonthWiseList>();
+			
+
+			try {
+				   
+				String firstDate = documentBeanRepository.getFirstDate();
+				System.out.println("firstDate " + firstDate);
+				 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		            Date d = sdf.parse(firstDate);
+		            Calendar cal = Calendar.getInstance();
+		            cal.setTime(d);
+		            int month = cal.get(Calendar.MONTH);  
+		            int yer = cal.get(Calendar.YEAR);
+		            
+		            cal.add(Calendar.MONTH, 1);  
+		            cal.set(Calendar.DAY_OF_MONTH, 1);  
+		            cal.add(Calendar.DATE, -1);
+		            int dd = cal.get(Calendar.DATE); 
+		            firstDate=yer+"-"+(month+1)+"-"+"01";
+		            String lastDate=yer+"-"+(month+1)+"-"+dd;
+		            
+		            /*System.out.println("First Date of month  " + firstDate);
+		            System.out.println("Last Date of month  " + lastDate);*/
+		            int index=0;
+		            for(int i=0 ; i<12 ; i++) {
+		            	MrnMonthWiseList mrnMonth  = new MrnMonthWiseList();
+		            	 List<MonthItemWiseMrnReport> finalList = new  ArrayList<MonthItemWiseMrnReport>();
+		            	 
+		            	if(typeId!=0 && deptId!=0){
+		            		
+		            		if(subDeptId!=0) {
+		            			finalList = monthItemWiseMrnReportRepository.MrnMonthItemReportWithTypeIdAndDeptIdAndSubDeptId(firstDate,lastDate,catId,typeId,isDev,deptId,subDeptId,index);
+								
+		            		}
+		            		else {
+		            			finalList = monthItemWiseMrnReportRepository.MrnMonthItemReportWithTypeIdAndDeptId(firstDate,lastDate,catId,typeId,isDev,deptId,index);
+								  
+		            		}
+							   
+						  }
+		            	else if(typeId==0 && deptId!=0 ) {
+							  
+							  if(subDeptId!=0) {
+								  
+								  finalList = monthItemWiseMrnReportRepository.MrnMonthItemReportWithDeptIdAndSubDeptId(firstDate,lastDate,catId,isDev,deptId,subDeptId,index);
+									
+			            			
+			            		}
+			            		else {
+			            			finalList = monthItemWiseMrnReportRepository.MrnMonthItemReportWithDeptId(firstDate,lastDate,catId,isDev,deptId,index);
+									
+			            		}
+							   
+						  } 
+						  else if(typeId!=0 && deptId==0) { 
+							  
+							  finalList = monthItemWiseMrnReportRepository.MrnMonthItemReportWithTypeId(firstDate,lastDate,catId,typeId,isDev,index);
+							  
+						  }
+						  
+						  else {
+							  finalList = monthItemWiseMrnReportRepository.MrnMonthItemReport(firstDate,lastDate,catId,isDev,index); 
+						  }
+		            	index=finalList.get(finalList.size()-1).getSr();
+		            	mrnMonth.setItemWiseMonthList(finalList); 
+		            	monthWiseList.add(mrnMonth);
+		            	System.out.println(finalList);
+		            	finalList = new  ArrayList<MonthItemWiseMrnReport>();
+		            	Date da = sdf.parse(firstDate);
+			            Calendar cala = Calendar.getInstance();
+			            cala.setTime(da);
+			            cala.add(Calendar.MONTH, 1);
+			            cala.set(Calendar.DATE, cala.getActualMinimum(Calendar.DAY_OF_MONTH)); 
+			            int montha = cala.get(Calendar.MONTH);  
+			            int yere = cala.get(Calendar.YEAR);
+			            
+			            cala.add(Calendar.MONTH, 1);  
+			            cala.set(Calendar.DAY_OF_MONTH, 1);  
+			            cala.add(Calendar.DATE, -1);
+			            int dda = cala.get(Calendar.DATE);
+			            firstDate=yere+"-"+(montha+1)+"-"+"01";
+			             lastDate=yere+"-"+(montha+1)+"-"+dda;
+			           /* System.out.println("First Date of month  " + firstDate);
+			            System.out.println("Last Date of month  " + lastDate);
+			            
+			            */
+		            }
+				
+				 
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+			return monthWiseList;
+
+		}
 	
 	
 
