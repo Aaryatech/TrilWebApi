@@ -10,7 +10,7 @@ public interface MonthItemWiseMrnReportRepository extends JpaRepository<MonthIte
 
 	
 	@Query(value=("SELECT\r\n" + 
-			"        @a:=@a+1 sr ,\r\n" + 
+			"        @a\\:=@a+1 sr ,\r\n" + 
 			"        month(:fromDate) as month_no,\r\n" + 
 			"        monthname(:fromDate) as month_name,\r\n" + 
 			"        m_item.item_id,\r\n" + 
