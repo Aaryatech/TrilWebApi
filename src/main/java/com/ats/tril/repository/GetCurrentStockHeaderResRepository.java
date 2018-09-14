@@ -101,7 +101,7 @@ public interface GetCurrentStockHeaderResRepository extends JpaRepository<GetCur
 			"            AND t_mrn_header.mrn_id=t_mrn_detail.mrn_id              \n" + 
 			"            AND m_item.item_id=t_mrn_detail.item_id               \n" + 
 			"            and t_mrn_header.del_status=1              \n" + 
-			"            and t_mrn_detail.del_status=1),\n" + 
+			"            and t_mrn_detail.del_status=1 and t_mrn_detail.mrn_detail_status = 4),\n" + 
 			"        0) AS approve_qty, \n" + 
 			"        coalesce((Select\n" + 
 			"            SUM(item_issue_detail.item_issue_qty)          \n" + 
@@ -113,7 +113,7 @@ public interface GetCurrentStockHeaderResRepository extends JpaRepository<GetCur
 			"            AND item_issue_header.issue_id=item_issue_detail.issue_id              \n" + 
 			"            AND m_item.item_id=item_issue_detail.item_id              \n" + 
 			"            and item_issue_header.delete_status=1              \n" + 
-			"            and item_issue_detail.del_status=1),\n" + 
+			"            and item_issue_detail.del_status=1 AND item_issue_detail.status = 2),\n" + 
 			"        0) AS issue_qty, \n" + 
 			"        coalesce(0) AS gatepass_qty,\n" + 
 			"        coalesce(0) AS gatepass_return_qty,coalesce(0) AS return_issue_qty,"
