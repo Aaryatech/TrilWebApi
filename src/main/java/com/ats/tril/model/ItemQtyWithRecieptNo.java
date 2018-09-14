@@ -11,6 +11,9 @@ public class ItemQtyWithRecieptNo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "sr")
+	private int sr;
+	
 	@Column(name = "id")
 	private int id;
 
@@ -55,9 +58,18 @@ public class ItemQtyWithRecieptNo {
 		this.qty = qty;
 	}
 
+	public int getSr() {
+		return sr;
+	}
+
+	public void setSr(int sr) {
+		this.sr = sr;
+	}
+
 	@Override
 	public String toString() {
-		return "ItemQtyWithRecieptNo [id=" + id + ", date=" + date + ", receptNo=" + receptNo + ", qty=" + qty + "]";
+		return "ItemQtyWithRecieptNo [sr=" + sr + ", id=" + id + ", date=" + date + ", receptNo=" + receptNo + ", qty="
+				+ qty + "]";
 	}
 	
 	

@@ -109,6 +109,8 @@ public class ValueationRestController {
 					     curTime += interval;
 
 					 }
+					 
+					 int index=0;
 
 					 for(int i=0;i<dates.size();i++){
 
@@ -116,7 +118,7 @@ public class ValueationRestController {
 					     String ds = formatter.format(lDate);
  
 					     List<ItemQtyWithRecieptNo> getMrnDataByDate = new ArrayList<>(); 
-					     getMrnDataByDate = itemQtyWithRecieptNoRepository.getMrnDataByDate(DateConvertor.convertToYMD(ds),itemId); 
+					     getMrnDataByDate = itemQtyWithRecieptNoRepository.getMrnDataByDate(DateConvertor.convertToYMD(ds),itemId, index); 
 					     for(int j = 0 ; j< getMrnDataByDate.size() ; j++)
 					     {
 					    	 ItemValuationList itemValuationList = new ItemValuationList();
@@ -127,9 +129,13 @@ public class ValueationRestController {
 					    	 itemValuationList.setType(1);
 					    	 finalList.add(itemValuationList);
 					     }
+					     if(!getMrnDataByDate.isEmpty()) {
+					    	 
+					    	 index=getMrnDataByDate.get(getMrnDataByDate.size()-1).getSr();
+					     }
 					     
 					     List<ItemQtyWithRecieptNo> getIssueDataByDate = new ArrayList<>(); 
-					     getIssueDataByDate = itemQtyWithRecieptNoRepository.getIssueDataByDate(DateConvertor.convertToYMD(ds),itemId); 
+					     getIssueDataByDate = itemQtyWithRecieptNoRepository.getIssueDataByDate(DateConvertor.convertToYMD(ds),itemId,index); 
 					     for(int j = 0 ; j< getIssueDataByDate.size() ; j++)
 					     {
 					    	 ItemValuationList itemValuationList = new ItemValuationList();
@@ -141,8 +147,13 @@ public class ValueationRestController {
 					    	 finalList.add(itemValuationList);
 					     }
 					     
+					     if(!getIssueDataByDate.isEmpty()) {
+					    	 
+					    	 index=getIssueDataByDate.get(getIssueDataByDate.size()-1).getSr();
+					     }
+					     
 					     List<ItemQtyWithRecieptNo> getDamageDataByDate = new ArrayList<>(); 
-					     getDamageDataByDate = itemQtyWithRecieptNoRepository.getDamageDataByDate(DateConvertor.convertToYMD(ds),itemId); 
+					     getDamageDataByDate = itemQtyWithRecieptNoRepository.getDamageDataByDate(DateConvertor.convertToYMD(ds),itemId,index); 
 					     for(int j = 0 ; j< getDamageDataByDate.size() ; j++)
 					     {
 					    	 ItemValuationList itemValuationList = new ItemValuationList();
@@ -152,6 +163,11 @@ public class ValueationRestController {
 					    	 itemValuationList.setQty(getDamageDataByDate.get(j).getQty());
 					    	 itemValuationList.setType(0);
 					    	 finalList.add(itemValuationList);
+					     }
+					     
+					     if(!getDamageDataByDate.isEmpty()) {
+					    	 
+					    	 index=getDamageDataByDate.get(getDamageDataByDate.size()-1).getSr();
 					     }
 					     
 					     /*List<ItemQtyWithRecieptNo> getReturnGatePassDataByDate = new ArrayList<>(); 
