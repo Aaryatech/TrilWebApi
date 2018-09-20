@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ConsumptionReportData;
 import com.ats.tril.model.ConsumptionReportWithCatId;
+import com.ats.tril.model.IndentValueLimit;
 import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
 import com.ats.tril.model.IssueDeptWise;
@@ -33,6 +34,7 @@ import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.repository.ConsumptionReportRepository;
+import com.ats.tril.repository.IndentValueLimitRepository;
 import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
 import com.ats.tril.repository.IssueAndMrnItemWiseRepository;
 import com.ats.tril.repository.IssueDeptWiseRepository;
@@ -82,6 +84,9 @@ public class ValueationRestController {
 	
 	@Autowired
 	MonthItemWiseMrnReportRepository monthItemWiseMrnReportRepository;
+	
+	@Autowired
+	IndentValueLimitRepository indentValueLimitRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -943,6 +948,21 @@ public class ValueationRestController {
 
 		}
 	
-	
+	 @RequestMapping(value = { "/getIndentValueLimit" }, method = RequestMethod.POST)
+		public @ResponseBody List<IndentValueLimit> getIndentValueLimit(@RequestParam("fromDate") String fromDate,
+				@RequestParam("toDate") String toDate, @RequestParam("typeId") String typeId, @RequestParam("catId") String catId) {
+
+			 List<IndentValueLimit> list = new ArrayList<IndentValueLimit>();
+			try {
+				 
+				 list = indentValueLimitRepository.getIndentValueLimit(fromDate,toDate,typeId,catId); 
+
+			} catch (Exception e) {
+				 
+				e.printStackTrace(); 
+			}
+			return list;
+
+		}
 
 }
