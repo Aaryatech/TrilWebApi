@@ -51,7 +51,7 @@ public class IndentReport {
 	private String subDeptDesc;
 	private String catDesc;
 	private String accHeadDesc;
-
+	private String typeName;
 	@Transient
 	List<IndentReportDetail> indentReportDetailList;
 
@@ -200,14 +200,22 @@ public class IndentReport {
 		this.indentReportDetailList = indentReportDetailList;
 	}
 
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
 	@Override
 	public String toString() {
 		return "IndentReport [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType="
 				+ indMType + ", catId=" + catId + ", achdId=" + achdId + ", indIsdev=" + indIsdev + ", indRemark="
 				+ indRemark + ", indIsmonthly=" + indIsmonthly + ", indMStatus=" + indMStatus + ", indFyr=" + indFyr
 				+ ", deptId=" + deptId + ", subDeptId=" + subDeptId + ", deptDesc=" + deptDesc + ", subDeptDesc="
-				+ subDeptDesc + ", catDesc=" + catDesc + ", accHeadDesc=" + accHeadDesc + ", indentReportDetailList="
-				+ indentReportDetailList + "]";
+				+ subDeptDesc + ", catDesc=" + catDesc + ", accHeadDesc=" + accHeadDesc + ", typeName=" + typeName
+				+ ", indentReportDetailList=" + indentReportDetailList + "]";
 	}
 
 }
