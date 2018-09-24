@@ -625,5 +625,24 @@ public class IndentController {
 		return indentList;
 
 	}
+	
+	@RequestMapping(value = { "/getLatestRateofItem" }, method = RequestMethod.POST)
+	public @ResponseBody float getLatestRateofItem(@RequestParam("itemId") int itemId) {
+
+		float rate=0;
+
+		try {
+
+			rate = getIntendDetailRepo.getLatestRateofItem(itemId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		return rate;
+
+	}
 
 }
