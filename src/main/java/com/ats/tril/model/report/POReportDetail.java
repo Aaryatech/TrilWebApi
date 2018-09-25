@@ -32,7 +32,7 @@ public class POReportDetail {
 	@Column(name = "item_id")
 	private int itemId;
 
-	@Column(name = "item_desc")
+	@Column(name = "item_name")
 	private String itemDesc;
 
 	@Column(name = "item_uom")

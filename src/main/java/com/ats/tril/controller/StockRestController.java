@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.MinAndRolLevelReport;
 import com.ats.tril.model.StockDetail;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.repository.GetItemRepository;
+import com.ats.tril.repository.MinAndRolLevelReportRepository;
 import com.ats.tril.repository.stock.GetCurrentStockHeaderRepository;
 import com.ats.tril.repository.stock.StockDetailRepository;
 import com.ats.tril.repository.stock.StockHeaderRepository;
@@ -35,6 +37,9 @@ public class StockRestController {
 	
 	@Autowired
 	GetItemRepository getItemRepository;
+	
+	@Autowired
+	MinAndRolLevelReportRepository minAndRolLevelReportRepository;
 
 	@RequestMapping(value = { "/insertStock" }, method = RequestMethod.POST)
 	public @ResponseBody StockHeader insertStock(@RequestBody StockHeader stockHeader) {
@@ -198,6 +203,31 @@ public class StockRestController {
 			else {
 			 getCurrentStock = getCurrentStockHeaderRepository.getStockBetweenDateWithCatId(fromDate,toDate,catId,typeId);
 			}
+ 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getCurrentStock;
+
+	}
+	
+	@RequestMapping(value = { "/minQtyAndRolQtyLevelReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<MinAndRolLevelReport> minQtyAndRolQtyLevelReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("catId") int catId) {
+		
+		List<MinAndRolLevelReport> getCurrentStock = new ArrayList<MinAndRolLevelReport>();
+
+		try {
+
+			if(catId!=0) {
+				getCurrentStock = minAndRolLevelReportRepository.getCurrentStock(fromDate,toDate,catId);
+			}
+			else {
+				getCurrentStock = minAndRolLevelReportRepository.getCurrentStock(fromDate,toDate);
+			}
+			
  
 		} catch (Exception e) {
 
