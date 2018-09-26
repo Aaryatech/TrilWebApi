@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ConsumptionReportData;
 import com.ats.tril.model.ConsumptionReportWithCatId;
+import com.ats.tril.model.IndentStatusReport;
 import com.ats.tril.model.IndentValueLimit;
 import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
@@ -34,6 +35,7 @@ import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.repository.ConsumptionReportRepository;
+import com.ats.tril.repository.IndentStatusReportRepository;
 import com.ats.tril.repository.IndentValueLimitRepository;
 import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
 import com.ats.tril.repository.IssueAndMrnItemWiseRepository;
@@ -87,6 +89,9 @@ public class ValueationRestController {
 	
 	@Autowired
 	IndentValueLimitRepository indentValueLimitRepository;
+	
+	@Autowired
+	IndentStatusReportRepository indentStatusReportRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -963,6 +968,51 @@ public class ValueationRestController {
 				e.printStackTrace(); 
 			}
 			return list;
+
+		}
+	 
+	 @RequestMapping(value = { "/indentStatusReport" }, method = RequestMethod.POST)
+		public @ResponseBody List<IndentStatusReport> indentStatusReport(@RequestParam("fromDate") String fromDate,
+				@RequestParam("toDate") String toDate ) {
+
+			 List<IndentStatusReport> indentPendig = new ArrayList<IndentStatusReport>();
+			 List<IndentStatusReport> pendingPo = new ArrayList<IndentStatusReport>();
+			 List<IndentStatusReport> rejectedMrn = new ArrayList<IndentStatusReport>();
+			try {
+				 int index=0;
+				indentPendig = indentStatusReportRepository.indentPendig(fromDate,toDate,index); 
+				
+				if(!indentPendig.isEmpty()) {
+			    	 
+			    	 index=indentPendig.get(indentPendig.size()-1).getSr();
+			     }
+				
+				pendingPo = indentStatusReportRepository.pendingPo(fromDate,toDate,index); 
+
+				if(!pendingPo.isEmpty()) {
+			    	 
+			    	 index=pendingPo.get(pendingPo.size()-1).getSr();
+			     }
+				
+				rejectedMrn = indentStatusReportRepository.rejectedMrn(fromDate,toDate,index); 
+				
+				
+				
+				for(int i=0 ; i<pendingPo.size() ; i++) {
+					
+					indentPendig.add(pendingPo.get(i));
+				}
+				
+				for(int i=0 ; i<rejectedMrn.size() ; i++) {
+					
+					indentPendig.add(rejectedMrn.get(i));
+				}
+				
+			} catch (Exception e) {
+				 
+				e.printStackTrace(); 
+			}
+			return indentPendig;
 
 		}
 
