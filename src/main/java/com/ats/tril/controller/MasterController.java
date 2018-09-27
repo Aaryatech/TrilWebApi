@@ -34,6 +34,7 @@ import com.ats.tril.model.SubDept;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
+import com.ats.tril.model.User;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.repository.AccountHeadRepository;
 import com.ats.tril.repository.CategoryRepository;
@@ -56,6 +57,7 @@ import com.ats.tril.repository.SubDeptRepository;
 import com.ats.tril.repository.TaxFormRepository;
 import com.ats.tril.repository.TypeRepository;
 import com.ats.tril.repository.UomRepository;
+import com.ats.tril.repository.UserRepository;
 import com.ats.tril.repository.VendorRepository;
 
 @RestController
@@ -127,6 +129,91 @@ public class MasterController {
 	@Autowired
 	SettingValueRepository settingValueRepository;
 
+	@Autowired
+	UserRepository userRepository;
+	
+	@RequestMapping(value = { "/saveUser" }, method = RequestMethod.POST)
+	public @ResponseBody User saveUser(@RequestBody User user) {
+
+		User res = new User();
+
+		try {
+
+			res = userRepository.save(user);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+	
+	@RequestMapping(value = { "/getUserList" }, method = RequestMethod.GET)
+	public @ResponseBody List<User> getUserList() {
+
+		List<User> userList = new ArrayList<User>();
+
+		try {
+
+			userList = userRepository.findByDelStatus(0);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return userList;
+
+	}
+	
+	@RequestMapping(value = { "/getUserById" }, method = RequestMethod.POST)
+	public @ResponseBody User getUserById(@RequestParam("userId") int userId) {
+
+		User user = new User();
+
+		try {
+
+			user = userRepository.findById(userId);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return user;
+
+	}
+	
+	@RequestMapping(value = { "/deleteUser" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteUser(@RequestParam("userId") int userId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+
+			int delete = userRepository.delteUser(userId,1);
+			
+			if(delete==1) {
+				
+				errorMessage.setError(false);
+				errorMessage.setMessage("deleted");
+			}
+			else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("failed deleted");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return errorMessage;
+
+	}
 	
 	@RequestMapping(value = { "/getSettingValue" }, method = RequestMethod.POST)
 	public @ResponseBody  SettingValue  getSettingValue(@RequestParam("name") String name) {

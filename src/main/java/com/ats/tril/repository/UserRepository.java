@@ -52,6 +52,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Transactional
 	@Modifying
 	@Query("UPDATE User SET delStatus=:delStatus WHERE id=:userId")
-	int delteUser(@Param("userId") Long id, @Param("delStatus") int delStatus);
+	int delteUser(@Param("userId") int id, @Param("delStatus") int delStatus);
 
 }
