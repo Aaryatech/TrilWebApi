@@ -24,8 +24,8 @@ public class IndentStatusReport {
 	@Column(name = "ind_m_no")
 	private String indMNo;
 	
-	@Column(name = "indMDate")
-	private Date ind_m_date;
+	@Column(name = "ind_m_date")
+	private Date indMDate;
   
 	@Column(name = "item_id")
 	private int itemId;
@@ -41,6 +41,9 @@ public class IndentStatusReport {
 	
 	@Column(name = "excess_days")
 	private int excessDays;
+	
+	@Column(name = "ind_qty")
+	private float indQty;
 
 	public int getSr() {
 		return sr;
@@ -65,16 +68,7 @@ public class IndentStatusReport {
 	public void setIndMNo(String indMNo) {
 		this.indMNo = indMNo;
 	}
-
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getInd_m_date() {
-		return ind_m_date;
-	}
-
-	public void setInd_m_date(Date ind_m_date) {
-		this.ind_m_date = ind_m_date;
-	}
-
+ 
 	public int getItemId() {
 		return itemId;
 	}
@@ -115,12 +109,29 @@ public class IndentStatusReport {
 	public void setExcessDays(int excessDays) {
 		this.excessDays = excessDays;
 	}
+	
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy") 
+	public Date getIndMDate() {
+		return indMDate;
+	}
+
+	public void setIndMDate(Date indMDate) {
+		this.indMDate = indMDate;
+	}
+
+	public float getIndQty() {
+		return indQty;
+	}
+
+	public void setIndQty(float indQty) {
+		this.indQty = indQty;
+	}
 
 	@Override
 	public String toString() {
-		return "IndentStatusReport [sr=" + sr + ", indDId=" + indDId + ", indMNo=" + indMNo + ", ind_m_date="
-				+ ind_m_date + ", itemId=" + itemId + ", itemCode=" + itemCode + ", indItemSchddt=" + indItemSchddt
-				+ ", remark=" + remark + ", excessDays=" + excessDays + "]";
+		return "IndentStatusReport [sr=" + sr + ", indDId=" + indDId + ", indMNo=" + indMNo + ", indMDate=" + indMDate
+				+ ", itemId=" + itemId + ", itemCode=" + itemCode + ", indItemSchddt=" + indItemSchddt + ", remark="
+				+ remark + ", excessDays=" + excessDays + ", indQty=" + indQty + "]";
 	}
 	
 	

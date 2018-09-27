@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -1007,6 +1009,16 @@ public class ValueationRestController {
 					
 					indentPendig.add(rejectedMrn.get(i));
 				}
+				
+				Collections.sort(indentPendig, new Comparator<IndentStatusReport>() {
+		            @Override
+		            public int compare(IndentStatusReport indentStatusReport, IndentStatusReport t1) {
+		                String s1 = indentStatusReport.getIndMNo();
+		                String s2 = t1.getIndMNo();
+		                return s1.compareToIgnoreCase(s2);
+		            }
+
+		        });
 				
 			} catch (Exception e) {
 				 
