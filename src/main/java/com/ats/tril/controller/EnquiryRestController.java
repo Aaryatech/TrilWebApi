@@ -130,6 +130,29 @@ public class EnquiryRestController {
 		return enquiryHeader;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getEnquiryHeaderAndDetailForPdf" }, method = RequestMethod.POST)
+	public @ResponseBody GetEnquiryHeader getEnquiryHeaderAndDetailForPdf(@RequestParam("enqId") int enqId) {
+
+		GetEnquiryHeader enquiryHeader = new GetEnquiryHeader();
+
+		try {
+
+			enquiryHeader = getEnquiryHeaderRepository.getEnquiryHeaderforPdf(enqId);
+
+			List<GetEnquiryDetail> enquiryDetailList = getEnquiryDetailRepository.getEnquiryDetailforPdf(enqId);
+
+			enquiryHeader.setEnquiryDetailList(enquiryDetailList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return enquiryHeader;
+
+	}
 
 	@RequestMapping(value = { "/deleteEnquiryHeader" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage deleteEnquiryHeader(@RequestParam("enqId") int enqId) {
