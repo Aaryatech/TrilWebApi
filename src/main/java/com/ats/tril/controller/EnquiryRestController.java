@@ -17,10 +17,18 @@ import com.ats.tril.model.EnquiryHeader;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
+import com.ats.tril.model.GetQuatationDetail;
+import com.ats.tril.model.GetQuatationHeader;
+import com.ats.tril.model.QuatationDetail;
+import com.ats.tril.model.QuatationHeader;
 import com.ats.tril.repository.EnquiryDetailRepository;
 import com.ats.tril.repository.EnquiryHeaderRepository;
 import com.ats.tril.repository.GetEnquiryDetailRepository;
 import com.ats.tril.repository.GetEnquiryHeaderRepository;
+import com.ats.tril.repository.GetQuatationDetailRepository;
+import com.ats.tril.repository.GetQuatationHeaderRepository;
+import com.ats.tril.repository.QuatationDetailRepository;
+import com.ats.tril.repository.QuatationHeaderRepository;
 
 @RestController
 public class EnquiryRestController {
@@ -36,6 +44,18 @@ public class EnquiryRestController {
 
 	@Autowired
 	GetEnquiryDetailRepository getEnquiryDetailRepository;
+	
+	@Autowired
+	QuatationHeaderRepository quatationHeaderRepository;
+	
+	@Autowired
+	QuatationDetailRepository quatationDetailRepository;
+	
+	@Autowired
+	GetQuatationHeaderRepository getQuatationHeaderRepository;
+	
+	@Autowired
+	GetQuatationDetailRepository getQuatationDetailRepository;
 
 	@RequestMapping(value = { "/saveEnquiryHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage saveEnquiryHeaderAndDetail(@RequestBody List<EnquiryHeader> enquiryHeaderList) {
@@ -214,6 +234,138 @@ public class EnquiryRestController {
 
 		}
 		return enquiryHeaderList;
+
+	}
+	
+	@RequestMapping(value = { "/saveQuatationHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody QuatationHeader saveQuatationHeaderAndDetail(@RequestBody QuatationHeader quatationHeader) {
+
+		QuatationHeader save = new QuatationHeader();
+
+		try {
+
+			 
+			 save = quatationHeaderRepository.save(quatationHeader);
+ 
+			 for(int i=0 ; i<quatationHeader.getQuatationDetailList().size() ; i++) {
+				 quatationHeader.getQuatationDetailList().get(i).setEnqId(save.getEnqId());
+				 quatationHeader.getQuatationDetailList().get(i).setIndNo(save.getEnqNo());
+			 }
+
+				List<QuatationDetail> quatationDetailList = quatationDetailRepository
+						.saveAll(quatationHeader.getQuatationDetailList());
+			 
+				save.setQuatationDetailList(quatationDetailList);
+
+		} catch (Exception e) {
+ 
+		}
+		return save;
+
+	}
+	
+	@RequestMapping(value = { "/getQuatationHeaderAndDetail" }, method = RequestMethod.POST)
+	public @ResponseBody GetQuatationHeader getQuatationHeaderAndDetail(@RequestParam("enqId") int enqId) {
+
+		GetQuatationHeader enquiryHeader = new GetQuatationHeader();
+
+		try {
+
+			enquiryHeader = getQuatationHeaderRepository.getQuatationHeader(enqId);
+
+			List<GetQuatationDetail> enquiryDetailList = getQuatationDetailRepository.getQuatationDetail(enqId);
+
+			enquiryHeader.setQuatationDetailList(enquiryDetailList);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return enquiryHeader;
+
+	}
+	
+	@RequestMapping(value = { "/deleteQuatationHeader" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage deleteQuatationHeader(@RequestParam("enqId") int enqId) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+
+			int update = quatationHeaderRepository.delete(enqId);
+
+			if (update == 0) {
+				errorMessage.setError(true);
+				errorMessage.setMessage("failed to Delete ");
+			} else {
+				errorMessage.setError(false);
+				errorMessage.setMessage("  Deleted ");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed to Delete ");
+
+		}
+		return errorMessage;
+
+	}
+	
+	@RequestMapping(value = { "/getQuatationHeaderListBetweenDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetQuatationHeader> getQuatationHeaderListBetweenDate(
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+
+		List<GetQuatationHeader> getQuatationHeaderList = new ArrayList<GetQuatationHeader>();
+
+		try {
+
+			getQuatationHeaderList = getQuatationHeaderRepository.getQuatationHeaderListBetweenDate(fromDate, toDate);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getQuatationHeaderList;
+
+	}
+	
+	@RequestMapping(value = { "/getQuotationListForEnquiry" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetQuatationHeader> getQuotationListForEnquiry() {
+
+		List<GetQuatationHeader> getQuatationHeaderList = new ArrayList<GetQuatationHeader>();
+
+		try {
+
+			getQuatationHeaderList = getQuatationHeaderRepository.getQuotationListForEnquiry();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getQuatationHeaderList;
+
+	}
+	
+	@RequestMapping(value = { "/getQuotationDetailByQutId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetQuatationDetail> getQuotationDetailByQutId(@RequestParam("qutId") int qutId) {
+
+		List<GetQuatationDetail> getQuatationDetailList = new ArrayList<GetQuatationDetail>();
+
+		try {
+
+			getQuatationDetailList = getQuatationDetailRepository.getQuatationDetail(qutId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getQuatationDetailList;
 
 	}
 
