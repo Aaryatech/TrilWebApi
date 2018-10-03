@@ -140,6 +140,9 @@ public class POReport {
 	private String pymtDesc;
 
 	private String vendorGstNo;
+	
+	@Column(name = "ind_m_date")
+	private Date indDate;
 
 	@Transient
 	List<POReportDetail> pOReportDetailList;
@@ -522,6 +525,15 @@ public class POReport {
 		this.vendorGstNo = vendorGstNo;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getIndDate() {
+		return indDate;
+	}
+
+	public void setIndDate(Date indDate) {
+		this.indDate = indDate;
+	}
+
 	@Override
 	public String toString() {
 		return "POReport [poId=" + poId + ", poType=" + poType + ", poNo=" + poNo + ", poDate=" + poDate + ", vendId="
@@ -539,7 +551,7 @@ public class POReport {
 				+ ", approvStatus=" + approvStatus + ", vendorCode=" + vendorCode + ", vendorName=" + vendorName
 				+ ", vendorAdd1=" + vendorAdd1 + ", taxDesc=" + taxDesc + ", deliveryDesc=" + deliveryDesc
 				+ ", dispModeDesc=" + dispModeDesc + ", pymtDesc=" + pymtDesc + ", vendorGstNo=" + vendorGstNo
-				+ ", pOReportDetailList=" + pOReportDetailList + "]";
+				+ ", indDate=" + indDate + ", pOReportDetailList=" + pOReportDetailList + "]";
 	}
 
 }

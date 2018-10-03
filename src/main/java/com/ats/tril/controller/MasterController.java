@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.AccountHead;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.DeliveryTerms;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.DispatchMode;
@@ -38,6 +39,7 @@ import com.ats.tril.model.User;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.repository.AccountHeadRepository;
 import com.ats.tril.repository.CategoryRepository;
+import com.ats.tril.repository.CompanyRepository;
 import com.ats.tril.repository.DeliveryTermsRepository;
 import com.ats.tril.repository.DeptRepository;
 import com.ats.tril.repository.DispatchModeRepository;
@@ -131,6 +133,27 @@ public class MasterController {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	CompanyRepository companyRepository;
+	
+	@RequestMapping(value = { "/getCompanyDetails" }, method = RequestMethod.GET)
+	public @ResponseBody Company getCompanyDetails() {
+
+		Company res = new Company();
+
+		try {
+
+			res = companyRepository.findByComId(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
 	
 	@RequestMapping(value = { "/saveUser" }, method = RequestMethod.POST)
 	public @ResponseBody User saveUser(@RequestBody User user) {
