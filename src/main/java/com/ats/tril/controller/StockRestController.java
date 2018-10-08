@@ -84,6 +84,25 @@ public class StockRestController {
 
 	}
 	
+	@RequestMapping(value = { "/getCurrentStockByItemId" }, method = RequestMethod.POST)
+	public @ResponseBody GetCurrentStock getCurrentStockByItemId(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("itemId") int itemId) {
+		
+		 GetCurrentStock  getCurrentStock = new  GetCurrentStock ();
+
+		try {
+
+			getCurrentStock = getCurrentStockHeaderRepository.getCurrentStockByItemId(fromDate,toDate,itemId);
+ 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getCurrentStock;
+
+	}
+	
 	@RequestMapping(value = { "/getCurrentRunningMonthAndYear" }, method = RequestMethod.GET)
 	public @ResponseBody StockHeader getCurrentRunningMonthAndYear() {
 		
