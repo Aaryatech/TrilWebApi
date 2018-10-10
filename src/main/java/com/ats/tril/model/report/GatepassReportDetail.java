@@ -23,7 +23,8 @@ public class GatepassReportDetail {
 	private int isUsed;
 	private float gpRemQty;
 	private float gpRetQty;
-
+	private String remark;
+	
 	private String itemCode;
 	private String itemDesc;
 	private String itemUom;
@@ -133,12 +134,20 @@ public class GatepassReportDetail {
 		this.itemUom = itemUom;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	@Override
 	public String toString() {
 		return "GatepassReportDetail [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId
 				+ ", gpQty=" + gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus="
-				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", itemCode="
-				+ itemCode + ", itemDesc=" + itemDesc + ", itemUom=" + itemUom + "]";
+				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", remark="
+				+ remark + ", itemCode=" + itemCode + ", itemDesc=" + itemDesc + ", itemUom=" + itemUom + "]";
 	}
 
 }
