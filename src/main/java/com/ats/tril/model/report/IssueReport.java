@@ -36,6 +36,8 @@ public class IssueReport {
 	private String deptCode; 
 	
 	private String subDeptCode;
+	
+	private String issueSlipNo;
 
 	@Transient
 	List<IssueReportDetail> issueReportDetailList;
@@ -130,12 +132,20 @@ public class IssueReport {
 		this.subDeptCode = subDeptCode;
 	}
 
+	public String getIssueSlipNo() {
+		return issueSlipNo;
+	}
+
+	public void setIssueSlipNo(String issueSlipNo) {
+		this.issueSlipNo = issueSlipNo;
+	}
+
 	@Override
 	public String toString() {
 		return "IssueReport [issueId=" + issueId + ", issueNo=" + issueNo + ", itemCategory=" + itemCategory
 				+ ", issueDate=" + issueDate + ", deleteStatus=" + deleteStatus + ", status=" + status + ", deptId="
 				+ deptId + ", subDeptId=" + subDeptId + ", deptCode=" + deptCode + ", subDeptCode=" + subDeptCode
-				+ ", issueReportDetailList=" + issueReportDetailList + "]";
+				+ ", issueSlipNo=" + issueSlipNo + ", issueReportDetailList=" + issueReportDetailList + "]";
 	}
 
 }

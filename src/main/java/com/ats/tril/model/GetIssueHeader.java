@@ -53,6 +53,9 @@ public class GetIssueHeader {
 	@Column(name = "acc_head_desc")
 	private String accHeadDesc;
 	
+	@Column(name = "issue_slip_no")
+	private String issueSlipNo;
+	
 	@Transient
 	List<GetIssueDetail> issueDetailList;
 
@@ -160,13 +163,21 @@ public class GetIssueHeader {
 		this.accHeadDesc = accHeadDesc;
 	}
 
+	public String getIssueSlipNo() {
+		return issueSlipNo;
+	}
+
+	public void setIssueSlipNo(String issueSlipNo) {
+		this.issueSlipNo = issueSlipNo;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIssueHeader [issueId=" + issueId + ", issueNo=" + issueNo + ", itemCategory=" + itemCategory
 				+ ", issueDate=" + issueDate + ", deleteStatus=" + deleteStatus + ", deptId=" + deptId + ", subDeptId="
 				+ subDeptId + ", accHead=" + accHead + ", status=" + status + ", deptCode=" + deptCode
-				+ ", subDeptCode=" + subDeptCode + ", accHeadDesc=" + accHeadDesc + ", issueDetailList="
-				+ issueDetailList + "]";
+				+ ", subDeptCode=" + subDeptCode + ", accHeadDesc=" + accHeadDesc + ", issueSlipNo=" + issueSlipNo
+				+ ", issueDetailList=" + issueDetailList + "]";
 	}
 
 	 
