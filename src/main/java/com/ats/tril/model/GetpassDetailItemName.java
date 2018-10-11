@@ -25,7 +25,8 @@ public class GetpassDetailItemName {
 	private float gpRemQty;
 	private float gpRetQty;
 	private String remark;
-	
+	private int uom;
+	private String uomName;
 	@Column(name = "cat_id")
 	private int catId;
 	@Column(name = "grp_id")
@@ -145,12 +146,29 @@ public class GetpassDetailItemName {
 		this.remark = remark;
 	}
 
+	public int getUom() {
+		return uom;
+	}
+
+	public void setUom(int uom) {
+		this.uom = uom;
+	}
+
+	public String getUomName() {
+		return uomName;
+	}
+
+	public void setUomName(String uomName) {
+		this.uomName = uomName;
+	}
+
 	@Override
 	public String toString() {
 		return "GetpassDetailItemName [gpDetailId=" + gpDetailId + ", gpId=" + gpId + ", gpItemId=" + gpItemId
 				+ ", gpQty=" + gpQty + ", gpNoDays=" + gpNoDays + ", gpReturnDate=" + gpReturnDate + ", gpStatus="
 				+ gpStatus + ", isUsed=" + isUsed + ", gpRemQty=" + gpRemQty + ", gpRetQty=" + gpRetQty + ", remark="
-				+ remark + ", catId=" + catId + ", grpId=" + grpId + ", itemCode=" + itemCode + "]";
+				+ remark + ", uom=" + uom + ", uomName=" + uomName + ", catId=" + catId + ", grpId=" + grpId
+				+ ", itemCode=" + itemCode + "]";
 	}
 
 }
