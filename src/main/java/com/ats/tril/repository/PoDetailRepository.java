@@ -49,6 +49,10 @@ public interface PoDetailRepository extends JpaRepository<PoDetail, Integer>{
 	@Transactional
 	@Query(" UPDATE PoDetail  SET status=:status   WHERE po_detail_id in (:poDetalId)")
 	int updateStatusWhileApprov(@Param("poDetalId") List<Integer> poDetalId,@Param("status") int status);
+
+	List<PoDetail> findAllByPoIdAndStatusNotIn(int poId, List<Integer> status);
+
+	List<PoDetail> findAllByStatusNotInAndPoId(List<Integer> stss, int poId);
 }
 
 

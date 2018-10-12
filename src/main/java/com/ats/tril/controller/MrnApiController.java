@@ -155,31 +155,45 @@ public class MrnApiController {
 					poDetail.setPendingQty(remainingQty);
 					int status = 1;
 
-					if (remainingQty == 0) {
+					if (remainingQty <= 0) {
 						System.err.println("Pending qty =0 keeping status=2");
 						status = 2;
 					}
 
 					poDetail.setStatus(status);
 					PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
-					// int detailStatusUpdate=poDetailRepo.updateResponse(remainingQty, status,
-					// mrnDetailRes.getPoDetailId());
-
-					List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotAndPoId(2, mrnDetailRes.getPoId());
+					 
+					List<Integer> stss = new ArrayList<Integer>();
+					stss.add(2);
+					stss.add(9);
+					stss.add(7);
+					List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotInAndPoId(stss, mrnDetailList.get(i).getPoId());
 
 					if (poDetailsList.isEmpty()) {
 
 						System.err.println("Po Detail list is Empty so Update po Header Status for POId "
-								+ mrnDetailRes.getPoId());
+								+ mrnDetailList.get(i).getPoId());
 
-						int updateMrnHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailRes.getPoId());
+						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailList.get(i).getPoId());
 
 					}
-
 					else {
-
-						int updateMrnHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailRes.getPoId());
-
+						List<Integer> sts = new ArrayList<Integer>();
+						sts.add(0);
+						sts.add(1);
+							List<PoDetail> details=poDetailRepo.findAllByPoIdAndStatusNotIn(mrnDetailList.get(i).getPoId(),sts);
+							poDetailsList=new ArrayList<PoDetail>();
+							
+							poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailList.get(i).getPoId());
+		
+						if(poDetailsList.isEmpty()) {
+		
+							int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailList.get(i).getPoId());
+		
+						}
+						else {
+							int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailList.get(i).getPoId());
+						}
 					}
 
 				}
@@ -550,18 +564,21 @@ public class MrnApiController {
 				
 				int status = 1;
 
-				if (remainingQty == 0) {
+				if (remainingQty <= 0) {
 					System.err.println("Pending qty =0 keeping status=2");
 					status = 2;
 				}else  if(remainingQty==poDetail.getItemQty()){
 					
 					status=0;
 				}
-
+ 
 				poDetail.setStatus(status);
 				PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
-
-				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotAndPoId(2, mrnDetailList.get(i).getPoId());
+				List<Integer> stss = new ArrayList<Integer>();
+				stss.add(2);
+				stss.add(9);
+				stss.add(7);
+				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotInAndPoId(stss, mrnDetailList.get(i).getPoId());
 
 				if (poDetailsList.isEmpty()) {
 
@@ -571,17 +588,26 @@ public class MrnApiController {
 					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailList.get(i).getPoId());
 
 				}
-				
-					List<PoDetail> details=poDetailRepo.findAllByPoId(mrnDetailList.get(i).getPoId());
-					poDetailsList=new ArrayList<PoDetail>();
-					
-					poDetailsList = poDetailRepo.findAllByStatusAndPoId(0, mrnDetailList.get(i).getPoId());
-
-				if(details.size()==poDetailsList.size()) {
-
-					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailList.get(i).getPoId());
-
+				else {
+					List<Integer> sts = new ArrayList<Integer>();
+					sts.add(0);
+					sts.add(1);
+						List<PoDetail> details=poDetailRepo.findAllByPoIdAndStatusNotIn(mrnDetailList.get(i).getPoId(),sts);
+						poDetailsList=new ArrayList<PoDetail>();
+						
+						poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailList.get(i).getPoId());
+	
+					if(poDetailsList.isEmpty()) {
+	
+						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailList.get(i).getPoId());
+	
+					}
+					else {
+						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailList.get(i).getPoId());
+					}
 				}
+				
+					
 
 				//
 
@@ -633,7 +659,7 @@ public class MrnApiController {
 				poDetail.setPendingQty(remainingQty);
 				int status = 1;
 
-				if (remainingQty == 0) {
+				if (remainingQty <= 0) {
 					System.err.println("Pending qty =0 keeping status=2");
 					status = 2;
 				}else  if(remainingQty==poDetail.getItemQty()){
@@ -643,8 +669,12 @@ public class MrnApiController {
 
 				poDetail.setStatus(status);
 				PoDetail poDetailStatusUpdate = poDetailRepo.save(poDetail);
-				
-				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotAndPoId(2, mrnDetailRes.getPoId());
+				 
+				List<Integer> stss = new ArrayList<Integer>();
+				stss.add(2);
+				stss.add(9);
+				stss.add(7);
+				List<PoDetail> poDetailsList = poDetailRepo.findAllByStatusNotInAndPoId(stss, mrnDetailRes.getPoId());
 
 				if (poDetailsList.isEmpty()) {
 
@@ -654,16 +684,23 @@ public class MrnApiController {
 					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(2, mrnDetailRes.getPoId());
 
 				}
-				
-					List<PoDetail> details=poDetailRepo.findAllByPoId(mrnDetailRes.getPoId());
-					poDetailsList=new ArrayList<PoDetail>();
-					
-					poDetailsList = poDetailRepo.findAllByStatusAndPoId(0, mrnDetailRes.getPoId());
-
-				if(details.size()==poDetailsList.size()) {
-
-					int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailRes.getPoId());
-
+				else {
+					List<Integer> sts = new ArrayList<Integer>();
+					sts.add(0);
+					sts.add(1);
+						List<PoDetail> details=poDetailRepo.findAllByPoIdAndStatusNotIn(mrnDetailRes.getPoId(),sts);
+						poDetailsList=new ArrayList<PoDetail>();
+						
+						poDetailsList = poDetailRepo.findAllByStatusAndPoId(1, mrnDetailRes.getPoId());
+	
+					if(poDetailsList.isEmpty()) {
+	
+						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(0, mrnDetailRes.getPoId());
+	
+					}
+					else {
+						int updatePoHeaderStatus = poHeaderRepository.updateResponsePoHead(1, mrnDetailRes.getPoId());
+					}
 				}
 
 			}
