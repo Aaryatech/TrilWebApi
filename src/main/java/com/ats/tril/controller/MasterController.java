@@ -1,6 +1,8 @@
 package com.ats.tril.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.IndentStatusReport;
 import com.ats.tril.model.Item;
 import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.ItemList;
@@ -1262,6 +1265,16 @@ public class MasterController {
 		try {
 
 			vendor = vendorRepository.findAllByIsUsed(1);
+			
+			Collections.sort(vendor, new Comparator<Vendor>() {
+	            @Override
+	            public int compare(Vendor vendor, Vendor t1) {
+	                String s1 = vendor.getVendorCode();
+	                String s2 = t1.getVendorCode();
+	                return s1.compareToIgnoreCase(s2);
+	            }
+
+	        });
 
 		} catch (Exception e) {
 
@@ -1503,6 +1516,16 @@ public class MasterController {
 		try {
 
 			itemList = getItemRepository.getAllItems();
+			
+			/*Collections.sort(itemList, new Comparator<GetItem>() {
+	            @Override
+	            public int compare(GetItem getItem, GetItem t1) {
+	                String s1 = getItem.getItemCode();
+	                String s2 = t1.getItemCode();
+	                return s1.compareToIgnoreCase(s2);
+	            }
+
+	        });*/
 
 		} catch (Exception e) {
 
