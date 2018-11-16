@@ -17,7 +17,7 @@ public interface GetIndentRepo extends JpaRepository<GetIndent, Integer> {
 			+ "indent.dept_id,indent.sub_dept_id, m_account_head.acc_head_desc, "
 			+ " m_category.cat_desc,indent.ind_m_status,indent.ind_remark FROM indent,m_category,m_account_head WHERE indent.ind_m_date BETWEEN :fromDate AND :toDate "
 			+ " AND indent.cat_id=m_category.cat_id AND indent.ind_m_status IN (:status) AND m_account_head.acc_head_id=indent.achd_id "
-			+ "and indent.del_status=1", nativeQuery = true)
+			+ "and indent.del_status=1 order by indent.ind_m_date,indent.ind_m_no", nativeQuery = true)
 
 	List<GetIndent> getIndent(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
 			@Param("status") List<String> status);
@@ -26,7 +26,7 @@ public interface GetIndentRepo extends JpaRepository<GetIndent, Integer> {
 			+ "indent.dept_id,indent.sub_dept_id, m_account_head.acc_head_desc, "
 			+ " m_category.cat_desc,indent.ind_m_status,indent.ind_remark FROM indent,m_category,m_account_head WHERE indent.ind_m_date <= :toDate "
 			+ " AND indent.cat_id=m_category.cat_id AND indent.ind_m_status IN (:status) AND m_account_head.acc_head_id=indent.achd_id "
-			+ "and indent.del_status=1", nativeQuery = true)
+			+ "and indent.del_status=1 order by indent.ind_m_date,indent.ind_m_no", nativeQuery = true)
 
 	List<GetIndent> getIndentsForApproval(@Param("toDate") String toDate,
 			@Param("status") List<String> status);//same query for apr 1 and apr 2 list change status list while sending status param

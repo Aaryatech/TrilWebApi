@@ -23,6 +23,7 @@ import com.ats.tril.model.getqueryitems.GetPoQueryItem;
 import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.repository.GetPoDetailListRepository;
 import com.ats.tril.repository.GetPoHeaderListRepository;
+import com.ats.tril.repository.ItemRepository;
 import com.ats.tril.repository.PoDetailRepository;
 import com.ats.tril.repository.PoHeaderRepository;
 import com.ats.tril.repository.getpodetail.GetPODetailRepo;
@@ -52,6 +53,9 @@ public class PurchaseOrderRestController {
 	
 	@Autowired
 	GetPoQueryItemRepo getPoQueryItemRepo;
+	
+	@Autowired
+	ItemRepository itemRepository;
 
 	@RequestMapping(value = { "/getPODetailList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetPODetail> getPODetails(@RequestParam("poIdList") List<Integer> poIdList) {
@@ -328,6 +332,35 @@ public class PurchaseOrderRestController {
 			errorMessage.setMessage("failed");
 
 		}
+		return errorMessage;
+
+	}
+	
+	@RequestMapping(value = { "/updateRateOfItemAfterApproveRate" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateRateOfItemAfterApproveRate(@RequestParam("itemId") int itemId,
+			@RequestParam("rate") float rate ) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			int delete = itemRepository.updateRate(itemId, rate);
+
+			if (delete == 1) {
+				errorMessage.setError(false);
+				errorMessage.setMessage(" Deleted Successfully");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			errorMessage.setError(true);
+			errorMessage.setMessage("Deletion Failed :EXC");
+
+		}
+		
 		return errorMessage;
 
 	}

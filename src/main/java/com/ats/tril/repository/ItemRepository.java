@@ -24,4 +24,9 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	@Query(value=("select *  from m_item where item_code = ( select max(item_code) from m_item where item_code LIKE :str% )"),nativeQuery=true)
 	Item getNextItemCode(@Param("str") String str);
 
+	@Transactional
+	@Modifying
+	@Query("UPDATE Item SET itemClRate=:rate WHERE item_id=:itemId")
+	int updateRate(@Param("itemId") int itemId,@Param("rate") float rate);
+
 }
