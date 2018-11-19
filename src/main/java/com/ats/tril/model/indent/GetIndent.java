@@ -37,6 +37,9 @@ public class GetIndent {
 	
 	private int catId;
 	
+	private String deptCode; 
+	private String subDeptCode;
+	
 	
 	
 	public int getCatId() {
@@ -160,12 +163,29 @@ public class GetIndent {
 		this.indRemark = indRemark;
 	}
 
+	public String getDeptCode() {
+		return deptCode;
+	}
+
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
+	}
+
+	public String getSubDeptCode() {
+		return subDeptCode;
+	}
+
+	public void setSubDeptCode(String subDeptCode) {
+		this.subDeptCode = subDeptCode;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIndent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType="
 				+ indMType + ", indRemark=" + indRemark + ", indIsdev=" + indIsdev + ", indIsmonthly=" + indIsmonthly
 				+ ", catDesc=" + catDesc + ", achdId=" + achdId + ", accHeadDesc=" + accHeadDesc + ", catId=" + catId
-				+ ", indMStatus=" + indMStatus + ", deptId=" + deptId + ", subDeptId=" + subDeptId + "]";
+				+ ", deptCode=" + deptCode + ", subDeptCode=" + subDeptCode + ", indMStatus=" + indMStatus + ", deptId="
+				+ deptId + ", subDeptId=" + subDeptId + "]";
 	}
 
 	
