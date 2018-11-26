@@ -17,7 +17,7 @@ public interface ConsumptionReportRepository extends JpaRepository<ConsumptionRe
 			"        m_category.cat_id,\n" + 
 			"        m_category.cat_desc, \n" + 
 			"        coalesce((Select\n" + 
-			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \n" + 
+			"            SUM((po_detail.landing_cost/po_detail.item_qty)*t_mrn_detail.approve_qty)                     \n" + 
 			"        FROM\n" + 
 			"            t_mrn_detail,\n" + 
 			"            t_mrn_header,\n" + 
@@ -33,7 +33,7 @@ public interface ConsumptionReportRepository extends JpaRepository<ConsumptionRe
 			"            and m_item.cat_id=m_category.cat_id and t_mrn_header.mrn_type=:poType AND t_mrn_detail.mrn_detail_status = 4),\n" + 
 			"        0) AS monthly_value,\n" + 
 			"        coalesce((Select\n" + 
-			"            SUM(po_detail.item_rate*t_mrn_detail.approve_qty)                     \n" + 
+			"            SUM((po_detail.landing_cost/po_detail.item_qty)*t_mrn_detail.approve_qty)                     \n" + 
 			"        FROM\n" + 
 			"            t_mrn_detail,\n" + 
 			"            t_mrn_header,\n" + 
@@ -59,7 +59,7 @@ public interface ConsumptionReportRepository extends JpaRepository<ConsumptionRe
 			"        @a\\:=@a+1 sr ,m_category.cat_id,\n" + 
 			"        m_category.cat_desc, \n" + 
 			"        coalesce((Select\n" + 
-			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate) \n" + 
+			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty) \n" + 
 			"        FROM\n" + 
 			"            item_issue_header,\n" + 
 			"            item_issue_detail,\n" + 
@@ -78,7 +78,7 @@ public interface ConsumptionReportRepository extends JpaRepository<ConsumptionRe
 			"            and item_issue_header.item_category=:poType AND item_issue_detail.status = 2),\n" + 
 			"        0) AS monthly_value,\n" + 
 			"        coalesce((Select\n" + 
-			"            SUM(item_issue_detail.item_issue_qty*po_detail.item_rate) \n" + 
+			"            SUM((po_detail.landing_cost/po_detail.item_qty)*item_issue_detail.item_issue_qty) \n" + 
 			"        FROM\n" + 
 			"            item_issue_header,\n" + 
 			"            item_issue_detail,\n" + 
