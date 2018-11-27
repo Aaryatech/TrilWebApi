@@ -67,6 +67,9 @@ public class GetIssueDetail {
 	
 	@Column(name = "mrn_detail_id")
 	private int mrnDetailId;
+	
+	@Column(name = "item_rate")
+	private float itemRate;
 
 	public int getIssueDetailId() {
 		return issueDetailId;
@@ -220,6 +223,14 @@ public class GetIssueDetail {
 		this.mrnDetailId = mrnDetailId;
 	}
 
+	public float getItemRate() {
+		return itemRate;
+	}
+
+	public void setItemRate(float itemRate) {
+		this.itemRate = itemRate;
+	}
+
 	@Override
 	public String toString() {
 		return "GetIssueDetail [issueDetailId=" + issueDetailId + ", issueId=" + issueId + ", itemGroupId="
@@ -227,7 +238,8 @@ public class GetIssueDetail {
 				+ itemId + ", itemIssueQty=" + itemIssueQty + ", itemRequestQty=" + itemRequestQty + ", itemPendingQty="
 				+ itemPendingQty + ", delStatus=" + delStatus + ", status=" + status + ", batchNo=" + batchNo
 				+ ", itemCode=" + itemCode + ", grpCode=" + grpCode + ", deptCode=" + deptCode + ", subDeptCode="
-				+ subDeptCode + ", accHeadDesc=" + accHeadDesc + ", mrnDetailId=" + mrnDetailId + "]";
+				+ subDeptCode + ", accHeadDesc=" + accHeadDesc + ", mrnDetailId=" + mrnDetailId + ", itemRate="
+				+ itemRate + "]";
 	}
 	
 	
