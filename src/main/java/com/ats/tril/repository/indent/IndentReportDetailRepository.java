@@ -10,7 +10,7 @@ import com.ats.tril.model.report.IndentReportDetail;
 
 public interface IndentReportDetailRepository extends JpaRepository<IndentReportDetail, Integer> {
 
-	@Query(value = "SELECT d.*,i.item_code FROM indtrans d,m_item i WHERE d.ind_m_id IN(:indentIdList) AND d.del_status=1 AND i.item_id=d.item_id", nativeQuery = true)
+	@Query(value = "SELECT d.*,i.item_code,i.item_max_level FROM indtrans d,m_item i WHERE d.ind_m_id IN(:indentIdList) AND d.del_status=1 AND i.item_id=d.item_id", nativeQuery = true)
 	List<IndentReportDetail> getIndentReportDetailList(@Param("indentIdList") List<Integer> indentIdList);
 
 }
