@@ -333,36 +333,36 @@ public class ValueationRestController {
 	@RequestMapping(value = { "/issueDepartmentWiseReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IssueDeptWise> issueDepartmentWiseReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
-			@RequestParam("deptId") int deptId) {
+			@RequestParam("deptId") int deptId,@RequestParam("catIds") List<Integer> catIds) {
 		
 		 List<IssueDeptWise> finalList = new  ArrayList<IssueDeptWise>();
 
 		try {
 			   
 					  if(typeId!=0 && isDev!=-1 && deptId!=0){
-						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndIsDevAndDept(fromDate,toDate,typeId,isDev,deptId); 
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndIsDevAndDept(fromDate,toDate,typeId,isDev,deptId,catIds); 
 					  }
 					  else if(typeId!=0 && isDev==-1 && deptId!=0) {
 						  
-						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndDeptId(fromDate,toDate,typeId,deptId); 
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndDeptId(fromDate,toDate,typeId,deptId,catIds); 
 					  }
 					  else if(typeId!=0 && isDev!=-1 && deptId==0) {
-						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndIsDev(fromDate,toDate,typeId,isDev); 
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeIdAndIsDev(fromDate,toDate,typeId,isDev,catIds); 
 					  }
 					  else if(typeId!=0 && isDev==-1 && deptId==0) {
-						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeId(fromDate,toDate,typeId); 
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithTypeId(fromDate,toDate,typeId,catIds); 
 					  }
 					  else if(typeId==0 && isDev!=-1 && deptId==0) {
-						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithIsDev(fromDate,toDate,isDev);  
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithIsDev(fromDate,toDate,isDev,catIds);  
 					  }
 					  else if(typeId==0 && isDev!=-1 && deptId!=0) {
-						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithIsDevAndDeptId(fromDate,toDate,isDev,deptId);  
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithIsDevAndDeptId(fromDate,toDate,isDev,deptId,catIds);  
 					  }
 					  else if(typeId==0 && isDev==-1 && deptId!=0) {
-						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithDeptId(fromDate,toDate,deptId);  
+						  finalList = issueDeptWiseRepository.issueDeptWiseReportWithDeptId(fromDate,toDate,deptId,catIds);  
 					  }
 					  else {
-						  finalList = issueDeptWiseRepository.issueDeptWiseReport(fromDate,toDate);  
+						  finalList = issueDeptWiseRepository.issueDeptWiseReport(fromDate,toDate,catIds);  
 					  }
 					   
 			 
@@ -378,24 +378,24 @@ public class ValueationRestController {
 	@RequestMapping(value = { "/issueSubDepartmentWiseReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IssueDeptWise> issueSubDepartmentWiseReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
-			@RequestParam("deptId") int deptId) {
+			@RequestParam("deptId") int deptId,@RequestParam("catIds") List<Integer> catIds) {
 		
 		 List<IssueDeptWise> finalList = new  ArrayList<IssueDeptWise>();
 
 		try {
 			   
 					  if(typeId!=0 && isDev!=-1){
-						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithTypeIdAndIsDev(fromDate,toDate,typeId,isDev,deptId); 
+						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithTypeIdAndIsDev(fromDate,toDate,typeId,isDev,deptId,catIds); 
 					  }
 					  else if(typeId!=0 && isDev==-1) {
 						  
-						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithTypeId(fromDate,toDate,typeId,deptId); 
+						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithTypeId(fromDate,toDate,typeId,deptId,catIds); 
 					  }
 					  else if(typeId==0 && isDev!=-1 ) {
-						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithIsDev(fromDate,toDate,isDev,deptId); 
+						  finalList = issueDeptWiseRepository.issueSubDeptWiseReportWithIsDev(fromDate,toDate,isDev,deptId,catIds); 
 					  } 
 					  else {
-						  finalList = issueDeptWiseRepository.issueSubDeptWiseReport(fromDate,toDate,deptId);  
+						  finalList = issueDeptWiseRepository.issueSubDeptWiseReport(fromDate,toDate,deptId,catIds);  
 					  }
 					   
 			 
@@ -411,24 +411,24 @@ public class ValueationRestController {
 	@RequestMapping(value = { "/issueItemWiseReportBySubDept" }, method = RequestMethod.POST)
 	public @ResponseBody List<IssueDeptWise> issueItemWiseReportBySubDept(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
-			@RequestParam("subDept") int subDept) {
+			@RequestParam("subDept") int subDept,@RequestParam("catIds") List<Integer> catIds) {
 		
 		 List<IssueDeptWise> finalList = new  ArrayList<IssueDeptWise>();
 
 		try {
 			   
 					  if(typeId!=0 && isDev!=-1){
-						  finalList = issueDeptWiseRepository.issueItemWiseReportWithTypeIdAndIsDevBySubDept(fromDate,toDate,typeId,isDev,subDept); 
+						  finalList = issueDeptWiseRepository.issueItemWiseReportWithTypeIdAndIsDevBySubDept(fromDate,toDate,typeId,isDev,subDept,catIds); 
 					  }
 					  else if(typeId!=0 && isDev==-1) {
 						  
-						  finalList = issueDeptWiseRepository.issueItemWiseReportWithTypeId(fromDate,toDate,typeId,subDept); 
+						  finalList = issueDeptWiseRepository.issueItemWiseReportWithTypeId(fromDate,toDate,typeId,subDept,catIds); 
 					  }
 					  else if(typeId==0 && isDev!=-1 ) {
-						  finalList = issueDeptWiseRepository.issueItemWiseWiseReportWithIsDev(fromDate,toDate,isDev,subDept); 
+						  finalList = issueDeptWiseRepository.issueItemWiseWiseReportWithIsDev(fromDate,toDate,isDev,subDept,catIds); 
 					  } 
 					  else {
-						  finalList = issueDeptWiseRepository.issueItemWiseReportBySubDept(fromDate,toDate,subDept);  
+						  finalList = issueDeptWiseRepository.issueItemWiseReportBySubDept(fromDate,toDate,subDept,catIds);  
 					  }
 					   
 			 
