@@ -63,5 +63,11 @@ public interface IndentTransRepo extends JpaRepository<IndentTrans, Integer> {
 	List<IndentTrans> findByIndDStatusNotInAndIndMIdAndDelStatus(List<Integer> i, int indMId, int j);
 
 	List<IndentTrans> findByIndDStatusAndIndMIdAndDelStatus(int i, int indMId, int j);
+
+	@Transactional
+	@Modifying
+	@Query(" UPDATE IndentTrans  SET apprvRemark1=:rejectRemark1,apprvRemark2=:rejectRemark2 WHERE indDId=:indDetailId ")
+	int updateSts(@Param("indDetailId")int indDetailId,@Param("rejectRemark1") String rejectRemark1,
+			@Param("rejectRemark2")String rejectRemark2);
 	
 }

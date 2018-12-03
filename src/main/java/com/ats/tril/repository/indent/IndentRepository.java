@@ -17,11 +17,11 @@ public interface IndentRepository extends JpaRepository<Indent, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query(" UPDATE Indent  SET achdId=:achdId,deptId=:deptId,subDeptId=:subDeptId,indIsdev=:indIsdev,indRemark=:indRemark,indIsmonthly=:indIsmonthly "
+	@Query(" UPDATE Indent  SET achdId=:achdId,indMStatus=:status,deptId=:deptId,subDeptId=:subDeptId,indIsdev=:indIsdev,indRemark=:indRemark,indIsmonthly=:indIsmonthly "
 			+ " WHERE indMId=:indMId ")
 	int updateIndentHeader(@Param("achdId") int achdId, @Param("deptId") int deptId, @Param("subDeptId") int subDeptId,
 			@Param("indIsdev") int indIsdev, @Param("indIsmonthly") int indIsmonthly, @Param("indMId") int indMId,
-			@Param("indRemark") String indRemark);
+			@Param("indRemark") String indRemark,@Param("status") int status);
 
 	@Transactional
 	@Modifying
@@ -47,5 +47,10 @@ public interface IndentRepository extends JpaRepository<Indent, Integer> {
 	@Modifying
 	@Query(" UPDATE Indent  SET ind_m_status=:status, ind_apr2_date=:apr2Date WHERE ind_m_id=:indMId ")
 	int updateIndApr2(@Param("indMId") int indMId, @Param("status") int status,@Param("apr2Date") Date apr2Date);
+
+	@Transactional
+	@Modifying
+	@Query(" UPDATE Indent  SET ind_m_status=:status,apprvRemark1=:rejectRemark1,apprvRemark2=:rejectRemark2 WHERE ind_m_id=:indId ")
+	int rejectIndent(@Param("status")int status,@Param("indId") int indId, String rejectRemark1, String rejectRemark2);
 
 }

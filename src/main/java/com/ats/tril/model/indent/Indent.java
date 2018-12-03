@@ -47,6 +47,12 @@ public class Indent {
 	private int deptId;
 	private int subDeptId;
 	
+	@Column(name = "apprv_remark1")
+	private String apprvRemark1;
+	
+	@Column(name = "apprv_remark2")
+	private String apprvRemark2;
+	
 	
 	//new field 21 aug
 	@Column(name = "ind_apr1_date")
@@ -191,13 +197,30 @@ public class Indent {
 		this.indApr2Date = indApr2Date;
 	}
 
+	public String getApprvRemark1() {
+		return apprvRemark1;
+	}
+
+	public void setApprvRemark1(String apprvRemark1) {
+		this.apprvRemark1 = apprvRemark1;
+	}
+
+	public String getApprvRemark2() {
+		return apprvRemark2;
+	}
+
+	public void setApprvRemark2(String apprvRemark2) {
+		this.apprvRemark2 = apprvRemark2;
+	}
+
 	@Override
 	public String toString() {
 		return "Indent [indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate + ", indMType=" + indMType
 				+ ", catId=" + catId + ", achdId=" + achdId + ", indIsdev=" + indIsdev + ", indRemark=" + indRemark
 				+ ", indIsmonthly=" + indIsmonthly + ", indMStatus=" + indMStatus + ", indFyr=" + indFyr + ", deptId="
-				+ deptId + ", subDeptId=" + subDeptId + ", indApr1Date=" + indApr1Date + ", indApr2Date=" + indApr2Date
-				+ ", indentTrans=" + indentTrans + "]";
+				+ deptId + ", subDeptId=" + subDeptId + ", apprvRemark1=" + apprvRemark1 + ", apprvRemark2="
+				+ apprvRemark2 + ", indApr1Date=" + indApr1Date + ", indApr2Date=" + indApr2Date + ", indentTrans="
+				+ indentTrans + "]";
 	}
 
 }

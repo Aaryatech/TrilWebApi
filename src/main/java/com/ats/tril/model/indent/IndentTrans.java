@@ -56,6 +56,12 @@ public class IndentTrans {
 	
 	@Column(name = "ind_apr2_date")
 	private Date indApr2Date;
+	
+	@Column(name = "apprv_remark1")
+	private String apprvRemark1;
+	
+	@Column(name = "apprv_remark2")
+	private String apprvRemark2;
 
 	public int getIndDId() {
 		return indDId;
@@ -195,13 +201,30 @@ public class IndentTrans {
 		this.indApr2Date = indApr2Date;
 	}
 
+	public String getApprvRemark1() {
+		return apprvRemark1;
+	}
+
+	public void setApprvRemark1(String apprvRemark1) {
+		this.apprvRemark1 = apprvRemark1;
+	}
+
+	public String getApprvRemark2() {
+		return apprvRemark2;
+	}
+
+	public void setApprvRemark2(String apprvRemark2) {
+		this.apprvRemark2 = apprvRemark2;
+	}
+
 	@Override
 	public String toString() {
 		return "IndentTrans [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate=" + indMDate
 				+ ", itemId=" + itemId + ", indQty=" + indQty + ", indItemUom=" + indItemUom + ", indItemDesc="
 				+ indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd + ", indItemSchddt="
 				+ indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus + ", delStatus=" + delStatus
-				+ ", indFyr=" + indFyr + ", indApr1Date=" + indApr1Date + ", indApr2Date=" + indApr2Date + "]";
+				+ ", indFyr=" + indFyr + ", indApr1Date=" + indApr1Date + ", indApr2Date=" + indApr2Date
+				+ ", apprvRemark1=" + apprvRemark1 + ", apprvRemark2=" + apprvRemark2 + "]";
 	}
 	
 	

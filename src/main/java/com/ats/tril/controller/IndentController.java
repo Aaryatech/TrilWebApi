@@ -23,6 +23,8 @@ import com.ats.tril.model.indent.GetIndentDetail;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.indent.IndentReport;
 import com.ats.tril.model.indent.IndentTrans;
+import com.ats.tril.model.indent.RejectRemarkList;
+import com.ats.tril.model.indent.UpdateData;
 import com.ats.tril.repository.GetIndentByStatusRepo;
 import com.ats.tril.repository.GetIntendDetailRepo;
 import com.ats.tril.repository.indent.GetIndentDetailRepo;
@@ -53,6 +55,42 @@ public class IndentController {
 	@Autowired
 	GetIntendDetailRepo getIntendDetailRepo;
 
+	@RequestMapping(value = { "/rejectIndent" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage rejectIndent(@RequestBody UpdateData updateData) {
+
+		ErrorMessage res = new ErrorMessage();
+
+		try {
+			
+			 
+				int update = indentRepository.rejectIndent(updateData.getSts(),updateData.getIndId(),updateData.getRejectRemark1(),updateData.getRejectRemark2());
+				
+				for(int i=0;i<updateData.getRejectRemarkList().size();i++) {
+					
+					int update1 = indentTransRepo.updateSts(updateData.getRejectRemarkList().get(i).getIndDetailId(),updateData.getRejectRemarkList().get(i).getRejectRemark1(),
+							updateData.getRejectRemarkList().get(i).getRejectRemark2());
+				}
+				
+				if(update==0) {
+					res.setError(true);
+					res.setMessage("error");
+				}
+				else {
+					res.setError(false);
+					res.setMessage("failed");
+				}
+			  
+
+		} catch (Exception e) {
+			System.err.println("Exce in Approving Indent " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+		return res;
+
+	}
+	
 	@RequestMapping(value = { "/approveIndent" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage approveIndent(@RequestParam("indDStatus") int indDStatus,
 			@RequestParam("indDetailIdList") List<Integer> indDetailIdList, @RequestParam("indentId") int indentId) {
@@ -277,14 +315,15 @@ public class IndentController {
 	public @ResponseBody ErrorMessage editIndentHeader(@RequestParam("achdId") int achdId,
 			@RequestParam("deptId") int deptId, @RequestParam("subDeptId") int subDeptId,
 			@RequestParam("indIsdev") int indIsdev, @RequestParam("indIsmonthly") int indIsmonthly,
-			@RequestParam("indMId") int indMId,@RequestParam("indRemark") String indRemark) {
+			@RequestParam("indMId") int indMId,@RequestParam("indRemark") String indRemark,
+			@RequestParam("status") int status) {
 
 		ErrorMessage err = new ErrorMessage();
 		int response = 0;
 
 		try {
 
-			response = indentRepository.updateIndentHeader(achdId, deptId, subDeptId, indIsdev, indIsmonthly, indMId,indRemark);
+			response = indentRepository.updateIndentHeader(achdId, deptId, subDeptId, indIsdev, indIsmonthly, indMId,indRemark,status);
 
 			if (response > 0) {
 				err.setError(false);

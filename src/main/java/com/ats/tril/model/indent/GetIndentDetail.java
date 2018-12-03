@@ -20,7 +20,8 @@ public class GetIndentDetail {
 				+ ", indItemDesc=" + indItemDesc + ", indItemCurstk=" + indItemCurstk + ", indItemSchd=" + indItemSchd
 				+ ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", indDStatus=" + indDStatus
 				+ ", delStatus=" + delStatus + ", indFyr=" + indFyr + ", itemDesc=" + itemDesc + ", itemCode="
-				+ itemCode + ", itemUom=" + itemUom + "]";
+				+ itemCode + ", itemUom=" + itemUom + ", apprvRemark1=" + apprvRemark1 + ", apprvRemark2="
+				+ apprvRemark2 + "]";
 	}
 	@Id
 	@Column(name = "ind_d_id")
@@ -59,6 +60,9 @@ public class GetIndentDetail {
 	private String itemDesc;
 	private String itemCode;
 	private String itemUom;
+	private String apprvRemark1; 
+	private String apprvRemark2;
+	
 	public int getIndDId() {
 		return indDId;
 	}
@@ -168,6 +172,18 @@ public class GetIndentDetail {
 	}
 	public void setItemUom(String itemUom) {
 		this.itemUom = itemUom;
+	}
+	public String getApprvRemark1() {
+		return apprvRemark1;
+	}
+	public void setApprvRemark1(String apprvRemark1) {
+		this.apprvRemark1 = apprvRemark1;
+	}
+	public String getApprvRemark2() {
+		return apprvRemark2;
+	}
+	public void setApprvRemark2(String apprvRemark2) {
+		this.apprvRemark2 = apprvRemark2;
 	}
 	
 	

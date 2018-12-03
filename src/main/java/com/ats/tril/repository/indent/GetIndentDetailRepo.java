@@ -12,8 +12,7 @@ public interface GetIndentDetailRepo extends JpaRepository<GetIndentDetail, Inte
 	
 	@Query(value = " SELECT indtrans.*,m_item.item_desc,m_item.item_code,m_item.item_uom FROM indtrans,m_item "
 			+ " WHERE indtrans.ind_m_id=:indentId AND indtrans.del_status=1 AND indtrans.item_id=m_item.item_id ",
-			nativeQuery = true)
-	
+			nativeQuery = true) 
 	List<GetIndentDetail> getIndentDetail(@Param("indentId") int indentId);
 	
 }

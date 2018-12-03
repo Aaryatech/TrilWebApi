@@ -16,8 +16,8 @@ public interface GetIndentRepo extends JpaRepository<GetIndent, Integer> {
 	@Query(value = " SELECT indent.cat_id, indent.ind_m_id,indent.ind_m_no,indent.ind_m_date,indent.ind_isdev,indent.ind_ismonthly,indent.ind_m_type,indent.achd_id ,"
 			+ "indent.dept_id,indent.sub_dept_id, m_account_head.acc_head_desc, "
 			+ " m_category.cat_desc,indent.ind_m_status,indent.ind_remark,concat(m_dept.dept_code,' - ',m_dept.dept_desc) as dept_code, "
-			+ "concat(m_sub_dept.sub_dept_code,' - ',m_sub_dept.sub_dept_desc) as sub_dept_code FROM indent,m_category,m_account_head,m_dept,"
-			+ "m_sub_dept WHERE indent.ind_m_date BETWEEN :fromDate AND :toDate "
+			+ "concat(m_sub_dept.sub_dept_code,' - ',m_sub_dept.sub_dept_desc) as sub_dept_code,indent.apprv_remark1,indent.apprv_remark2 FROM indent,m_category,m_account_head,m_dept,"
+			+ "m_sub_dept  WHERE indent.ind_m_date BETWEEN :fromDate AND :toDate "
 			+ " AND indent.cat_id=m_category.cat_id AND indent.ind_m_status IN (:status) AND m_account_head.acc_head_id=indent.achd_id "
 			+ "and indent.del_status=1 and m_dept.dept_id=indent.dept_id "
 			+ "and m_sub_dept.sub_dept_id=indent.sub_dept_id order by indent.ind_m_date,indent.ind_m_no", nativeQuery = true)
@@ -41,8 +41,8 @@ public interface GetIndentRepo extends JpaRepository<GetIndent, Integer> {
 			"        indent.ind_m_status,\n" + 
 			"        indent.ind_remark,\n" + 
 			"        concat(m_dept.dept_code,' - ',m_dept.dept_desc) as dept_code,\n" + 
-			"        concat(m_sub_dept.sub_dept_code,' - ',m_sub_dept.sub_dept_desc) as sub_dept_code\n" + 
-			"    FROM\n" + 
+			"        concat(m_sub_dept.sub_dept_code,' - ',m_sub_dept.sub_dept_desc) as sub_dept_code "
+			+ " ,indent.apprv_remark1,indent.apprv_remark2 FROM\n" + 
 			"        indent,\n" + 
 			"        m_category,\n" + 
 			"        m_account_head,\n" + 
