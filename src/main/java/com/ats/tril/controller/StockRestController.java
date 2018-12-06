@@ -232,6 +232,26 @@ public class StockRestController {
 
 	}
 	
+	@RequestMapping(value = { "/getStockBetweenDateWithItemIdList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetCurrentStock> getStockBetweenDateWithItemIdList(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("ItemIds") List<Integer> ItemIds) {
+		
+		List<GetCurrentStock> getCurrentStock = new ArrayList<GetCurrentStock>();
+
+		try {
+
+			 
+			 getCurrentStock = getCurrentStockHeaderRepository.getStockBetweenDateWithItemIdList(fromDate,toDate,ItemIds); 
+ 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getCurrentStock;
+
+	}
+	
 	@RequestMapping(value = { "/minQtyAndRolQtyLevelReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<MinAndRolLevelReport> minQtyAndRolQtyLevelReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate,@RequestParam("catId") int catId) {
@@ -254,6 +274,25 @@ public class StockRestController {
 
 		}
 		return getCurrentStock;
+
+	}
+	
+	@RequestMapping(value = { "/getItemListByItemIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItem> getItemListByItemIds(@RequestParam("itemId") List<Integer> itemIds ) {
+		
+		List<GetItem>  itemList = new ArrayList<>();
+
+		try {
+			
+		 itemList = getItemRepository.getItemListByItemIds(itemIds);
+ 
+ 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return itemList;
 
 	}
 
