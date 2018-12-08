@@ -11,7 +11,7 @@ import com.ats.tril.model.IndentValueLimit;
 public interface IndentValueLimitRepository extends JpaRepository<IndentValueLimit, Integer>{
 
 	
-	@Query(value="select\r\n" + 
+	/*@Query(value="select\r\n" + 
 			"        indtrans.item_id,\r\n" + 
 			"        sum(indtrans.ind_qty) as qty,\r\n" + 
 			"        po_detail.item_rate as rate  \r\n" + 
@@ -49,6 +49,12 @@ public interface IndentValueLimitRepository extends JpaRepository<IndentValueLim
 			"    GROUP BY\r\n" + 
 			"        indtrans.item_id",nativeQuery=true)
 	List<IndentValueLimit> getIndentValueLimit(@Param("fromDate") String fromDate,@Param("toDate") String toDate,
-			@Param("typeId")String typeId,@Param("catId") String catId,@Param("status") List<Integer> status);
+			@Param("typeId")String typeId,@Param("catId") String catId,@Param("status") List<Integer> status);*/
+	
+	@Query(value="select id.item_id,sum(id.ind_qty) as qty,i.item_cl_rate as rate from indtrans id,indent ih,m_item i where id.del_status=1 and id.ind_d_status in (:detailStatus) "
+			+ "and id.ind_m_id=ih.ind_m_id and ih.ind_m_status in (:status) and ih.del_status=1 and ih.ind_m_type=:typeId and ih.cat_id=:catId "
+			+ "and i.item_id=id.item_id and ih.ind_m_date between :fromDate and :toDate group by id.item_id",nativeQuery=true)
+	List<IndentValueLimit> getIndentValueLimit(@Param("fromDate") String fromDate,@Param("toDate") String toDate,
+			@Param("typeId")String typeId,@Param("catId") String catId,@Param("status") List<Integer> status,@Param("detailStatus") List<Integer> detailStatus);
 
 }

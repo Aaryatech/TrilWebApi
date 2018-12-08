@@ -958,12 +958,12 @@ public class ValueationRestController {
 	 @RequestMapping(value = { "/getIndentValueLimit" }, method = RequestMethod.POST)
 		public @ResponseBody List<IndentValueLimit> getIndentValueLimit(@RequestParam("fromDate") String fromDate,
 				@RequestParam("toDate") String toDate, @RequestParam("typeId") String typeId, @RequestParam("catId") String catId
-				,@RequestParam("status") List<Integer> status) {
+				,@RequestParam("status") List<Integer> status,@RequestParam("detailStatus") List<Integer> detailStatus) {
 
 			 List<IndentValueLimit> list = new ArrayList<IndentValueLimit>();
 			try {
 				 
-				 list = indentValueLimitRepository.getIndentValueLimit(fromDate,toDate,typeId,catId,status); 
+				 list = indentValueLimitRepository.getIndentValueLimit(fromDate,toDate,typeId,catId,status,detailStatus); 
 
 			} catch (Exception e) {
 				 
