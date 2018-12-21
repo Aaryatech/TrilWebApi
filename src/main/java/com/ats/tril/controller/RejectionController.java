@@ -45,6 +45,8 @@ public class RejectionController {
 	public @ResponseBody List<RejectionMemo> saveRejectionMemoHeaderDetail(
 			@RequestBody List<RejectionMemo> rejectionMemoList) {
 		RejectionMemo rejMemo = new RejectionMemo();
+		
+		List<RejectionMemo> list = new ArrayList<>();
 
 		try {
 			for (int j = 0; j < rejectionMemoList.size(); j++) {
@@ -59,6 +61,8 @@ public class RejectionController {
 						.saveAll(rejectionMemoList.get(j).getRejectionMemoDetailList());
 				System.out.println("rejectionMemoDetail" + rejectionMemoDetail.toString());
 				rejMemo.setRejectionMemoDetailList(rejectionMemoDetail);
+				
+				list.add(rejMemo);
 			}
 		} catch (Exception e) {
 
