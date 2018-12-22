@@ -1,8 +1,14 @@
 package com.ats.tril.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.Dept;
+import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.FinancialYears;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
@@ -152,6 +159,58 @@ public class DocumentController {
 
 		}
 		return documentBean;
+
+	}
+	
+	@RequestMapping(value = { "/getIndentDocumentForSetting" }, method = RequestMethod.POST)
+	public @ResponseBody List<SubDocument> getIndentDocumentForSetting(@RequestParam("docId") int docId,
+			@RequestParam("date") String date ) {
+
+		List<SubDocument> list = new ArrayList<SubDocument>();
+		 
+		try {
+
+			DocumentBean documentBean = documentBeanRepository.findByDocIdAndDate(docId, date);
+
+			if (documentBean != null) {
+
+				 list = subDocumentRepository.findByMIdAndDelStatus(documentBean.getId(),0);
+				 
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/updateEnabledAndDisabled" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateEnabledAndDisabled(@RequestParam("subDocId") int subDocId,
+			@RequestParam("enabled") String enabled, @RequestParam("limitValue") String limitValue ) {
+
+		ErrorMessage errorMessage = new ErrorMessage();
+		 
+		try {
+
+			int update = subDocumentRepository.updateEnabledAndDisabled(subDocId, enabled,limitValue);
+			
+			if (update == 1) {
+				errorMessage.setError(false);
+				errorMessage.setMessage("updated");
+			} else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("updated Failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return errorMessage;
 
 	}
 }
