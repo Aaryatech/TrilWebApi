@@ -70,6 +70,28 @@ public class MrnApiController {
 	@Autowired
 	PoItemForMrnEditRepo getPoItemForMrnEditRepo;
 
+	
+	@RequestMapping(value = { "/updateInspectionRemark" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateInspectionRemark(@RequestParam("mrnId") int mrnId,@RequestParam("remark") String remark) {
+		 
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		try {
+			int update = mrnHeaderRepository.updateInspectionRemark(mrnId,remark);
+			
+			errorMessage.setError(false);
+			errorMessage.setMessage("updated");
+
+		} catch (Exception e) {
+
+			errorMessage.setError(true);
+			errorMessage.setMessage("failed updated");
+			e.printStackTrace();
+		}
+
+		return errorMessage;
+	}
+	
 	@RequestMapping(value = { "/getOneMrnHeader" }, method = RequestMethod.POST)
 	public @ResponseBody MrnHeader getMrnHeaderByMrnId(@RequestParam("mrnId") int mrnId) {
 		System.err.println("inside web api save saveMrnHeadAndDetail");
