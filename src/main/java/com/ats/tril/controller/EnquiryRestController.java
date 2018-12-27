@@ -368,5 +368,23 @@ public class EnquiryRestController {
 		return getQuatationDetailList;
 
 	}
+	
+	@RequestMapping(value = { "/getQuotationDetailByQutIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetQuatationDetail> getQuotationDetailByQutIds(@RequestParam("qutId") List<Integer> qutId) {
+
+		List<GetQuatationDetail> getQuatationDetailList = new ArrayList<GetQuatationDetail>();
+
+		try {
+
+			getQuatationDetailList = getQuatationDetailRepository.getQuatationDetail(qutId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return getQuatationDetailList;
+
+	}
 
 }

@@ -42,7 +42,7 @@ public class EnquiryHeader {
 	private String indNo;
 	
 	@Column(name = "ind_id")
-	private int indId;
+	private String indId;
 	
 	@Transient
 	List<EnquiryDetail> enquiryDetailList;
@@ -119,11 +119,11 @@ public class EnquiryHeader {
 		this.indNo = indNo;
 	}
 
-	public int getIndId() {
+	public String getIndId() {
 		return indId;
 	}
 
-	public void setIndId(int indId) {
+	public void setIndId(String indId) {
 		this.indId = indId;
 	}
 

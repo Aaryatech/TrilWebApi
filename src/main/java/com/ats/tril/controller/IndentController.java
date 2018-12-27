@@ -548,6 +548,25 @@ public class IndentController {
 		return indentDetailList;
 
 	}
+	
+	@RequestMapping(value = { "/getIntendsDetailByIntendIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetIntendDetail> getIntendsDetailByIntendIds(@RequestParam("indId") List<Integer> indIds) {
+
+		List<GetIntendDetail> indentDetailList = new ArrayList<GetIntendDetail>();
+
+		try {
+
+			indentDetailList = getIntendDetailRepo.findByIndMIdIn(indIds);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		return indentDetailList;
+
+	}
 
 	@RequestMapping(value = { "/updateIndendPendingQty" }, method = RequestMethod.POST)
 	public @ResponseBody ErrorMessage updateIndendPendingQty(@RequestBody List<IndentTrans> intendDetailList) {

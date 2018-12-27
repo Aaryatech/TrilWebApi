@@ -17,4 +17,7 @@ public interface GetIntendDetailRepo extends JpaRepository<GetIntendDetail, Inte
 			+ "AND po_header.del_status=1 and po_detail.item_id=:itemId "),nativeQuery=true)
 	 float getLatestRateofItem(@Param("itemId")int itemId);
 
+	@Query(value=("Select i.*,CONCAT(m.item_code, '-', m.item_desc) as item_code from indtrans i,m_item m where i.ind_m_id in (:indIds) and i.ind_d_status In(0,1,2) and m.item_id=i.item_id and i.del_status=1"),nativeQuery=true)
+	List<GetIntendDetail> findByIndMIdIn(@Param("indIds")List<Integer> indIds);
+
 }

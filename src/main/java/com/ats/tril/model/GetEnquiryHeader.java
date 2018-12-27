@@ -45,7 +45,7 @@ public class GetEnquiryHeader {
 	private String indNo;
 
 	@Column(name = "ind_id")
-	private int indId;
+	private String indId;
 
 	private String vendorCode;
 
@@ -125,11 +125,11 @@ public class GetEnquiryHeader {
 		this.indNo = indNo;
 	}
 
-	public int getIndId() {
+	public String getIndId() {
 		return indId;
 	}
 
-	public void setIndId(int indId) {
+	public void setIndId(String indId) {
 		this.indId = indId;
 	}
 
