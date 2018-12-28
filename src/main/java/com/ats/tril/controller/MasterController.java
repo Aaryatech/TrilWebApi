@@ -1535,6 +1535,25 @@ public class MasterController {
 		return itemList;
 
 	}
+	
+	@RequestMapping(value = { "/getItemByItemIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItem> getItemByItemIds(@RequestParam("itemIds") List<Integer> itemIds) {
+
+		List<GetItem> itemList = new ArrayList<GetItem>();
+
+		try {
+
+			itemList = getItemRepository.getItemListByItemIds(itemIds);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return itemList;
+
+	}
 
 	@RequestMapping(value = { "/itemListByGroupId" }, method = RequestMethod.POST)
 	public @ResponseBody ItemList itemListByGroupId(@RequestParam("groupId") int groupId) {

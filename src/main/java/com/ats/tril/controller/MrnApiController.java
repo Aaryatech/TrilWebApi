@@ -272,6 +272,40 @@ public class MrnApiController {
 		return mrnHeaderList;
 
 	}
+	
+	@RequestMapping(value = { "/getMrnHeaderListForInspection" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetMrnHeader> getMrnHeaderListForInspection(@RequestParam("venId") List<Integer> venId,
+			@RequestParam("status") List<Integer> status) {
+
+		List<GetMrnHeader> mrnHeaderList = new ArrayList<GetMrnHeader>();
+
+		try {
+			if (venId.contains(0) && !status.contains(-1)) {
+				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderListByStatus(status);
+				System.err.println("a");
+			} else if (!venId.contains(0) && status.contains(-1)) {
+				System.err.println("b");
+				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderListByVenId(venId);
+
+			} else if (!venId.contains(0) && !status.contains(-1)) {
+				System.err.println("c");
+				mrnHeaderList = getMrnHeaderRepository.getMrnHeaderListByVenIdAndStatus(venId, status);
+			} else if (venId.contains(0) && status.contains(-1)) {
+				System.err.println("d");
+				mrnHeaderList = getMrnHeaderRepository.getAllMrnHeaderList();
+			}
+			 
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndents Indent  " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return mrnHeaderList;
+
+	}
 
 	@RequestMapping(value = { "/getMrnHeader" }, method = RequestMethod.POST)
 	public @ResponseBody GetMrnHeader getMrnHeader(@RequestParam("mrnId") int mrnId) {
