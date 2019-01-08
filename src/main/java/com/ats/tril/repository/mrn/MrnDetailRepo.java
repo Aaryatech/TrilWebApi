@@ -33,7 +33,7 @@ public interface MrnDetailRepo extends JpaRepository<MrnDetail, Integer> {
 			"        and md.del_status=1\n" + 
 			"        and md.mrn_detail_status=4\n" + 
 			"        and mh.mrn_date<=:date\n" + 
-			"        and mh.mrn_id=md.mrn_id and mh.mrn_type=:type",nativeQuery=true)
+			"        and mh.mrn_id=md.mrn_id and mh.mrn_type=:type and mh.del_status=1",nativeQuery=true)
 	List<MrnDetail> findByItemIdAndDelStatusAndMrnDetailStatus(@Param("itemId")int itemId,@Param("type")int type,
 			@Param("date")String date);
 
