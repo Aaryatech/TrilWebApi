@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ConsumptionReportData;
 import com.ats.tril.model.ConsumptionReportWithCatId;
+import com.ats.tril.model.IndentStatusPendingReport;
 import com.ats.tril.model.IndentStatusReport;
 import com.ats.tril.model.IndentValueLimit;
 import com.ats.tril.model.IssueAndMrnGroupWise;
@@ -37,6 +38,7 @@ import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.repository.ConsumptionReportRepository;
+import com.ats.tril.repository.IndentStatusPendingReportReportRepository;
 import com.ats.tril.repository.IndentStatusReportRepository;
 import com.ats.tril.repository.IndentValueLimitRepository;
 import com.ats.tril.repository.IssueAndMrnGroupWiseRepository;
@@ -94,6 +96,9 @@ public class ValueationRestController {
 	
 	@Autowired
 	IndentStatusReportRepository indentStatusReportRepository;
+	
+	@Autowired
+	IndentStatusPendingReportReportRepository indentStatusPendingReportReportRepository;
 	
 	@RequestMapping(value = { "/valueationReportDetail" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemValuationList> valueationReportDetail(@RequestParam("fromDate") String fromDate,
@@ -1019,6 +1024,37 @@ public class ValueationRestController {
 		            }
 
 		        });
+				
+			} catch (Exception e) {
+				 
+				e.printStackTrace(); 
+			}
+			return indentPendig;
+
+		}
+	 
+	 @RequestMapping(value = { "/indentStatusPandingReport" }, method = RequestMethod.POST)
+		public @ResponseBody List<IndentStatusPendingReport> indentStatusPandingReport(@RequestParam("fromDate") String fromDate,
+				@RequestParam("toDate") String toDate, @RequestParam("detailStatus") List<Integer> detailStatus
+				, @RequestParam("headerStatus") List<Integer> headerStatus, @RequestParam("typeId") int typeId
+				, @RequestParam("catId") int catId) {
+
+			 List<IndentStatusPendingReport> indentPendig = new ArrayList<IndentStatusPendingReport>();
+			  
+			try {
+				 int index=0;
+				indentPendig = indentStatusPendingReportReportRepository.indentPendig(fromDate,toDate,index,detailStatus,headerStatus,typeId,catId); 
+				 
+				
+				/*Collections.sort(indentPendig, new Comparator<IndentStatusReport>() {
+		            @Override
+		            public int compare(IndentStatusReport indentStatusReport, IndentStatusReport t1) {
+		                String s1 = indentStatusReport.getIndMNo();
+		                String s2 = t1.getIndMNo();
+		                return s1.compareToIgnoreCase(s2);
+		            }
+
+		        });*/
 				
 			} catch (Exception e) {
 				 
