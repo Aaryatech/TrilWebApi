@@ -37,6 +37,7 @@ import com.ats.tril.model.MrnMonthWiseList;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.SubDocument;
+import com.ats.tril.model.report.DeptSubDeptValReport;
 import com.ats.tril.repository.ConsumptionReportRepository;
 import com.ats.tril.repository.IndentStatusPendingReportReportRepository;
 import com.ats.tril.repository.IndentStatusReportRepository;
@@ -50,7 +51,10 @@ import com.ats.tril.repository.MonthSubDeptWiseIssueRepository;
 import com.ats.tril.repository.MonthWiseIssueRepository;
 import com.ats.tril.repository.StockValuationCategoryWiseRepository;
 import com.ats.tril.repository.TypeRepository;
-import com.ats.tril.repository.doc.DocumentBeanRepository; 
+import com.ats.tril.repository.doc.DocumentBeanRepository;
+import com.ats.tril.repository.report.DeptSubDeptValReportRepo;
+
+import javassist.compiler.SyntaxError; 
 
 @RestController
 public class ValueationRestController {
@@ -332,8 +336,45 @@ public class ValueationRestController {
 
 		}
 		return finalList;
+		
+	}
+	
+	//sachin
+	@RequestMapping(value = { "/issueAndMrnItemWiseReportByCatId" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueAndMrnItemWise> issueAndMrnItemWiseReportByCatId(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("catId") int catId) {
+		System.err.println("param received  at issueAndMrnItemWiseReportByCatId " );
+		
+		System.err.println("catId " +catId + "typeId " +typeId + "isDev " +isDev);
+		
+		 List<IssueAndMrnItemWise> finalList = new  ArrayList<IssueAndMrnItemWise>();
+
+		try {
+			   
+					  if(typeId!=0 && isDev!=-1){
+						  finalList = issueAndMrnItemWiseRepository.issueAndMrnItemWiseReportByGroupIdWithTypeIdAndIsDev1(fromDate,toDate,typeId,isDev,catId); 
+					  }
+					  else if(typeId!=0 && isDev==-1) {
+						  finalList = issueAndMrnItemWiseRepository.issueAndMrnGroupWisReportByGroupWithAllDevelopment3(fromDate,toDate,typeId,catId); 
+					  }
+					  else if(typeId==0 && isDev!=-1){
+						  finalList = issueAndMrnItemWiseRepository.issueAndMrnGroupWisReportByCatIdWithAllType4(fromDate,toDate,isDev,catId); 
+					  }
+					  else{
+						  finalList = issueAndMrnItemWiseRepository.issueAndMrnGroupWisReportByCatId2(fromDate,toDate,catId);  
+					  }
+					   
+			 System.err.println("issueAndMrnItemWiseReportByCatId "+finalList.toString());
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
 
 	}
+	
 	
 	@RequestMapping(value = { "/issueDepartmentWiseReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IssueDeptWise> issueDepartmentWiseReport(@RequestParam("fromDate") String fromDate,
@@ -380,6 +421,58 @@ public class ValueationRestController {
 
 	}
 	
+	
+	@Autowired DeptSubDeptValReportRepo getDeptSubDeptValReportRepo;
+	@RequestMapping(value = { "/getDeptSubDeptValIssueReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<DeptSubDeptValReport> getDeptSubDeptValReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
+			@RequestParam("deptId") int deptId,@RequestParam("catIds") List<Integer> catIds) {
+		
+		System.err.println("in dept Id s");
+		System.err.println("fromDate"+fromDate);
+		System.err.println("toDate"+toDate);
+		System.err.println("typeId"+typeId);
+		System.err.println("isDev"+isDev);
+		System.err.println("deptId"+deptId);
+		System.err.println("catIds"+catIds);
+		
+		 List< DeptSubDeptValReport> finalList = new  ArrayList< DeptSubDeptValReport>();
+
+		try {
+			   
+					  if(typeId!=0 && isDev!=-1 && deptId!=0){
+						  System.err.println("inside a = "+deptId);
+
+						  finalList = getDeptSubDeptValReportRepo.issueSubDeptWiseReport(fromDate,toDate,typeId,isDev,deptId,catIds); 
+					  }
+					  else if(typeId!=0 && isDev==-1 && deptId!=0) {
+						  System.err.println("inside b = "+deptId);
+						  finalList = getDeptSubDeptValReportRepo.issueSubDeptWiseReportWithTypeId(fromDate,toDate,typeId,deptId,catIds); 
+					  }
+					  else if(typeId==0 && isDev!=-1 && deptId!=0) {
+						  System.err.println("inside c = "+deptId);
+						  finalList = getDeptSubDeptValReportRepo.issueSubDeptWiseReportWithIsDev(fromDate,toDate,isDev,deptId,catIds); 
+					  } 
+					  else if(deptId==0) {
+						  
+						  System.err.println("inside final else  dept Id = "+deptId);
+						  finalList = getDeptSubDeptValReportRepo.issueSubDeptWiseReportWithTypeIdAndIsDev(fromDate,toDate,catIds);  
+					  }
+					  System.err.println("final list " +finalList.toString()); 
+			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return finalList;
+
+	}
+	
+	
+	
+	
+	
 	@RequestMapping(value = { "/issueSubDepartmentWiseReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IssueDeptWise> issueSubDepartmentWiseReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate,@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
@@ -412,6 +505,9 @@ public class ValueationRestController {
 		return finalList;
 
 	}
+	
+	
+	
 	
 	@RequestMapping(value = { "/issueItemWiseReportBySubDept" }, method = RequestMethod.POST)
 	public @ResponseBody List<IssueDeptWise> issueItemWiseReportBySubDept(@RequestParam("fromDate") String fromDate,
