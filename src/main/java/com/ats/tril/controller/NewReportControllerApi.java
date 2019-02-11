@@ -75,9 +75,24 @@ public class NewReportControllerApi {
 		List<AprLogBook> finalList = new ArrayList<AprLogBook>();
 
 		try {
-			finalList = getAprLogBookRepo.getAprLogBook(fromDate, toDate, docId, typeIdList);
+			
+			if(docId==1) {
+				
+				finalList = getAprLogBookRepo.getAprLogBookInd(fromDate, toDate, typeIdList);
+				
+			}else if(docId==2) {
+				
+				finalList = getAprLogBookRepo.getAprLogBookPO(fromDate, toDate, typeIdList);
+		}else if(docId==3) {
+			
+			finalList = getAprLogBookRepo.getAprLogBookMrn(fromDate, toDate, typeIdList);
+			
+		}else {
+			finalList = getAprLogBookRepo.getAprLogBookIssue(fromDate, toDate, typeIdList);
 
-		} catch (Exception e) {
+		} 
+	
+	}catch (Exception e) {
 
 			e.printStackTrace();
 

@@ -11,14 +11,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class AprLogBook {
 	@Id
 	private int logId;
+	private int docTranId;
 	
 	private int docType;
 	private Date reqDate;
-	private Date app1Date;
-	private Date app2Date;
+	private Date aprDate1;
+	private Date aprDate2;
 	
-	private String apr1User;
-	private String apr2User;
+	private String aprUser1;
+	private String aprUser2;
 	
 	private String docNo;
 	private Date docDate;
@@ -30,12 +31,19 @@ public class AprLogBook {
 	public void setLogId(int logId) {
 		this.logId = logId;
 	}
+	public int getDocTranId() {
+		return docTranId;
+	}
+	public void setDocTranId(int docTranId) {
+		this.docTranId = docTranId;
+	}
 	public int getDocType() {
 		return docType;
 	}
 	public void setDocType(int docType) {
 		this.docType = docType;
 	}
+	
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getReqDate() {
 		return reqDate;
@@ -43,32 +51,39 @@ public class AprLogBook {
 	public void setReqDate(Date reqDate) {
 		this.reqDate = reqDate;
 	}
+	
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getApp1Date() {
-		return app1Date;
+	public Date getAprDate1() {
+		return aprDate1;
 	}
-	public void setApp1Date(Date app1Date) {
-		this.app1Date = app1Date;
+	public void setAprDate1(Date aprDate1) {
+		this.aprDate1 = aprDate1;
 	}
 	
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getApp2Date() {
-		return app2Date;
+	public Date getAprDate2() {
+		return aprDate2;
 	}
-	public void setApp2Date(Date app2Date) {
-		this.app2Date = app2Date;
+	public void setAprDate2(Date aprDate2) {
+		this.aprDate2 = aprDate2;
 	}
-	public String getApr1User() {
-		return apr1User;
+	@Override
+	public String toString() {
+		return "AprLogBook [logId=" + logId + ", docTranId=" + docTranId + ", docType=" + docType + ", reqDate="
+				+ reqDate + ", aprDate1=" + aprDate1 + ", aprDate2=" + aprDate2 + ", aprUser1=" + aprUser1
+				+ ", aprUser2=" + aprUser2 + ", docNo=" + docNo + ", docDate=" + docDate + "]";
 	}
-	public void setApr1User(String apr1User) {
-		this.apr1User = apr1User;
+	public String getAprUser1() {
+		return aprUser1;
 	}
-	public String getApr2User() {
-		return apr2User;
+	public void setAprUser1(String aprUser1) {
+		this.aprUser1 = aprUser1;
 	}
-	public void setApr2User(String apr2User) {
-		this.apr2User = apr2User;
+	public String getAprUser2() {
+		return aprUser2;
+	}
+	public void setAprUser2(String aprUser2) {
+		this.aprUser2 = aprUser2;
 	}
 	public String getDocNo() {
 		return docNo;
@@ -76,6 +91,7 @@ public class AprLogBook {
 	public void setDocNo(String docNo) {
 		this.docNo = docNo;
 	}
+	
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getDocDate() {
 		return docDate;
@@ -83,11 +99,8 @@ public class AprLogBook {
 	public void setDocDate(Date docDate) {
 		this.docDate = docDate;
 	}
-	@Override
-	public String toString() {
-		return "AprLogBook [logId=" + logId + ", docType=" + docType + ", reqDate=" + reqDate + ", app1Date=" + app1Date
-				+ ", app2Date=" + app2Date + ", apr1User=" + apr1User + ", apr2User=" + apr2User + ", docNo=" + docNo
-				+ ", docDate=" + docDate + "]";
-	}
+	
+	
+	
 	
 }

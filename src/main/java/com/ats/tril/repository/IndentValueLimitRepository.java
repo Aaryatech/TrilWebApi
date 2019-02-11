@@ -57,4 +57,5 @@ public interface IndentValueLimitRepository extends JpaRepository<IndentValueLim
 	List<IndentValueLimit> getIndentValueLimit(@Param("fromDate") String fromDate,@Param("toDate") String toDate,
 			@Param("typeId")String typeId,@Param("catId") String catId,@Param("status") List<Integer> status,@Param("detailStatus") List<Integer> detailStatus);
 
+	/*ind_fyr*/
 }

@@ -108,6 +108,7 @@ public class PoStatusReportHeader {
 	public void setVendorName(String vendorName) {
 		this.vendorName = vendorName;
 	}
+	
 	@Override
 	public String toString() {
 		return "PoStatusReportHeader [poDetailId=" + poDetailId + ", itemId=" + itemId + ", itemCode=" + itemCode
@@ -115,7 +116,5 @@ public class PoStatusReportHeader {
 				+ ", itemRate=" + itemRate + ", poNo=" + poNo + ", poDate=" + poDate + ", indentNo=" + indentNo
 				+ ", vendorCode=" + vendorCode + ", vendorName=" + vendorName + "]";
 	}
-	
-	
 
 }
