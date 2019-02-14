@@ -47,7 +47,7 @@ public interface AprLogBookRepo extends JpaRepository<AprLogBook, Integer> {
 			+ " COALESCE((SELECT m_user.usr_name FROM m_user WHERE m_user.usr_id=t_log.app2_user_id),0) as apr_user2,"
 			+ " item_issue_header.issue_no as doc_no,item_issue_header.issue_date as doc_date" + ""
 			+ " FROM t_log,item_issue_header "
-			+ " WHERE t_log.doc_tran_id=item_issue_header.issue_id AND t_log.doc_type=4 AND item_issue_header.item_category IN (:typeIdList) AND "
+			+ " WHERE t_log.doc_tran_id=item_issue_header.issue_id AND t_log.doc_type=6 AND item_issue_header.item_category IN (:typeIdList) AND "
 			+ " t_log.req_date BETWEEN :fromDate AND :toDate ", nativeQuery = true)
 	List<AprLogBook> getAprLogBookIssue(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
 			@Param("typeIdList") List<String> typeIdList);

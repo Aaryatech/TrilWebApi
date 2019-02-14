@@ -26,17 +26,30 @@ public class NewReportControllerApi {
 	@RequestMapping(value = { "/getPoStatusReportHeader" }, method = RequestMethod.POST)
 	public @ResponseBody List<PoStatusReportHeader> stockValueationReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("typeId") int typeId,
-			@RequestParam("catId") int catId) {
+			@RequestParam("catId") int catId,@RequestParam("statusList") List<String> statusList) {
 
 		List<PoStatusReportHeader> finalList = new ArrayList<PoStatusReportHeader>();
 
 		try {
+			System.err.println("Status List  rece " +statusList);
 
-			if (typeId != 0) {
-				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeader(fromDate, toDate, typeId, catId);
-			} else {
-				finalList = getPoStatusReportHeaderRepo.stockValueationReportAllType(fromDate, toDate, catId);
+			if(typeId==0 && catId==0) {
+				System.err.println("A");
+				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderAllTypeAllcatId(fromDate,toDate,statusList);
+				
+			}else if(typeId==0 && catId!=0) {
+				System.err.println("B");
+				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderAllTypeOnecatId(fromDate, toDate, catId,statusList);
+
+			}else if(catId==0 && typeId!=0) {
+				System.err.println("C");
+				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderByTypeAndAllCatId(fromDate, toDate, typeId,statusList);
+			}else {System.err.println("D");
+				
+				System.err.println("one cat and one type selected ");
+				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderByTypeAndCatId(fromDate, toDate, typeId, catId,statusList);
 			}
+			
 
 		} catch (Exception e) {
 

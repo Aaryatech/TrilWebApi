@@ -451,7 +451,7 @@ public class MrnApiController {
 			@RequestParam("toDate") String toDate, @RequestParam("grnTypeList") List<String> grnTypeList,
 			@RequestParam("vendorIdList") List<String> vendorIdList,
 			@RequestParam("statusList") List<String> statusList) {
-
+System.err.println("grnTypeList " +grnTypeList);
 		List<MrnReport> mrnHeaderList = new ArrayList<MrnReport>();
 
 		try {

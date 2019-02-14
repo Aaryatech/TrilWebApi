@@ -223,34 +223,35 @@ public class PurchaseOrderRestController {
 
 		try {
 			if (vendorIdList.contains(0) && poTypeList.contains(0) && poStatus.contains(-1)) {
+				System.err.println("a");
 
 				list = getPoHeaderListRepository.getPoHeaderListBetweenDate(fromDate, toDate);
 			} else if (vendorIdList.contains(0) && poTypeList.contains(0) && !poStatus.contains(-1)) {
-
+				System.err.println("b");
 				list = getPoHeaderListRepository.getPoHeaderByStatus(fromDate, toDate, poStatus);
 			} else if (vendorIdList.contains(0) && !poTypeList.contains(0) && !poStatus.contains(-1)) {
-
+				System.err.println("c");
 				list = getPoHeaderListRepository.getPoHeaderByStatusAndPoTypeList(fromDate, toDate, poStatus,
 						poTypeList);
 			} else if (!vendorIdList.contains(0) && poTypeList.contains(0) && !poStatus.contains(-1)) {
-
+				System.err.println("d");
 				list = getPoHeaderListRepository.getPoHeaderByVendorAndPoType(fromDate, toDate, vendorIdList,
 						poTypeList);
 			}
 
 			else if (!vendorIdList.contains(0) && poTypeList.contains(0) && poStatus.contains(-1)) {
-
+				System.err.println("e");
 				list = getPoHeaderListRepository.getPoHeaderByVendor(fromDate, toDate, vendorIdList);
 			}
 
 			else if (!vendorIdList.contains(0) && !poTypeList.contains(0) && poStatus.contains(-1)) {
-
+				System.err.println("f");
 				list = getPoHeaderListRepository.getPoHeaderByVendorAndPoTypeList(fromDate, toDate, vendorIdList,
 						poTypeList);
 			}
 
 			else {
-
+				System.err.println("g");
 				list = getPoHeaderListRepository.getPoHeaderByStatusAndPoTypeAndVendorList(fromDate, toDate, poStatus,
 						poTypeList, vendorIdList);
 			}
