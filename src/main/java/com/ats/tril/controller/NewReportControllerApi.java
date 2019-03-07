@@ -26,8 +26,9 @@ public class NewReportControllerApi {
 	@RequestMapping(value = { "/getPoStatusReportHeader" }, method = RequestMethod.POST)
 	public @ResponseBody List<PoStatusReportHeader> stockValueationReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("typeId") int typeId,
-			@RequestParam("catId") int catId,@RequestParam("statusList") List<String> statusList) {
-
+			@RequestParam("catId") int catId,@RequestParam("statusList") List<String> statusList,
+			@RequestParam("vendorList") List<String> vendorList) {
+		
 		List<PoStatusReportHeader> finalList = new ArrayList<PoStatusReportHeader>();
 
 		try {
@@ -35,19 +36,19 @@ public class NewReportControllerApi {
 
 			if(typeId==0 && catId==0) {
 				System.err.println("A");
-				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderAllTypeAllcatId(fromDate,toDate,statusList);
+				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderAllTypeAllcatId(fromDate,toDate,statusList,vendorList);
 				
 			}else if(typeId==0 && catId!=0) {
 				System.err.println("B");
-				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderAllTypeOnecatId(fromDate, toDate, catId,statusList);
+				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderAllTypeOnecatId(fromDate, toDate, catId,statusList,vendorList);
 
 			}else if(catId==0 && typeId!=0) {
 				System.err.println("C");
-				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderByTypeAndAllCatId(fromDate, toDate, typeId,statusList);
+				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderByTypeAndAllCatId(fromDate, toDate, typeId,statusList,vendorList);
 			}else {System.err.println("D");
 				
 				System.err.println("one cat and one type selected ");
-				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderByTypeAndCatId(fromDate, toDate, typeId, catId,statusList);
+				finalList = getPoStatusReportHeaderRepo.getPoStatusReportHeaderByTypeAndCatId(fromDate, toDate, typeId, catId,statusList,vendorList);
 			}
 			
 
