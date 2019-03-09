@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.report.ApproveStatusMrnReport;
 import com.ats.tril.model.report.ApproveStatusMrnReportDetail;
 import com.ats.tril.model.report.GatepassReport;
@@ -19,10 +20,14 @@ import com.ats.tril.model.report.IndentReport;
 import com.ats.tril.model.report.IndentReportDetail;
 import com.ats.tril.model.report.IssueReport;
 import com.ats.tril.model.report.IssueReportDetail;
+import com.ats.tril.model.report.IssueReportItemwise;
+import com.ats.tril.model.report.ItemEnqAgQuotReport;
+import com.ats.tril.model.report.MrnCatwiseReport;
 import com.ats.tril.model.report.MrnReport;
 import com.ats.tril.model.report.MrnReportDetail;
 import com.ats.tril.model.report.POReport;
 import com.ats.tril.model.report.POReportDetail;
+import com.ats.tril.model.report.QuotReport;
 import com.ats.tril.model.report.RejectionReport;
 import com.ats.tril.model.report.RejectionReportDetail;
 import com.ats.tril.repository.indent.IndentReportDetailRepository;
@@ -32,11 +37,15 @@ import com.ats.tril.repository.report.GatepassReportDetailRepo;
 import com.ats.tril.repository.report.GatepassReportRepository;
 import com.ats.tril.repository.report.IndentReportRepo;
 import com.ats.tril.repository.report.IssueReportDetailRepository;
+import com.ats.tril.repository.report.IssueReportItemwiseRepo;
 import com.ats.tril.repository.report.IssueReportRepository;
+import com.ats.tril.repository.report.ItemEnqAgQuotReportRepo;
+import com.ats.tril.repository.report.MrnCatwiseReportRepo;
 import com.ats.tril.repository.report.MrnReportDetailRepo;
 import com.ats.tril.repository.report.MrnReportrepo;
 import com.ats.tril.repository.report.POReportDetailRepo;
 import com.ats.tril.repository.report.POReportRepository;
+import com.ats.tril.repository.report.QuotReportRepo;
 import com.ats.tril.repository.report.RejectionReportDetailRepo;
 import com.ats.tril.repository.report.RejectionReportRepository;
 
@@ -83,6 +92,18 @@ public class ReportApiController {
 	IssueReportRepository issueReportRepository;
 	@Autowired
 	IssueReportDetailRepository issueReportDetailRepository;
+
+	@Autowired
+	IssueReportItemwiseRepo issueReportItemwiseRepo;
+
+	@Autowired
+	MrnCatwiseReportRepo mrnCatwiseReportRepo;
+
+	@Autowired
+	QuotReportRepo quotReportRepo;
+
+	@Autowired
+	ItemEnqAgQuotReportRepo itemEnqAgQuotReportRepo;
 
 	@RequestMapping(value = { "/getIndentListHeaderDetailReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IndentReport> getIndentListHeaderDetailReport(
@@ -346,6 +367,154 @@ public class ReportApiController {
 
 		}
 		return gpList;
+
+	}
+
+	@RequestMapping(value = { "/getIssueHeaderDetailItemwiseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<IssueReportItemwise> getIssueHeaderDetailItemwiseReport(
+
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
+			@RequestParam("typeId") List<String> typeId, @RequestParam("deptId") int deptId,
+			@RequestParam("subDeptId") int subDeptId, @RequestParam("catIdList") List<String> catIdList,
+			@RequestParam("appStatus") int appStatus) {
+
+		List<IssueReportItemwise> issList = new ArrayList<IssueReportItemwise>();
+
+		try {
+
+			System.out.println(fromDate + " " + toDate + " " + typeId + " " + deptId + " " + subDeptId + "" + catIdList
+					+ "" + appStatus);
+
+			if (deptId != 0 && subDeptId != 0 && appStatus != -1) {
+
+				issList = issueReportItemwiseRepo.getIssueDetailReportList(fromDate, toDate, typeId, deptId, subDeptId,
+						catIdList, appStatus);
+			} else if (deptId == 0 && subDeptId == 0 && appStatus != -1) {
+				issList = issueReportItemwiseRepo.getIssueDetailReportListDeptAll(fromDate, toDate, typeId, catIdList,
+						appStatus);
+			}
+
+			else if (deptId != 0 && subDeptId == 0 && appStatus != -1) {
+				issList = issueReportItemwiseRepo.getIssueDetailReportListSubDeptAll(fromDate, toDate, typeId,
+						catIdList, appStatus, deptId);
+			}
+
+			else if (deptId != 0 && subDeptId == 0 && appStatus == -1) {
+				issList = issueReportItemwiseRepo.getIssueDetailReportListStatus(fromDate, toDate, typeId, catIdList,
+						deptId);
+			}
+
+			else if (deptId == 0 && subDeptId == 0 && appStatus == -1) {
+				issList = issueReportItemwiseRepo.getIssueDetailReportListStatusAndDept(fromDate, toDate, typeId,
+						catIdList);
+			}
+
+			for (int i = 0; i < issList.size(); i++) {
+				issList.get(i).setIssueDate(DateConvertor.convertToDMY(issList.get(i).getIssueDate()));
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return issList;
+
+	}
+
+	@RequestMapping(value = { "/getMrnReportCatwise" }, method = RequestMethod.POST)
+	public @ResponseBody List<MrnCatwiseReport> getMrnReportCatwise(
+
+			@RequestParam("catIdList") List<String> catIdList) {
+
+		List<MrnCatwiseReport> issList = new ArrayList<MrnCatwiseReport>();
+
+		try {
+
+			if (catIdList.contains("0")) {
+
+				issList = mrnCatwiseReportRepo.getMrnReport();
+
+			} else {
+
+				issList = mrnCatwiseReportRepo.getMrnReportCatwiseList(catIdList);
+			}
+
+			for (int i = 0; i < issList.size(); i++) {
+				issList.get(i).setMrnDate(DateConvertor.convertToDMY(issList.get(i).getMrnDate()));
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return issList;
+
+	}
+
+	@RequestMapping(value = { "/getQuotReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<QuotReport> getQuotReport(
+
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
+			@RequestParam("status") List<String> status) {
+
+		List<QuotReport> issList = new ArrayList<QuotReport>();
+
+		try {
+
+			if (status.contains("-1")) {
+
+				issList = quotReportRepo.getQuotReportBetDAte(fromDate, toDate);
+
+			} else {
+
+				issList = quotReportRepo.getQuotReportBetDAteAndStatus(fromDate, toDate, status);
+
+			}
+
+			for (int i = 0; i < issList.size(); i++) {
+				issList.get(i).setEnqDate(DateConvertor.convertToDMY(issList.get(i).getEnqDate()));
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return issList;
+
+	}
+
+	@RequestMapping(value = { "/getEnqAgQuotReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<ItemEnqAgQuotReport> getEnqAgQuotReport(
+
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
+			@RequestParam("status") int status, @RequestParam("vendorIdList") List<String> vendorIdList) {
+
+		List<ItemEnqAgQuotReport> issList = new ArrayList<ItemEnqAgQuotReport>();
+
+		try {
+
+			if (vendorIdList.contains("0")) {
+
+				issList = itemEnqAgQuotReportRepo.getQuotReportBetDAte(fromDate, toDate, status);
+
+			} else {
+
+				issList = itemEnqAgQuotReportRepo.getQuotReportBetDAteAndStatus(fromDate, toDate, status, vendorIdList);
+
+			}
+
+			for (int i = 0; i < issList.size(); i++) {
+				issList.get(i).setEnqDate(DateConvertor.convertToDMY(issList.get(i).getEnqDate()));
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return issList;
 
 	}
 
