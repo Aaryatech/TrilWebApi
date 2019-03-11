@@ -15,7 +15,7 @@ public interface IndentRepItemwiseRepo extends JpaRepository<IndentRepItemwise, 
 			+ " m_category.cat_desc,indtrans.ind_d_status ,DATEDIFF(CURDATE(),indtrans.ind_item_schddt) as "
 			+ "excess_days ,indtrans.ind_remark FROM indent,m_category ,indtrans,m_item i WHERE  indent.cat_id=m_category.cat_id AND  "
 			+ "indtrans.ind_m_id=indent.ind_m_id AND  indtrans.ind_d_status IN  (:statusList) AND indent.cat_id IN(:catIdList) "
-			+ "AND indent.ind_m_date BETWEEN :fromDate AND :toDate AND ind_m_type IN(:typeIdList)", nativeQuery = true)
+			+ "AND indent.ind_m_date BETWEEN :fromDate AND :toDate AND indent.ind_m_type IN(:typeIdList) AND i.item_id=indtrans.item_id", nativeQuery = true)
 	List<IndentRepItemwise> getIndentReportItemwise(@Param("catIdList") List<String> catIdList,
 			@Param("statusList") List<String> statusList, @Param("typeIdList") List<String> typeIdList,
 			@Param("fromDate") String fromDate, @Param("toDate") String toDate);
