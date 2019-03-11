@@ -16,6 +16,7 @@ import com.ats.tril.model.report.ApproveStatusMrnReport;
 import com.ats.tril.model.report.ApproveStatusMrnReportDetail;
 import com.ats.tril.model.report.GatepassReport;
 import com.ats.tril.model.report.GatepassReportDetail;
+import com.ats.tril.model.report.IndentRepItemwise;
 import com.ats.tril.model.report.IndentReport;
 import com.ats.tril.model.report.IndentReportDetail;
 import com.ats.tril.model.report.IssueReport;
@@ -35,6 +36,7 @@ import com.ats.tril.repository.report.ApproveMrnDetailRepository;
 import com.ats.tril.repository.report.ApproveStatusMrnReportRepo;
 import com.ats.tril.repository.report.GatepassReportDetailRepo;
 import com.ats.tril.repository.report.GatepassReportRepository;
+import com.ats.tril.repository.report.IndentRepItemwiseRepo;
 import com.ats.tril.repository.report.IndentReportRepo;
 import com.ats.tril.repository.report.IssueReportDetailRepository;
 import com.ats.tril.repository.report.IssueReportItemwiseRepo;
@@ -104,6 +106,9 @@ public class ReportApiController {
 
 	@Autowired
 	ItemEnqAgQuotReportRepo itemEnqAgQuotReportRepo;
+
+	@Autowired
+	IndentRepItemwiseRepo indentRepItemwiseRepo;
 
 	@RequestMapping(value = { "/getIndentListHeaderDetailReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<IndentReport> getIndentListHeaderDetailReport(
@@ -509,6 +514,42 @@ public class ReportApiController {
 				issList.get(i).setEnqDate(DateConvertor.convertToDMY(issList.get(i).getEnqDate()));
 			}
 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return issList;
+
+	}
+
+	@RequestMapping(value = { "/getIndentItemwiseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<IndentRepItemwise> getIndentItemwiseReport(
+
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
+			@RequestParam("typeIdList") List<String> typeIdList, @RequestParam("catIdList") List<String> catIdList,
+			@RequestParam("statusList") List<String> statusList) {
+
+		List<IndentRepItemwise> issList = new ArrayList<IndentRepItemwise>();
+
+		try {
+
+			System.out.println(fromDate + " " + toDate + " " + typeIdList + " " + "" + catIdList + "" + statusList);
+
+			/*if (statusList.contains("-1")) {
+				issList = indentRepItemwiseRepo.getIndentReportItemwiseByStatus(catIdList, typeIdList, fromDate,
+						toDate);
+//				/
+			}
+*/
+			issList = indentRepItemwiseRepo.getIndentReportItemwise(catIdList, typeIdList, statusList, fromDate,
+					toDate);
+
+			for (int i = 0; i < issList.size(); i++) {
+				issList.get(i).setIndItemSchddt(DateConvertor.convertToDMY(issList.get(i).getIndItemSchddt()));
+				issList.get(i).setIndMDate(DateConvertor.convertToDMY(issList.get(i).getIndMDate()));
+
+			}
 		} catch (Exception e) {
 
 			e.printStackTrace();
