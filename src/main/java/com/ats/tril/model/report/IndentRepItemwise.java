@@ -1,11 +1,14 @@
 package com.ats.tril.model.report;
 
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class IndentRepItemwise {
@@ -24,7 +27,7 @@ public class IndentRepItemwise {
 	private String indMNo;
 
 	@Column(name = "ind_m_date")
-	private String indMDate;
+	private Date indMDate;
 
 	@Column(name = "ind_m_type")
 	private int indMType;
@@ -43,8 +46,8 @@ public class IndentRepItemwise {
 	private String excessDays;
 
 	@Column(name = "ind_item_schddt")
-	private String indItemSchddt;
-	
+	private Date indItemSchddt;
+
 	@Column(name = "ind_remark")
 	private String indReamrk;
 
@@ -80,11 +83,12 @@ public class IndentRepItemwise {
 		this.indMNo = indMNo;
 	}
 
-	public String getIndMDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getIndMDate() {
 		return indMDate;
 	}
 
-	public void setIndMDate(String indMDate) {
+	public void setIndMDate(Date indMDate) {
 		this.indMDate = indMDate;
 	}
 
@@ -144,15 +148,14 @@ public class IndentRepItemwise {
 		this.excessDays = excessDays;
 	}
 
-	public String getIndItemSchddt() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getIndItemSchddt() {
 		return indItemSchddt;
 	}
 
-	public void setIndItemSchddt(String indItemSchddt) {
+	public void setIndItemSchddt(Date indItemSchddt) {
 		this.indItemSchddt = indItemSchddt;
 	}
-	
-	
 
 	public String getIndReamrk() {
 		return indReamrk;

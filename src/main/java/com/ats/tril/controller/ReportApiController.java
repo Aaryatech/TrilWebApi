@@ -414,9 +414,6 @@ public class ReportApiController {
 						catIdList);
 			}
 
-			for (int i = 0; i < issList.size(); i++) {
-				issList.get(i).setIssueDate(DateConvertor.convertToDMY(issList.get(i).getIssueDate()));
-			}
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -442,10 +439,6 @@ public class ReportApiController {
 			} else {
 
 				issList = mrnCatwiseReportRepo.getMrnReportCatwiseList(catIdList);
-			}
-
-			for (int i = 0; i < issList.size(); i++) {
-				issList.get(i).setMrnDate(DateConvertor.convertToDMY(issList.get(i).getMrnDate()));
 			}
 
 		} catch (Exception e) {
@@ -477,10 +470,6 @@ public class ReportApiController {
 
 			}
 
-			for (int i = 0; i < issList.size(); i++) {
-				issList.get(i).setEnqDate(DateConvertor.convertToDMY(issList.get(i).getEnqDate()));
-			}
-
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -510,10 +499,6 @@ public class ReportApiController {
 
 			}
 
-			for (int i = 0; i < issList.size(); i++) {
-				issList.get(i).setEnqDate(DateConvertor.convertToDMY(issList.get(i).getEnqDate()));
-			}
-
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -536,20 +521,9 @@ public class ReportApiController {
 
 			System.out.println(fromDate + " " + toDate + " " + typeIdList + " " + "" + catIdList + "" + statusList);
 
-			/*if (statusList.contains("-1")) {
-				issList = indentRepItemwiseRepo.getIndentReportItemwiseByStatus(catIdList, typeIdList, fromDate,
-						toDate);
-//				/
-			}
-*/
 			issList = indentRepItemwiseRepo.getIndentReportItemwise(catIdList, typeIdList, statusList, fromDate,
 					toDate);
 
-			for (int i = 0; i < issList.size(); i++) {
-				issList.get(i).setIndItemSchddt(DateConvertor.convertToDMY(issList.get(i).getIndItemSchddt()));
-				issList.get(i).setIndMDate(DateConvertor.convertToDMY(issList.get(i).getIndMDate()));
-
-			}
 		} catch (Exception e) {
 
 			e.printStackTrace();

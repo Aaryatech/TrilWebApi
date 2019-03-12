@@ -1,9 +1,13 @@
 package com.ats.tril.model.report;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class MrnCatwiseReport {
@@ -14,7 +18,7 @@ public class MrnCatwiseReport {
 
 	private String mrnNo;
 
-	private String mrnDate;
+	private Date mrnDate;
 
 	private float mrnQty;
 
@@ -43,11 +47,12 @@ public class MrnCatwiseReport {
 		this.mrnNo = mrnNo;
 	}
 
-	public String getMrnDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getMrnDate() {
 		return mrnDate;
 	}
 
-	public void setMrnDate(String mrnDate) {
+	public void setMrnDate(Date mrnDate) {
 		this.mrnDate = mrnDate;
 	}
 

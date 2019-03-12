@@ -1,9 +1,13 @@
 package com.ats.tril.model.report;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class ItemEnqAgQuotReport {
@@ -19,9 +23,10 @@ public class ItemEnqAgQuotReport {
 	private String indNo;
 	private String enqNo;
 	private String itemDesc;
+	private String itemCode;
 	private float enqQty;
 
-	private String enqDate;
+	private Date enqDate;
 
 	public int getItemId() {
 		return itemId;
@@ -71,14 +76,14 @@ public class ItemEnqAgQuotReport {
 		this.enqQty = enqQty;
 	}
 
-	public String getEnqDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getEnqDate() {
 		return enqDate;
 	}
 
-	public void setEnqDate(String enqDate) {
+	public void setEnqDate(Date enqDate) {
 		this.enqDate = enqDate;
 	}
-	
 
 	public int getEnqStatus() {
 		return enqStatus;
@@ -88,11 +93,19 @@ public class ItemEnqAgQuotReport {
 		this.enqStatus = enqStatus;
 	}
 
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
 	@Override
 	public String toString() {
 		return "ItemEnqAgQuotReport [itemId=" + itemId + ", enqStatus=" + enqStatus + ", enqRemark=" + enqRemark
-				+ ", indNo=" + indNo + ", enqNo=" + enqNo + ", itemDesc=" + itemDesc + ", enqQty=" + enqQty
-				+ ", enqDate=" + enqDate + "]";
+				+ ", indNo=" + indNo + ", enqNo=" + enqNo + ", itemDesc=" + itemDesc + ", itemCode=" + itemCode
+				+ ", enqQty=" + enqQty + ", enqDate=" + enqDate + "]";
 	}
 
 }

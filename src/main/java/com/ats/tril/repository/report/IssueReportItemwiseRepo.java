@@ -16,7 +16,8 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
 			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList) AND id.dept_id =:deptId AND id.sub_dept_id =:subDeptId AND ih.item_category IN(:typeId) AND ih.status=:appStatus"
-			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  " + " GROUP BY id.item_id ", nativeQuery = true)
+			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
+			+ " GROUP BY id.item_id order by ih.issue_no ", nativeQuery = true)
 	List<IssueReportItemwise> getIssueDetailReportList(@Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, @Param("typeId") List<String> typeId, @Param("deptId") int deptId,
 			@Param("subDeptId") int subDeptId, @Param("catIdList") List<String> catIdList,
@@ -28,7 +29,8 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
 			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList)   AND ih.item_category IN(:typeId) AND ih.status=:appStatus"
-			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  " + " GROUP BY id.item_id ", nativeQuery = true)
+			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
+			+ " GROUP BY id.item_id order by ih.issue_no ", nativeQuery = true)
 	List<IssueReportItemwise> getIssueDetailReportListDeptAll(@Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, @Param("typeId") List<String> typeId,
 			@Param("catIdList") List<String> catIdList, @Param("appStatus") int appStatus);
@@ -39,7 +41,8 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
 			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList)  AND id.dept_id =:deptId  AND ih.item_category IN(:typeId) AND ih.status=:appStatus"
-			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  " + " GROUP BY id.item_id ", nativeQuery = true)
+			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
+			+ " GROUP BY id.item_id order by ih.issue_no ", nativeQuery = true)
 	List<IssueReportItemwise> getIssueDetailReportListSubDeptAll(@Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, @Param("typeId") List<String> typeId,
 			@Param("catIdList") List<String> catIdList, @Param("appStatus") int appStatus, @Param("deptId") int deptId);
@@ -50,7 +53,8 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
 			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList)  AND id.dept_id =:deptId  AND ih.item_category IN(:typeId)  "
-			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  " + " GROUP BY id.item_id ", nativeQuery = true)
+			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
+			+ " GROUP BY id.item_id  order by ih.issue_no", nativeQuery = true)
 	List<IssueReportItemwise> getIssueDetailReportListStatus(@Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, @Param("typeId") List<String> typeId,
 			@Param("catIdList") List<String> catIdList, @Param("deptId") int deptId);
@@ -61,7 +65,8 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
 			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList)   AND ih.item_category IN(:typeId)  "
-			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  " + " GROUP BY id.item_id ", nativeQuery = true)
+			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
+			+ " GROUP BY id.item_id order by ih.issue_no ", nativeQuery = true)
 	List<IssueReportItemwise> getIssueDetailReportListStatusAndDept(@Param("fromDate") String fromDate,
 			@Param("toDate") String toDate, @Param("typeId") List<String> typeId,
 			@Param("catIdList") List<String> catIdList);

@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class IssueReportItemwise {
 
@@ -22,7 +24,7 @@ public class IssueReportItemwise {
 
 	private int itemCategory;
 
-	private String issueDate;
+	private Date issueDate;
 
 	private int status;
 
@@ -89,11 +91,13 @@ public class IssueReportItemwise {
 		this.itemCategory = itemCategory;
 	}
 
-	public String getIssueDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
+	public Date getIssueDate() {
 		return issueDate;
 	}
 
-	public void setIssueDate(String issueDate) {
+	public void setIssueDate(Date issueDate) {
 		this.issueDate = issueDate;
 	}
 

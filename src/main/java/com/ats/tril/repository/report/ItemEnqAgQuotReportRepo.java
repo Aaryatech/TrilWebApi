@@ -10,14 +10,14 @@ import com.ats.tril.model.report.ItemEnqAgQuotReport;
 
 public interface ItemEnqAgQuotReportRepo extends JpaRepository<ItemEnqAgQuotReport, Integer> {
 
-	@Query(value = "SELECT m_item.item_id,enq_header.enq_status, enq_header.enq_no,enq_header.enq_date,enq_detail.ind_no,"
+	@Query(value = "SELECT m_item.item_id,enq_header.enq_status, enq_header.enq_no,enq_header.enq_date,enq_detail.ind_no,m_item.item_code,"
 			+ "m_item.item_desc,enq_detail.enq_qty,enq_detail.enq_remark FROM enq_header,enq_detail,m_item"
 			+ " WHERE enq_header.enq_id=enq_detail.enq_id AND enq_detail.item_id=m_item.item_id AND enq_header.enq_date "
 			+ "BETWEEN :fromDate AND :toDate AND enq_header.enq_status=:status  ", nativeQuery = true)
 	List<ItemEnqAgQuotReport> getQuotReportBetDAte(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
 			@Param("status") int status);
 
-	@Query(value = "SELECT m_item.item_id,enq_header.enq_status, enq_header.enq_no,enq_header.enq_date,enq_detail.ind_no,"
+	@Query(value = "SELECT m_item.item_id,enq_header.enq_status, enq_header.enq_no,enq_header.enq_date,enq_detail.ind_no, m_item.item_code,"
 			+ "m_item.item_desc,enq_detail.enq_qty,enq_detail.enq_remark FROM enq_header,enq_detail,m_item"
 			+ " WHERE enq_header.enq_id=enq_detail.enq_id AND enq_detail.item_id=m_item.item_id AND enq_header.enq_date "
 			+ "BETWEEN :fromDate AND :toDate AND enq_header.enq_status=:status AND enq_header.vend_id in(:vendorIdList)  ", nativeQuery = true)
