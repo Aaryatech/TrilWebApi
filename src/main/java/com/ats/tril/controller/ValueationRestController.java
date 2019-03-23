@@ -2,6 +2,8 @@ package com.ats.tril.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -543,7 +545,7 @@ public class ValueationRestController {
 	}
 	
 	@RequestMapping(value = { "/issueMonthWiseReportByDept" }, method = RequestMethod.POST)
-	public @ResponseBody List<IssueMonthWiseList> issueMonthWiseReportByDept(@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev ) {
+	public @ResponseBody List<IssueMonthWiseList> issueMonthWiseReportByDept(@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,@RequestParam("year") int year ) {
 		
 		
 		List<IssueMonthWiseList> monthWiseList = new ArrayList<>();
@@ -551,7 +553,7 @@ public class ValueationRestController {
 
 		try {
 			   
-			String firstDate = documentBeanRepository.getFirstDate();
+			String firstDate = documentBeanRepository.getFirstDate(year);
 			System.out.println("firstDate " + firstDate);
 			 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	            Date d = sdf.parse(firstDate);
@@ -624,7 +626,7 @@ public class ValueationRestController {
 	
 	@RequestMapping(value = { "/issueMonthSubDeptWiseReportByDeptId" }, method = RequestMethod.POST)
 	public @ResponseBody List<IssueMonthWiseList> issueMonthSubDeptWiseReportByDeptId(@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
-			@RequestParam("deptId") int deptId) {
+			@RequestParam("deptId") int deptId,@RequestParam("year") int year) {
 		
 		
 		List<IssueMonthWiseList> monthWiseList = new ArrayList<>();
@@ -632,7 +634,7 @@ public class ValueationRestController {
 
 		try {
 			   
-			String firstDate = documentBeanRepository.getFirstDate();
+			String firstDate = documentBeanRepository.getFirstDate(year);
 			System.out.println("firstDate " + firstDate);
 			 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	            Date d = sdf.parse(firstDate);
@@ -705,7 +707,7 @@ public class ValueationRestController {
 	
 	@RequestMapping(value = { "/issueMonthItemWiseReportBySubDeptId" }, method = RequestMethod.POST)
 	public @ResponseBody List<IssueMonthWiseList> issueMonthItemWiseReportBySubDeptId(@RequestParam("typeId") int typeId,@RequestParam("isDev") int isDev,
-			@RequestParam("subDeptId") int subDeptId) {
+			@RequestParam("subDeptId") int subDeptId,@RequestParam("year") int year) {
 		
 		
 		List<IssueMonthWiseList> monthWiseList = new ArrayList<>();
@@ -713,7 +715,7 @@ public class ValueationRestController {
 
 		try {
 			   
-			String firstDate = documentBeanRepository.getFirstDate();
+			String firstDate = documentBeanRepository.getFirstDate(year);
 			System.out.println("firstDate " + firstDate);
 			 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	            Date d = sdf.parse(firstDate);
@@ -789,7 +791,29 @@ public class ValueationRestController {
 
 		 List<ConsumptionReportWithCatId> list = new ArrayList<ConsumptionReportWithCatId>();
 		try {
-			String firstDate = documentBeanRepository.getFirstDate();
+			
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = formatter.parse(fromDate);
+			System.out.println("Date"+date);	
+			
+			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			int year  = localDate.getYear();
+			int month  = localDate.getMonthValue();
+			System.out.println("year"+year);
+			System.out.println("month"+month);
+			
+			if(month<4)
+			 {
+				 year=year-1;
+				 System.out.println("year"+year);	 
+			 }	
+			
+			
+			
+			
+			
+			
+			String firstDate = documentBeanRepository.getFirstDate(year);
 			List<Type> typeList = typeRepository.findAllByDelStatus(1);
 			
 			int index=0;
@@ -821,7 +845,27 @@ public class ValueationRestController {
 
 			 List<ConsumptionReportWithCatId> list = new ArrayList<ConsumptionReportWithCatId>();
 			try {
-				String firstDate = documentBeanRepository.getFirstDate();
+				
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = formatter.parse(fromDate);
+				System.out.println("Date"+date);	
+				
+				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				int year  = localDate.getYear();
+				int month  = localDate.getMonthValue();
+				System.out.println("year"+year);
+				System.out.println("month"+month);
+				
+				if(month<4)
+				 {
+					 year=year-1;
+					 System.out.println("year"+year);	 
+				 }	
+				
+				
+				
+				
+				String firstDate = documentBeanRepository.getFirstDate(year);
 				List<Type> typeList = typeRepository.findAllByDelStatus(1);
 				
 				int index=0;
@@ -851,7 +895,7 @@ public class ValueationRestController {
 	 
 	 @RequestMapping(value = { "/mrnMonthCategoryWiseReport" }, method = RequestMethod.POST)
 		public @ResponseBody List<MrnMonthWiseList> mrnMonthCategoryWiseReport(@RequestParam("typeId") int typeId,@RequestParam("isDev") List<Integer> isDev,
-				@RequestParam("deptId") int deptId,@RequestParam("subDeptId") int subDeptId) {
+				@RequestParam("deptId") int deptId,@RequestParam("subDeptId") int subDeptId,@RequestParam("year") int year) {
 			
 			
 			List<MrnMonthWiseList> monthWiseList = new ArrayList<MrnMonthWiseList>();
@@ -859,7 +903,7 @@ public class ValueationRestController {
 
 			try {
 				   
-				String firstDate = documentBeanRepository.getFirstDate();
+				String firstDate = documentBeanRepository.getFirstDate(year);
 				System.out.println("firstDate " + firstDate);
 				 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		            Date d = sdf.parse(firstDate);
@@ -955,15 +999,15 @@ public class ValueationRestController {
 	 
 	 @RequestMapping(value = { "/mrnMonthItemWiseReport" }, method = RequestMethod.POST)
 		public @ResponseBody List<MrnMonthWiseList> mrnMonthItemWiseReport(@RequestParam("typeId") int typeId,@RequestParam("isDev") List<Integer> isDev,
-				@RequestParam("catId") int catId,@RequestParam("deptId") int deptId,@RequestParam("subDeptId") int subDeptId) {
+				@RequestParam("catId") int catId,@RequestParam("deptId") int deptId,@RequestParam("subDeptId") int subDeptId,@RequestParam("year") int year) {
 			
 			
 			List<MrnMonthWiseList> monthWiseList = new ArrayList<MrnMonthWiseList>();
 			
 
 			try {
-				   
-				String firstDate = documentBeanRepository.getFirstDate();
+				System.out.println("year " + year);
+				String firstDate = documentBeanRepository.getFirstDate(year);
 				System.out.println("firstDate " + firstDate);
 				 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		            Date d = sdf.parse(firstDate);
