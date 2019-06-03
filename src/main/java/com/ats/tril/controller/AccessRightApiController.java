@@ -39,6 +39,7 @@ public class AccessRightApiController {
 	AssignRoleDetailListRepository assignRoleDetailListRepository;
 	
 	
+	      
 	
 	
 
