@@ -14,7 +14,7 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "ih.sub_dept_id,id.item_id,id.item_issue_qty,id.item_request_qty,id.item_pending_qty ,"
 			+ "id.status,c.cat_desc,d.dept_desc,sd.sub_dept_desc from item_issue_header ih,"
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
-			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
+			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=id.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList) AND id.dept_id =:deptId AND id.sub_dept_id =:subDeptId AND ih.item_category IN(:typeId) AND ih.status=:appStatus"
 			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
 			+ " GROUP BY id.item_id order by ih.issue_no ", nativeQuery = true)
@@ -27,7 +27,7 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "ih.sub_dept_id,id.item_id,id.item_issue_qty,id.item_request_qty,id.item_pending_qty ,"
 			+ "id.status,c.cat_desc,d.dept_desc,sd.sub_dept_desc from item_issue_header ih,"
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
-			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
+			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=id.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList)   AND ih.item_category IN(:typeId) AND ih.status=:appStatus"
 			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
 			+ " GROUP BY id.item_id order by ih.issue_no ", nativeQuery = true)
@@ -39,7 +39,7 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "ih.sub_dept_id,id.item_id,id.item_issue_qty,id.item_request_qty,id.item_pending_qty ,"
 			+ "id.status,c.cat_desc,d.dept_desc,sd.sub_dept_desc from item_issue_header ih,"
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
-			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
+			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=id.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList)  AND id.dept_id =:deptId  AND ih.item_category IN(:typeId) AND ih.status=:appStatus"
 			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
 			+ " GROUP BY id.item_id order by ih.issue_no ", nativeQuery = true)
@@ -51,7 +51,7 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "ih.sub_dept_id,id.item_id,id.item_issue_qty,id.item_request_qty,id.item_pending_qty ,"
 			+ "id.status,c.cat_desc,d.dept_desc,sd.sub_dept_desc from item_issue_header ih,"
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
-			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
+			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=id.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList)  AND id.dept_id =:deptId  AND ih.item_category IN(:typeId)  "
 			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
 			+ " GROUP BY id.item_id  order by ih.issue_no", nativeQuery = true)
@@ -63,7 +63,7 @@ public interface IssueReportItemwiseRepo extends JpaRepository<IssueReportItemwi
 			+ "ih.sub_dept_id,id.item_id,id.item_issue_qty,id.item_request_qty,id.item_pending_qty ,"
 			+ "id.status,c.cat_desc,d.dept_desc,sd.sub_dept_desc from item_issue_header ih,"
 			+ "item_issue_detail id,m_item i,m_category c,m_dept d,m_sub_dept sd where id.issue_id=ih.issue_id and "
-			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=sd.sub_dept_id "
+			+ " i.item_id=id.item_id and c.cat_id=i.cat_id  AND d.dept_id=id.dept_id AND sd.sub_dept_id=id.sub_dept_id "
 			+ "AND c.cat_id IN(:catIdList)   AND ih.item_category IN(:typeId)  "
 			+ " AND ih.issue_date BETWEEN :fromDate AND :toDate  "
 			+ " GROUP BY id.item_id order by ih.issue_no ", nativeQuery = true)
