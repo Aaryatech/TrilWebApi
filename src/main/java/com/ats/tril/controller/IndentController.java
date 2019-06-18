@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetIntendDetail;
+import com.ats.tril.model.Info;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.GetIndentByStatus;
 import com.ats.tril.model.indent.GetIndentDetail;
@@ -700,6 +701,56 @@ public class IndentController {
 		}
 
 		return rate;
+
+	}
+	
+	
+	@RequestMapping(value = { "/getItemPositionInfoByItemId" }, method = RequestMethod.POST)
+	public @ResponseBody Info getItemPositionInfoByItemId(@RequestParam("itemId") int itemId) {
+
+		List<String> list = new ArrayList<>();
+		Info info = new Info();
+		
+		try {
+
+			list = getIntendDetailRepo.getIndentItemInfo(itemId);
+			
+			if(list.size()>0) {
+				
+				info.setError(true);
+				String no = new String();
+				for(int i=0 ; i<list.size() ; i++) {
+					no=no+list.get(i)+",";
+				} 
+				info.setMessage(no);
+				
+			}else {
+				list = new ArrayList<>();
+				list = getIntendDetailRepo.getPoItemInfo(itemId);
+				
+				if(list.size()>0) {
+					info.setError(true);
+					String no = new String();
+					for(int i=0 ; i<list.size() ; i++) {
+						no=no+list.get(i)+",";
+					} 
+					info.setMessage(no);
+				}else {
+					info.setError(false);
+					info.setMessage("not found");
+				}
+				
+			}
+			
+			
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		return info;
 
 	}
 

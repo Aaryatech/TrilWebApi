@@ -20,4 +20,13 @@ public interface GetIntendDetailRepo extends JpaRepository<GetIntendDetail, Inte
 	@Query(value=("Select i.*,CONCAT(m.item_code, '-', m.item_desc) as item_code from indtrans i,m_item m where i.ind_m_id in (:indIds) and i.ind_d_status In(0,1,2) and m.item_id=i.item_id and i.del_status=1"),nativeQuery=true)
 	List<GetIntendDetail> findByIndMIdIn(@Param("indIds")List<Integer> indIds);
 
+
+	@Query(value=("select h.ind_m_no from indtrans d,indent h where d.item_id=:itemId and h.ind_m_id=d.ind_m_id and "
+			+ "h.del_status=1 and d.ind_d_status in (0,1,2) and d.ind_fyr>0 and d.del_status=1 "),nativeQuery=true)
+	List<String> getIndentItemInfo(@Param("itemId") int itemId);
+
+	@Query(value=("select h.po_no from po_detail d,po_header h where d.item_id=:itemId and "
+			+ "h.po_id=d.po_id and h.del_status=1 and d.status in (0,1,2) and d.pending_qty>0"),nativeQuery=true)
+	List<String> getPoItemInfo(@Param("itemId") int itemId);
+
 }
