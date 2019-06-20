@@ -11,11 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.tril.model.CurrentDamageDetail;
+import com.ats.tril.model.CurrentIssueDetail; 
+import com.ats.tril.model.CurrentMrnDetail;
+import com.ats.tril.model.CurrentOpeningDetail;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.MinAndRolLevelReport;
 import com.ats.tril.model.StockDetail;
 import com.ats.tril.model.StockHeader;
+import com.ats.tril.repository.CurrentDamageDetailRepository;
+import com.ats.tril.repository.CurrentIssueDetailRepository;
+import com.ats.tril.repository.CurrentMrnDetailRepository;
+import com.ats.tril.repository.CurrentOpeningDetailRepository;
 import com.ats.tril.repository.GetItemRepository;
 import com.ats.tril.repository.MinAndRolLevelReportRepository;
 import com.ats.tril.repository.stock.GetCurrentStockHeaderRepository;
@@ -40,7 +48,19 @@ public class StockRestController {
 	
 	@Autowired
 	MinAndRolLevelReportRepository minAndRolLevelReportRepository;
+	
+	@Autowired
+	CurrentOpeningDetailRepository currentOpeningDetailRepository;
+	
+	@Autowired
+	CurrentMrnDetailRepository currentMrnDetailRepository;
 
+	@Autowired
+	CurrentIssueDetailRepository currentIssueDetailRepository;
+	
+	@Autowired
+	CurrentDamageDetailRepository currentDamageDetailRepository;
+	
 	@RequestMapping(value = { "/insertStock" }, method = RequestMethod.POST)
 	public @ResponseBody StockHeader insertStock(@RequestBody StockHeader stockHeader) {
 		
@@ -73,7 +93,63 @@ public class StockRestController {
 
 		try {
 
-			getCurrentStock = getCurrentStockHeaderRepository.getCurrentStock(fromDate,toDate);
+			/*getCurrentStock = getCurrentStockHeaderRepository.getCurrentStock(fromDate,toDate);*/
+			
+			getCurrentStock = getCurrentStockHeaderRepository.getCurrentStockItem();
+			
+			List<CurrentOpeningDetail> opningDetail = currentOpeningDetailRepository.opningDetail(fromDate);
+			
+			List<CurrentMrnDetail> mrnDetail = currentMrnDetailRepository.mrnDetail(fromDate,toDate);
+			
+			List<CurrentIssueDetail> issueDetail = currentIssueDetailRepository.issueDetail(fromDate,toDate);
+			
+			List<CurrentDamageDetail> damageDetail = currentDamageDetailRepository.damageDetail(fromDate,toDate);
+			
+			
+			for(int i=0 ; i<getCurrentStock.size(); i++) {
+				
+				for(int j=0 ; j<opningDetail.size() ;j++) {
+					
+					if(opningDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+						
+						getCurrentStock.get(i).setOpeningStock(opningDetail.get(j).getOpeningStock());
+						getCurrentStock.get(i).setOpStockValue(opningDetail.get(j).getOpStockValue());
+						break;
+					}
+				}
+				
+				for(int j=0 ; j<mrnDetail.size() ;j++) {
+					
+					if(mrnDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+						
+						getCurrentStock.get(i).setApproveQty(mrnDetail.get(j).getApproveQty());
+						getCurrentStock.get(i).setApprovedQtyValue(mrnDetail.get(j).getApprovedQtyValue());
+						getCurrentStock.get(i).setApprovedLandingValue(mrnDetail.get(j).getApprovedLandingValue());
+						break;
+					}
+				}
+				
+				for(int j=0 ; j<issueDetail.size() ;j++) {
+					
+					if(issueDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+						
+						getCurrentStock.get(i).setIssueQty(issueDetail.get(j).getIssueQty());
+						getCurrentStock.get(i).setIssueQtyValue(issueDetail.get(j).getIssueQtyValue());
+						getCurrentStock.get(i).setIssueLandingValue(issueDetail.get(j).getIssueLandingValue());
+						break;
+					}
+				}
+				
+				for(int j=0 ; j<damageDetail.size() ;j++) {
+					
+					if(damageDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+						
+						getCurrentStock.get(i).setDamageQty(damageDetail.get(j).getDamageQty());
+						getCurrentStock.get(i).setDamagValue(damageDetail.get(j).getDamagValue());
+						break;
+					}
+				}
+			}
  
 		} catch (Exception e) {
 
@@ -216,11 +292,127 @@ public class StockRestController {
 
 		try {
 
-			if(typeId==0) {
+			 /*if(typeId==0) {
 			 getCurrentStock = getCurrentStockHeaderRepository.getStockBetweenDateWithCatId(fromDate,toDate,catId);
 			}
 			else {
 			 getCurrentStock = getCurrentStockHeaderRepository.getStockBetweenDateWithCatId(fromDate,toDate,catId,typeId);
+			} */
+			  if(typeId==0) {
+				   
+					getCurrentStock = getCurrentStockHeaderRepository.getCurrentStockItemByCatId(catId);
+					
+					List<CurrentOpeningDetail> opningDetail = currentOpeningDetailRepository.opningDetailByCatId(fromDate,catId);
+					
+					List<CurrentMrnDetail> mrnDetail = currentMrnDetailRepository.mrnDetailByCatId(fromDate,toDate,catId);
+					
+					List<CurrentIssueDetail> issueDetail = currentIssueDetailRepository.issueDetailByCatId(fromDate,toDate,catId);
+					
+					List<CurrentDamageDetail> damageDetail = currentDamageDetailRepository.damageDetailByCatId(fromDate,toDate,catId);
+					
+					
+					for(int i=0 ; i<getCurrentStock.size(); i++) {
+						
+						for(int j=0 ; j<opningDetail.size() ;j++) {
+							
+							if(opningDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+								
+								getCurrentStock.get(i).setOpeningStock(opningDetail.get(j).getOpeningStock());
+								getCurrentStock.get(i).setOpStockValue(opningDetail.get(j).getOpStockValue());
+								break;
+							}
+						}
+						
+						for(int j=0 ; j<mrnDetail.size() ;j++) {
+							
+							if(mrnDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+								
+								getCurrentStock.get(i).setApproveQty(mrnDetail.get(j).getApproveQty());
+								getCurrentStock.get(i).setApprovedQtyValue(mrnDetail.get(j).getApprovedQtyValue());
+								getCurrentStock.get(i).setApprovedLandingValue(mrnDetail.get(j).getApprovedLandingValue());
+								break;
+							}
+						}
+						
+						for(int j=0 ; j<issueDetail.size() ;j++) {
+							
+							if(issueDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+								
+								getCurrentStock.get(i).setIssueQty(issueDetail.get(j).getIssueQty());
+								getCurrentStock.get(i).setIssueQtyValue(issueDetail.get(j).getIssueQtyValue());
+								getCurrentStock.get(i).setIssueLandingValue(issueDetail.get(j).getIssueLandingValue());
+								break;
+							}
+						}
+						
+						for(int j=0 ; j<damageDetail.size() ;j++) {
+							
+							if(damageDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+								
+								getCurrentStock.get(i).setDamageQty(damageDetail.get(j).getDamageQty());
+								getCurrentStock.get(i).setDamagValue(damageDetail.get(j).getDamagValue());
+								break;
+							}
+						}
+					}
+			}else {
+				
+				getCurrentStock = getCurrentStockHeaderRepository.getCurrentStockItemByCatId(catId);
+				
+				List<CurrentOpeningDetail> opningDetail = currentOpeningDetailRepository.opningDetailByCatId(fromDate,catId);
+				
+				List<CurrentMrnDetail> mrnDetail = currentMrnDetailRepository.mrnDetailByCatIdAndTypeId(fromDate,toDate,catId,typeId);
+				
+				List<CurrentIssueDetail> issueDetail = currentIssueDetailRepository.issueDetailByCatIdAndTypeId(fromDate,toDate,catId,typeId);
+				
+				List<CurrentDamageDetail> damageDetail = currentDamageDetailRepository.damageDetailByCatId(fromDate,toDate,catId);
+				
+				
+				for(int i=0 ; i<getCurrentStock.size(); i++) {
+					
+					for(int j=0 ; j<opningDetail.size() ;j++) {
+						
+						if(opningDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+							
+							getCurrentStock.get(i).setOpeningStock(opningDetail.get(j).getOpeningStock());
+							getCurrentStock.get(i).setOpStockValue(opningDetail.get(j).getOpStockValue());
+							break;
+						}
+					}
+					
+					for(int j=0 ; j<mrnDetail.size() ;j++) {
+						
+						if(mrnDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+							
+							getCurrentStock.get(i).setApproveQty(mrnDetail.get(j).getApproveQty());
+							getCurrentStock.get(i).setApprovedQtyValue(mrnDetail.get(j).getApprovedQtyValue());
+							getCurrentStock.get(i).setApprovedLandingValue(mrnDetail.get(j).getApprovedLandingValue());
+							break;
+						}
+					}
+					
+					for(int j=0 ; j<issueDetail.size() ;j++) {
+						
+						if(issueDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+							
+							getCurrentStock.get(i).setIssueQty(issueDetail.get(j).getIssueQty());
+							getCurrentStock.get(i).setIssueQtyValue(issueDetail.get(j).getIssueQtyValue());
+							getCurrentStock.get(i).setIssueLandingValue(issueDetail.get(j).getIssueLandingValue());
+							break;
+						}
+					}
+					
+					for(int j=0 ; j<damageDetail.size() ;j++) {
+						
+						if(damageDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+							
+							getCurrentStock.get(i).setDamageQty(damageDetail.get(j).getDamageQty());
+							getCurrentStock.get(i).setDamagValue(damageDetail.get(j).getDamagValue());
+							break;
+						}
+					}
+				}
+				
 			}
  
 		} catch (Exception e) {
