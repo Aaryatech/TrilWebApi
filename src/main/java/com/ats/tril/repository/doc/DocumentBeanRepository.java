@@ -21,6 +21,9 @@ public interface DocumentBeanRepository extends JpaRepository<DocumentBean, Inte
 
 	@Query(value = "select from_date from m_doc where del_status=0 and fy_year= :year  group by from_date", nativeQuery = true)
 	String getFirstDate(@Param("year") int year);
+	
+	@Query(value = "select to_date from m_doc where del_status=0 and fy_year= :year  group by to_date", nativeQuery = true)
+	String getLastDate(@Param("year") int year);
 
 	
 	//sachin query item 
