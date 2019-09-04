@@ -51,6 +51,6 @@ public interface IndentRepository extends JpaRepository<Indent, Integer> {
 	@Transactional
 	@Modifying
 	@Query(" UPDATE Indent  SET ind_m_status=:status,apprvRemark1=:rejectRemark1,apprvRemark2=:rejectRemark2 WHERE ind_m_id=:indId ")
-	int rejectIndent(@Param("status")int status,@Param("indId") int indId, String rejectRemark1, String rejectRemark2);
+	int rejectIndent(@Param("status")int status,@Param("indId") int indId,@Param("rejectRemark1") String rejectRemark1,@Param("rejectRemark2") String rejectRemark2);
 
 }
