@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.tril.model.ConsumptionReportData;
+import com.ats.tril.model.CurrentDamageDetail;
+import com.ats.tril.model.CurrentIssueDetail;
+import com.ats.tril.model.CurrentMrnDetail;
+import com.ats.tril.model.CurrentOpeningDetail;
 import com.ats.tril.model.GetCurrStockRol;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
@@ -19,6 +23,10 @@ import com.ats.tril.model.PoHeader;
 import com.ats.tril.model.indent.DashIndentDetails;
 import com.ats.tril.model.indent.GetIndents;
 import com.ats.tril.repository.ConsumptionReportRepository;
+import com.ats.tril.repository.CurrentDamageDetailRepository;
+import com.ats.tril.repository.CurrentIssueDetailRepository;
+import com.ats.tril.repository.CurrentMrnDetailRepository;
+import com.ats.tril.repository.CurrentOpeningDetailRepository;
 import com.ats.tril.repository.GetCurrentStockHeaderResRepository;
 import com.ats.tril.repository.GetItemRepository;
 import com.ats.tril.repository.GetPoHeaderRepository;
@@ -58,17 +66,37 @@ public class DashboardController {
 		List<GetIndents> indentList = new ArrayList<GetIndents>();
 
 		try {
-            System.out.println(status);
+            //System.out.println(status);
 			indentList = getIndentRepository.getIndentList(status);
 			
-			for(int i=0;i<indentList.size();i++)
-			{System.err.println("indent List " + indentList.get(i).getIndMId()+"status "+status);
+			/*for(int i=0;i<indentList.size();i++)
+			{ 
 				List<DashIndentDetails> dashIndentDetailList =indentTransRepository.findByIndMIdAndIndDStatusIn(indentList.get(i).getIndMId(),status);
-				System.err.println("indent List "+dashIndentDetailList.toString());
+				 
 				indentList.get(i).setDashIndentDetailList(dashIndentDetailList);
-			}
+			}*/
 
-			System.err.println("indent List " + indentList.toString());
+			List<DashIndentDetails> dashIndentDetailList =indentTransRepository.findByIndMIdAndIndDStatusIn(status);
+			
+			
+			for(int i=0;i<indentList.size();i++) { 
+				
+				List<DashIndentDetails> list = new ArrayList<>();
+				
+				for(int j=0;j<dashIndentDetailList.size();j++) { 
+					
+					if(indentList.get(i).getIndMId()==dashIndentDetailList.get(j).getIndMId()) {
+						
+						list.add(dashIndentDetailList.get(j));
+					}
+					
+				}
+				
+				indentList.get(i).setDashIndentDetailList(list);
+				 
+			}
+			
+			//System.err.println("indent List " + indentList.toString());
 		} catch (Exception e) {
 
 			System.err.println("Exception in getIndents Indent  " + e.getMessage());
@@ -121,17 +149,131 @@ public class DashboardController {
 		return consumptionReportData;
 
 	}*/
+	
+	@Autowired
+	CurrentOpeningDetailRepository currentOpeningDetailRepository;
+	
+	@Autowired
+	CurrentMrnDetailRepository currentMrnDetailRepository;
+
+	@Autowired
+	CurrentIssueDetailRepository currentIssueDetailRepository;
+	
+	@Autowired
+	CurrentDamageDetailRepository currentDamageDetailRepository;
+	
 	@RequestMapping(value = { "/getItemsLessThanROLForDashB" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetCurrStockRol> getItemsLessThanROLForDashB(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate) {
 		
 		List<GetCurrStockRol> getCurrentStock = new ArrayList<GetCurrStockRol>();
-
+		List<GetCurrentStock> getCurrentStock1 = new ArrayList<GetCurrentStock>();
 		try {
 			
 			List<GetItem>  itemList = getItemRepository.getAllItems();
 
-			getCurrentStock = getCurrentStockHeaderResRepository.getCurrentStockForDash(fromDate,toDate);
+			/*getCurrentStock = getCurrentStockHeaderResRepository.getCurrentStockForDash(fromDate,toDate);
+			
+			for(int i = 0 ; i<itemList.size() ; i++)
+			{
+				for(int j = 0 ; j<getCurrentStock.size() ; j++)
+				{ 
+					if(itemList.get(i).getItemId()==getCurrentStock.get(j).getItemId())
+					{
+						getCurrentStock.get(j).setItemName(itemList.get(i).getItemDesc());
+						getCurrentStock.get(j).setCatId(itemList.get(i).getCatId());
+						getCurrentStock.get(j).setItemUom(itemList.get(i).getItemUom());
+						getCurrentStock.get(j).setItemMaxLevel(itemList.get(i).getItemMaxLevel());
+						getCurrentStock.get(j).setItemMinLevel(itemList.get(i).getItemMinLevel());
+						if(itemList.get(i).getItemRodLevel()>(getCurrentStock.get(j).getOpeningStock()+getCurrentStock.get(j).getApproveQty()-
+									getCurrentStock.get(j).getIssueQty()+getCurrentStock.get(j).getReturnIssueQty()-getCurrentStock.get(j).getDamageQty()-
+									getCurrentStock.get(j).getGatepassQty()+getCurrentStock.get(j).getGatepassReturnQty()) && itemList.get(i).getItemRodLevel()>0)
+							
+						{
+							getCurrentStock.get(j).setRolLevel(itemList.get(i).getItemRodLevel()); 
+						}
+						else
+						{
+							
+							getCurrentStock.remove(j);
+						}
+						
+						break;
+					} 
+				}
+			}*/
+			
+			
+			getCurrentStock1 = getCurrentStockHeaderRepository.getCurrentStockItem();
+			
+			List<CurrentOpeningDetail> opningDetail = currentOpeningDetailRepository.opningDetail(fromDate);
+			
+			List<CurrentMrnDetail> mrnDetail = currentMrnDetailRepository.mrnDetail(fromDate,toDate);
+			
+			List<CurrentIssueDetail> issueDetail = currentIssueDetailRepository.issueDetail(fromDate,toDate);
+			
+			List<CurrentDamageDetail> damageDetail = currentDamageDetailRepository.damageDetail(fromDate,toDate);
+			
+			
+			for(int i=0 ; i<getCurrentStock1.size(); i++) {
+				
+				GetCurrStockRol getCurrStockRol = new GetCurrStockRol();
+				getCurrStockRol.setItemId(getCurrentStock1.get(i).getItemId());
+				
+				
+				for(int j=0 ; j<opningDetail.size() ;j++) {
+					
+					if(opningDetail.get(j).getItemId()==getCurrentStock1.get(i).getItemId()) {
+						
+						getCurrentStock1.get(i).setOpeningStock(opningDetail.get(j).getOpeningStock());
+						getCurrentStock1.get(i).setOpStockValue(opningDetail.get(j).getOpStockValue());
+						break;
+					}
+				}
+				
+				
+				
+				for(int j=0 ; j<mrnDetail.size() ;j++) {
+					
+					if(mrnDetail.get(j).getItemId()==getCurrentStock1.get(i).getItemId()) {
+						
+						getCurrentStock1.get(i).setApproveQty(mrnDetail.get(j).getApproveQty());
+						getCurrentStock1.get(i).setApprovedQtyValue(mrnDetail.get(j).getApprovedQtyValue());
+						getCurrentStock1.get(i).setApprovedLandingValue(mrnDetail.get(j).getApprovedLandingValue());
+						break;
+					}
+				}
+				
+				
+				
+				for(int j=0 ; j<issueDetail.size() ;j++) {
+					
+					if(issueDetail.get(j).getItemId()==getCurrentStock1.get(i).getItemId()) {
+						
+						getCurrentStock1.get(i).setIssueQty(issueDetail.get(j).getIssueQty());
+						getCurrentStock1.get(i).setIssueQtyValue(issueDetail.get(j).getIssueQtyValue());
+						getCurrentStock1.get(i).setIssueLandingValue(issueDetail.get(j).getIssueLandingValue());
+						break;
+					}
+				}
+				
+				for(int j=0 ; j<damageDetail.size() ;j++) {
+					
+					if(damageDetail.get(j).getItemId()==getCurrentStock1.get(i).getItemId()) {
+						
+						getCurrentStock1.get(i).setDamageQty(damageDetail.get(j).getDamageQty());
+						getCurrentStock1.get(i).setDamagValue(damageDetail.get(j).getDamagValue());
+						break;
+					}
+				}
+				
+				getCurrStockRol.setOpeningStock(getCurrentStock1.get(i).getOpeningStock());
+				getCurrStockRol.setApproveQty(getCurrentStock1.get(i).getApproveQty());
+				getCurrStockRol.setIssueQty(getCurrentStock1.get(i).getIssueQty());
+				getCurrStockRol.setDamageQty(getCurrentStock1.get(i).getDamageQty());
+				getCurrentStock.add(getCurrStockRol);
+			}
+			
 			
 			for(int i = 0 ; i<itemList.size() ; i++)
 			{
