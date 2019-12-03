@@ -273,8 +273,64 @@ public class StockRestController {
 
 		try {
 
-			getCurrentStock = getCurrentStockHeaderRepository.getStockBetweenDateWithCatId(fromDate,toDate,catId);
+			//getCurrentStock = getCurrentStockHeaderRepository.getStockBetweenDateWithCatId(fromDate,toDate,catId);
  
+			getCurrentStock = getCurrentStockHeaderRepository.getCurrentStockItemByCatId(catId);
+			
+			List<CurrentOpeningDetail> opningDetail = currentOpeningDetailRepository.opningDetailByCatId(fromDate,catId);
+			
+			List<CurrentMrnDetail> mrnDetail = currentMrnDetailRepository.mrnDetailByCatId(fromDate,toDate,catId);
+			
+			List<CurrentIssueDetail> issueDetail = currentIssueDetailRepository.issueDetailByCatId(fromDate,toDate,catId);
+			
+			List<CurrentDamageDetail> damageDetail = currentDamageDetailRepository.damageDetailByCatId(fromDate,toDate,catId);
+			
+			
+			for(int i=0 ; i<getCurrentStock.size(); i++) {
+				
+				for(int j=0 ; j<opningDetail.size() ;j++) {
+					
+					if(opningDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+						
+						getCurrentStock.get(i).setOpeningStock(opningDetail.get(j).getOpeningStock());
+						getCurrentStock.get(i).setOpStockValue(opningDetail.get(j).getOpStockValue());
+						break;
+					}
+				}
+				
+				for(int j=0 ; j<mrnDetail.size() ;j++) {
+					
+					if(mrnDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+						
+						getCurrentStock.get(i).setApproveQty(mrnDetail.get(j).getApproveQty());
+						getCurrentStock.get(i).setApprovedQtyValue(mrnDetail.get(j).getApprovedQtyValue());
+						getCurrentStock.get(i).setApprovedLandingValue(mrnDetail.get(j).getApprovedLandingValue());
+						break;
+					}
+				}
+				
+				for(int j=0 ; j<issueDetail.size() ;j++) {
+					
+					if(issueDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+						
+						getCurrentStock.get(i).setIssueQty(issueDetail.get(j).getIssueQty());
+						getCurrentStock.get(i).setIssueQtyValue(issueDetail.get(j).getIssueQtyValue());
+						getCurrentStock.get(i).setIssueLandingValue(issueDetail.get(j).getIssueLandingValue());
+						break;
+					}
+				}
+				
+				for(int j=0 ; j<damageDetail.size() ;j++) {
+					
+					if(damageDetail.get(j).getItemId()==getCurrentStock.get(i).getItemId()) {
+						
+						getCurrentStock.get(i).setDamageQty(damageDetail.get(j).getDamageQty());
+						getCurrentStock.get(i).setDamagValue(damageDetail.get(j).getDamagValue());
+						break;
+					}
+				}
+			}
+			
 		} catch (Exception e) {
 
 			e.printStackTrace();
