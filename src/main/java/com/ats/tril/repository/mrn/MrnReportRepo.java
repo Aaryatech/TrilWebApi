@@ -10,7 +10,8 @@ import com.ats.tril.model.mrn.MrnReport;
 public interface MrnReportRepo  extends JpaRepository<MrnReport, Integer>{
 	
 	@Query(value = " SELECT h.mrn_no,h.mrn_type,h.mrn_date,v.vendor_name,h.user_id,h.mrn_status, " + 
-			" detail.*, item.item_code,item.item_desc, (pod.landing_cost / pod.item_qty) as landing_rate, pod.item_rate AS item_rate " + 
+			" detail.*, item.item_code,item.item_desc, (pod.landing_cost / pod.item_qty) as landing_rate, pod.item_rate AS item_rate "
+			+ ", (detail.remaining_qty*(pod.landing_cost / pod.item_qty) ) as landing_valueation, (detail.remaining_qty*pod.item_rate ) as basic_valueation " + 
 			" FROM t_mrn_header h,m_vendor v, t_mrn_detail detail,m_item item,po_detail pod " + 
 			" WHERE h.vendor_id IN(:vendorIdList) AND v.vendor_id=h.vendor_id AND h.mrn_type IN(:grnTypeList) AND h.mrn_status IN(:statusList) "+
 			 " AND h.del_status=1 AND h.mrn_date BETWEEN :fromDate AND :toDate " +
@@ -20,7 +21,8 @@ public interface MrnReportRepo  extends JpaRepository<MrnReport, Integer>{
 			@Param("statusList") List<String> statusList,@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
 	@Query(value = " SELECT h.mrn_no,h.mrn_type,h.mrn_date,v.vendor_name,h.user_id,h.mrn_status, " + 
-			"			detail.*, item.item_code,item.item_desc, (pod.landing_cost / pod.item_qty) as landing_rate, pod.item_rate AS item_rate " + 
+			"			detail.*, item.item_code,item.item_desc, (pod.landing_cost / pod.item_qty) as landing_rate, pod.item_rate AS item_rate "
+			+ ", (detail.remaining_qty*(pod.landing_cost / pod.item_qty) ) as landing_valueation, (detail.remaining_qty*pod.item_rate ) as basic_valueation " + 
 			"			FROM t_mrn_header h,m_vendor v, t_mrn_detail detail,m_item item,po_detail pod " + 
 			"			WHERE  v.vendor_id=h.vendor_id AND h.mrn_type IN(:grnTypeList) AND h.mrn_status IN(:statusList) " + 
 			"			 AND h.del_status=1 AND h.mrn_date BETWEEN :fromDate AND :toDate " + 
@@ -40,7 +42,7 @@ public interface MrnReportRepo  extends JpaRepository<MrnReport, Integer>{
 			"        item.item_code,\n" + 
 			"        item.item_desc,\n" + 
 			"        (pod.landing_cost / pod.item_qty) as landing_rate,\n" + 
-			"        pod.item_rate AS item_rate    \n" + 
+			"        pod.item_rate AS item_rate, (detail.remaining_qty*(pod.landing_cost / pod.item_qty) ) as landing_valueation, (detail.remaining_qty*pod.item_rate ) as basic_valueation     \n" + 
 			"    FROM\n" + 
 			"        t_mrn_header h,\n" + 
 			"        m_vendor v,\n" + 
@@ -70,7 +72,7 @@ public interface MrnReportRepo  extends JpaRepository<MrnReport, Integer>{
 			"        item.item_code,\n" + 
 			"        item.item_desc,\n" + 
 			"        (pod.landing_cost / pod.item_qty) as landing_rate,\n" + 
-			"        pod.item_rate AS item_rate    \n" + 
+			"        pod.item_rate AS item_rate, (detail.remaining_qty*(pod.landing_cost / pod.item_qty) ) as landing_valueation, (detail.remaining_qty*pod.item_rate ) as basic_valueation     \n" + 
 			"    FROM\n" + 
 			"        t_mrn_header h,\n" + 
 			"        m_vendor v,\n" + 
@@ -100,7 +102,7 @@ public interface MrnReportRepo  extends JpaRepository<MrnReport, Integer>{
 			"        item.item_code,\n" + 
 			"        item.item_desc,\n" + 
 			"        (pod.landing_cost / pod.item_qty) as landing_rate,\n" + 
-			"        pod.item_rate AS item_rate    \n" + 
+			"        pod.item_rate AS item_rate, (detail.remaining_qty*(pod.landing_cost / pod.item_qty) ) as landing_valueation, (detail.remaining_qty*pod.item_rate ) as basic_valueation     \n" + 
 			"    FROM\n" + 
 			"        t_mrn_header h,\n" + 
 			"        m_vendor v,\n" + 
@@ -131,7 +133,7 @@ public interface MrnReportRepo  extends JpaRepository<MrnReport, Integer>{
 			"        item.item_code,\n" + 
 			"        item.item_desc,\n" + 
 			"        (pod.landing_cost / pod.item_qty) as landing_rate,\n" + 
-			"        pod.item_rate AS item_rate    \n" + 
+			"        pod.item_rate AS item_rate, (detail.remaining_qty*(pod.landing_cost / pod.item_qty) ) as landing_valueation, (detail.remaining_qty*pod.item_rate ) as basic_valueation     \n" + 
 			"    FROM\n" + 
 			"        t_mrn_header h,\n" + 
 			"        m_vendor v,\n" + 
@@ -161,7 +163,7 @@ public interface MrnReportRepo  extends JpaRepository<MrnReport, Integer>{
 			"        item.item_code,\n" + 
 			"        item.item_desc,\n" + 
 			"        (pod.landing_cost / pod.item_qty) as landing_rate,\n" + 
-			"        pod.item_rate AS item_rate    \n" + 
+			"        pod.item_rate AS item_rate, (detail.remaining_qty*(pod.landing_cost / pod.item_qty) ) as landing_valueation, (detail.remaining_qty*pod.item_rate ) as basic_valueation     \n" + 
 			"    FROM\n" + 
 			"        t_mrn_header h,\n" + 
 			"        m_vendor v,\n" + 
@@ -192,7 +194,7 @@ public interface MrnReportRepo  extends JpaRepository<MrnReport, Integer>{
 			"        item.item_code,\n" + 
 			"        item.item_desc,\n" + 
 			"        (pod.landing_cost / pod.item_qty) as landing_rate,\n" + 
-			"        pod.item_rate AS item_rate    \n" + 
+			"        pod.item_rate AS item_rate, (detail.remaining_qty*(pod.landing_cost / pod.item_qty) ) as landing_valueation, (detail.remaining_qty*pod.item_rate ) as basic_valueation     \n" + 
 			"    FROM\n" + 
 			"        t_mrn_header h,\n" + 
 			"        m_vendor v,\n" + 
