@@ -308,7 +308,7 @@ public interface GetCurrentStockHeaderRepository extends JpaRepository<GetCurren
 			"        coalesce( 0)  AS return_issue_qty,\r\n" + 
 			"        coalesce( 0) AS damage_qty,\r\n" + 
 			"        coalesce( 0) AS damage_value,\r\n" + 
-			"        coalesce(0) AS gatepass_qty,\r\n" + 
+			"        coalesce(m_item.item_is_cons) AS gatepass_qty,\r\n" + 
 			"        coalesce(0) AS gatepass_return_qty \r\n" + 
 			"    FROM\r\n" + 
 			"        m_item \r\n" + 

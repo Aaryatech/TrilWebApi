@@ -2,6 +2,8 @@ package com.ats.tril.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,7 @@ import com.ats.tril.model.CurrentMrnDetail;
 import com.ats.tril.model.CurrentOpeningDetail;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.ItemListWithCurrentStock;
 import com.ats.tril.model.MinAndRolLevelReport;
 import com.ats.tril.model.StockDetail;
 import com.ats.tril.model.StockHeader;
@@ -25,6 +28,7 @@ import com.ats.tril.repository.CurrentIssueDetailRepository;
 import com.ats.tril.repository.CurrentMrnDetailRepository;
 import com.ats.tril.repository.CurrentOpeningDetailRepository;
 import com.ats.tril.repository.GetItemRepository;
+import com.ats.tril.repository.ItemListWithCurrentStockRepository;
 import com.ats.tril.repository.MinAndRolLevelReportRepository;
 import com.ats.tril.repository.stock.GetCurrentStockHeaderRepository;
 import com.ats.tril.repository.stock.StockDetailRepository;
@@ -32,6 +36,9 @@ import com.ats.tril.repository.stock.StockHeaderRepository;
 
 @RestController
 public class StockRestController {
+	
+	@Autowired
+	ItemListWithCurrentStockRepository itemListWithCurrentStockRepository;
 	
 	
 	@Autowired
@@ -84,6 +91,43 @@ public class StockRestController {
 		return save;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getItemListByItemIdWithStock" }, method = RequestMethod.POST)
+	public @ResponseBody  ItemListWithCurrentStock  getItemListByItemIdWithStock(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate,@RequestParam("itemId") int itemId) {
+		
+		 ItemListWithCurrentStock  itemListWithCurrentStock = new ItemListWithCurrentStock();
+
+		try {
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd");
+			SimpleDateFormat yy = new SimpleDateFormat("yyyy");
+			SimpleDateFormat mm = new SimpleDateFormat("MM");
+			
+			int days =  Integer.parseInt(sf.format(date));
+			String year =   yy.format(date);
+			int month =  Integer.parseInt(mm.format(date));
+			String firstDate = year+"-"+month+"-01";
+
+			itemListWithCurrentStock = itemListWithCurrentStockRepository.getItemListByItemIdWithStock(firstDate,fromDate,toDate,itemId);
+			
+			 
+			itemListWithCurrentStock.setClsQty(itemListWithCurrentStock.getOpeningStock()+itemListWithCurrentStock.getApproveQty()-itemListWithCurrentStock.getIssueQty()
+						+itemListWithCurrentStock.getIssueReturnQty()-itemListWithCurrentStock.getDamageQty());
+			itemListWithCurrentStock.setAvgIssueQty(itemListWithCurrentStock.getIssueQtyAvg()/days);
+			 
+ 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return itemListWithCurrentStock;
+
+	}
+	
 	
 	@RequestMapping(value = { "/getCurrentStock" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetCurrentStock> getCurrentStock(@RequestParam("fromDate") String fromDate,
