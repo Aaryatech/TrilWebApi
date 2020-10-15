@@ -453,38 +453,22 @@ public class MrnApiController {
 	public @ResponseBody List<MrnReport> getMrnHeadReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("grnTypeList") List<String> grnTypeList,
 			@RequestParam("vendorIdList") List<String> vendorIdList,
-			@RequestParam("statusList") List<String> statusList) {
-		System.err.println("grnTypeList " + grnTypeList);
+			@RequestParam("statusList") List<String> statusList, @RequestParam("catId") List<String> catId) {
+		// System.err.println("grnTypeList " + grnTypeList);
 		List<MrnReport> mrnHeaderList = new ArrayList<MrnReport>();
 
 		try {
-			System.err.println("Input getMrnHeadReport  grnTypeList " + grnTypeList + "vendorIdList " + vendorIdList
-					+ "statusList " + statusList);
-
-			if (vendorIdList.contains("-1")) {
-				System.err.println("Vendor Id List Contain -1");
-
-			}
-
-			if (grnTypeList.contains("-1")) {
-				System.err.println("grnTypeList  List Contain -1");
-
-			}
-
-			if (statusList.contains("-1")) {
-				System.err.println("status   List Contain -1");
-			}
 
 			if (vendorIdList.contains("-1")) {
 
-				System.err.println("All Vendor Selected");
-				mrnHeaderList = mrnReportrRepo.getMrnReportAllVendor(fromDate, toDate, grnTypeList, statusList);
+				//System.err.println("All Vendor Selected");
+				mrnHeaderList = mrnReportrRepo.getMrnReportAllVendor(fromDate, toDate, grnTypeList, statusList,catId);
 
 			}
 
 			else {
-				System.err.println("few Vendor Selected ");
-				mrnHeaderList = mrnReportrRepo.getMrnReport(vendorIdList, grnTypeList, statusList, fromDate, toDate);
+				//System.err.println("few Vendor Selected ");
+				mrnHeaderList = mrnReportrRepo.getMrnReport(vendorIdList, grnTypeList, statusList, fromDate, toDate,catId);
 
 			}
 
@@ -516,13 +500,13 @@ public class MrnApiController {
 
 			if (vendorIdList.contains("-1")) {
 
-				 if (statusList.contains("0")) {
+				if (statusList.contains("0")) {
 
 					mrnHeaderList = mrnReportrRepo.getMrnDetailPendingReport(fromDate, toDate, grnTypeList);
-				}else if (statusList.contains("1")) {
+				} else if (statusList.contains("1")) {
 
 					mrnHeaderList = mrnReportrRepo.getMrnDetailPartialPendingReport(fromDate, toDate, grnTypeList);
-				}else if (statusList.contains("2")) {
+				} else if (statusList.contains("2")) {
 
 					mrnHeaderList = mrnReportrRepo.getMrnDetailCompletedReport(fromDate, toDate, grnTypeList);
 				}
@@ -533,15 +517,19 @@ public class MrnApiController {
 
 				if (statusList.contains("0")) {
 
-					mrnHeaderList = mrnReportrRepo.getMrnDetailPendingReportByVendorId(vendorIdList,fromDate, toDate, grnTypeList);
-				}else if (statusList.contains("1")) {
+					mrnHeaderList = mrnReportrRepo.getMrnDetailPendingReportByVendorId(vendorIdList, fromDate, toDate,
+							grnTypeList);
+				} else if (statusList.contains("1")) {
 
-					mrnHeaderList = mrnReportrRepo.getMrnDetailPartialPendingReportByVendorId(vendorIdList,fromDate, toDate, grnTypeList);
-				}else if (statusList.contains("2")) {
+					mrnHeaderList = mrnReportrRepo.getMrnDetailPartialPendingReportByVendorId(vendorIdList, fromDate,
+							toDate, grnTypeList);
+				} else if (statusList.contains("2")) {
 
-					mrnHeaderList = mrnReportrRepo.getMrnDetailCompletedReportByVendorId(vendorIdList,fromDate, toDate, grnTypeList);
+					mrnHeaderList = mrnReportrRepo.getMrnDetailCompletedReportByVendorId(vendorIdList, fromDate, toDate,
+							grnTypeList);
 				}
-				//mrnHeaderList = mrnReportrRepo.getMrnReport(vendorIdList, grnTypeList, statusList, fromDate, toDate);
+				// mrnHeaderList = mrnReportrRepo.getMrnReport(vendorIdList, grnTypeList,
+				// statusList, fromDate, toDate);
 
 			}
 
